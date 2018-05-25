@@ -10,4 +10,5 @@ public class CardData {
 	public Card.DeckClass DeckType;
 	public int ResourceCost;
 	public string Description;
+	public bool OmitFromDeck;
 }

@@ -11,7 +11,7 @@ public class Tell : MonoBehaviour {
 	GameObject tellObject;
 
 	void Start() {
-		deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
+		deck = GameObject.Find("Enemy Deck").GetComponent<Deck>();
 	}
 
 	public void ToggleTell() {
@@ -25,10 +25,6 @@ public class Tell : MonoBehaviour {
 
 	void ShowTell() {
 		CardData cardData = deck.GetRandomCard(deckType);
-		if(Random.value > 0.80f) {
-			cardData = deck.GetRandomCard(Card.DeckClass.Neutral);
-		}
-
 		tellObject = GameObject.Instantiate(Resources.Load("Prefabs/Cards/CardDesigner")) as GameObject;
 		Card card = tellObject.GetComponent<Card>();
 		card.cardData = cardData;

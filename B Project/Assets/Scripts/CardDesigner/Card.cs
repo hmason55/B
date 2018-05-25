@@ -20,6 +20,7 @@ public class Card : MonoBehaviour {
 	public Card.DeckClass deckType;
 	public int resourceCost;
 	public string description;
+	public bool omitFromDeck;
 
 	public bool showObjectReferences;
 
@@ -111,6 +112,7 @@ public class Card : MonoBehaviour {
 			deckType = cardData.DeckType;
 			resourceCost = cardData.ResourceCost;
 			description = cardData.Description;
+			omitFromDeck = cardData.OmitFromDeck;
 		}
 	}
 
@@ -120,6 +122,7 @@ public class Card : MonoBehaviour {
 			cardData.DeckType = deckType;
 			cardData.ResourceCost = resourceCost;
 			cardData.Description = description;
+			cardData.OmitFromDeck = omitFromDeck;
 		}
 	}
 

@@ -13,6 +13,7 @@ public class CardEditor : Editor {
 	SerializedProperty pDeckType;
 	SerializedProperty pResourceCost;
 	SerializedProperty pDescription;
+	SerializedProperty pOmitFromDeck;
 
 	SerializedProperty pBackgroundImageObj;
 	SerializedProperty pArtworkImageObj;
@@ -31,6 +32,7 @@ public class CardEditor : Editor {
 		pDeckType = serializedObject.FindProperty("deckType");
         pResourceCost = serializedObject.FindProperty("resourceCost");
 		pDescription = serializedObject.FindProperty("description");
+		pOmitFromDeck = serializedObject.FindProperty("omitFromDeck");
     }
 
 	public override void OnInspectorGUI() {
@@ -42,6 +44,7 @@ public class CardEditor : Editor {
 		EditorGUILayout.PropertyField(pDeckType, new GUIContent("Deck Type"), null);
 		EditorGUILayout.IntSlider(pResourceCost, -1, 8, new GUIContent("Resource Cost"));
 		EditorGUILayout.PropertyField(pDescription, new GUIContent("Description"), null);
+		EditorGUILayout.PropertyField(pOmitFromDeck, new GUIContent("Omit From Deck"), null);
 
 		EditorGUILayout.Space();
 
@@ -119,7 +122,9 @@ public class CardEditor : Editor {
 			card.costText = EditorGUILayout.ObjectField(new GUIContent("Cost Text Asset"), card.costText, typeof(Text), true, null) as Text;
         }
 
-
+		if(GUILayout.Button("Format All Data Files")) {
+			FormatDataFiles(card);
+		}
 
         serializedObject.ApplyModifiedProperties();
     }
@@ -133,6 +138,22 @@ public class CardEditor : Editor {
     	StreamWriter writer = new StreamWriter(path, false);
 		writer.WriteLine(JsonUtility.ToJson(data));
     	writer.Close();
+    }
+
+    void FormatDataFiles(Card card) {
+		string dataPath = "Prefabs/Cards/Data/";
+		UnityEngine.Object[] textAssets = Resources.LoadAll(dataPath, typeof(TextAsset));
+		if(EditorUtility.DisplayDialog("Hey! Listen!", "You are about to format " + textAssets.Length + " data files, are you sure?", "Yes", "No")) {
+			foreach(TextAsset textAsset in textAssets) {
+				card.cardData = JsonUtility.FromJson<CardData>(textAsset.text);
+				card.LoadCardData();
+				card.SaveCardData();
+				StreamWriter writer = new StreamWriter("Assets/Resources/Prefabs/Cards/Data/" + card.cardData.Title + ".json", false);
+				writer.WriteLine(JsonUtility.ToJson(card.cardData));
+		    	writer.Close();
+			}
+			Debug.Log(textAssets.Length + " data files were formatted.");
+		}
     }
 
 	void LoadJson(Card card, string json) {
