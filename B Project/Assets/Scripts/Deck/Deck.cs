@@ -8,6 +8,10 @@ public class Deck : MonoBehaviour {
 	static string cardDataPath = "Prefabs/Cards/Data/";
 	List<CardData> deck;
 
+	public List<CardData> DeckList {
+		get{return deck;}
+	}
+
 	void Start() {
 		LoadAllCards();
 	}
@@ -24,7 +28,6 @@ public class Deck : MonoBehaviour {
 		}
 
 		Debug.Log(deck.Count);
-
 	}
 
 	public void LoadCardsByClass(Card.DeckClass deckClass) {
@@ -33,5 +36,19 @@ public class Deck : MonoBehaviour {
 
 	public void Clear() {
 		deck = new List<CardData>();
+	}
+
+	public CardData GetRandomCard() {
+		return deck[Random.Range(0, deck.Count-1)];
+	}
+
+	public CardData GetRandomCard(Card.DeckClass deckClass) {
+		CardData cardData;
+		int attempts = 0;
+		do {
+			cardData = deck[Random.Range(0, deck.Count-1)];
+		} while(cardData.DeckType != deckClass && attempts < 500);
+
+		return cardData;
 	}
 }

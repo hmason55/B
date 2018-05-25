@@ -46,7 +46,7 @@ public class CardEditor : Editor {
 		EditorGUILayout.Space();
 
 		if(GUILayout.Button("Save As Concept")) {
-			string prefabName = card.titleText.text;
+			string prefabName = card.cardData.Title;
 			if(prefabName != null) {
 				string conceptPath = "Assets/Resources/Prefabs/Cards/Concepts/" + prefabName + ".prefab";
 				if(AssetDatabase.LoadAssetAtPath(conceptPath, typeof(GameObject))) {
@@ -62,7 +62,7 @@ public class CardEditor : Editor {
 		}
 
 		if(GUILayout.Button("Save Card Data File")) {
-			string fileName = card.titleText.text;
+			string fileName = card.cardData.Title;
 			if(fileName != null) {
 				string filePath = "Assets/Resources/Prefabs/Cards/Data/" + fileName + ".json";
 				if(AssetDatabase.LoadAssetAtPath(filePath, typeof(GameObject))) {

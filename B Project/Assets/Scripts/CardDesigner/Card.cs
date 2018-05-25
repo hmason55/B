@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Text.RegularExpressions;
 
 [ExecuteInEditMode]
 public class Card : MonoBehaviour {
@@ -79,7 +80,8 @@ public class Card : MonoBehaviour {
 		}
 
 		if(titleText) {
-			titleText.text = title;
+			titleText.text = ParseText(title);
+
 		} 
 	
 		if(descriptionImage) {
@@ -119,5 +121,12 @@ public class Card : MonoBehaviour {
 			cardData.ResourceCost = resourceCost;
 			cardData.Description = description;
 		}
+	}
+
+	string ParseText(string text) {
+		text = text.Replace("63", "?");
+		text = text.Replace("33", "!");
+		text = text.Replace("_", "");
+		return text;
 	}
 }
