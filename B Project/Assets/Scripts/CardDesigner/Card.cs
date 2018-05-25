@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 [ExecuteInEditMode]
 public class Card : MonoBehaviour {
@@ -14,10 +15,10 @@ public class Card : MonoBehaviour {
 		Warrior
 	}
 
-	[SerializeField] string title;
-	[SerializeField] DeckClass deckType;
-	[SerializeField] int resourceCost;
-	[SerializeField] string description;
+	public string title;
+	public Card.DeckClass deckType;
+	public int resourceCost;
+	public string description;
 
 	public bool showObjectReferences;
 
@@ -29,8 +30,20 @@ public class Card : MonoBehaviour {
 	public Image costImage;
 	public Text costText;
 
+	public bool showCardData;
+	public CardData cardData;
+	public TextAsset cardDataFile;
+
+	void Awake() {
+		if(cardData == null) {
+			cardData = new CardData();
+		}
+	}
 
 	void Update() {
+
+
+		SaveCardData();
 
 		if(backgroundImage) {
 			//backgroundImage.sprite = background;
@@ -88,7 +101,23 @@ public class Card : MonoBehaviour {
 				costText.text = resourceCost.ToString();
 			}
 		}
-
 	}
 
+	public void LoadCardData() {
+		if(cardData != null) {
+			title = cardData.Title;
+			deckType = cardData.DeckType;
+			resourceCost = cardData.ResourceCost;
+			description = cardData.Description;
+		}
+	}
+
+	public void SaveCardData() {
+		if(cardData != null) {
+			cardData.Title = title;
+			cardData.DeckType = deckType;
+			cardData.ResourceCost = resourceCost;
+			cardData.Description = description;
+		}
+	}
 }

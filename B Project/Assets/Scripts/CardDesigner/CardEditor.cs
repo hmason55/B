@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
+using System.IO;
 
 [CustomEditor(typeof(Card))]
 [CanEditMultipleObjects]
@@ -21,6 +22,8 @@ public class CardEditor : Editor {
 	SerializedProperty pCostImageObj;
 	SerializedProperty pCostTextObj;
 
+	SerializedProperty pCardDataFile;
+
 	void OnEnable() {
         // Setup the SerializedProperties.
 
@@ -28,15 +31,6 @@ public class CardEditor : Editor {
 		pDeckType = serializedObject.FindProperty("deckType");
         pResourceCost = serializedObject.FindProperty("resourceCost");
 		pDescription = serializedObject.FindProperty("description");
-        // Reference Objects
-        /*
-		pBackgroundImageObj = serializedObject.FindProperty("backgroundImage");
-		pArtworkImageObj = serializedObject.FindProperty("artworkImage");
-		pTitleTextObj = serializedObject.FindProperty("titleText");
-		pDescriptionImageObj = serializedObject.FindProperty("descriptionImage");
-		pDescriptionTextObj = serializedObject.FindProperty("descriptionText");
-		pCostImageObj = serializedObject.FindProperty("costImage");
-		pCostTextObj = serializedObject.FindProperty("costText");*/
     }
 
 	public override void OnInspectorGUI() {
@@ -53,9 +47,42 @@ public class CardEditor : Editor {
 
 		if(GUILayout.Button("Save As Concept")) {
 			string prefabName = card.titleText.text;
+			if(prefabName != null) {
+				string conceptPath = "Assets/Resources/Prefabs/Cards/Concepts/" + prefabName + ".prefab";
+				if(AssetDatabase.LoadAssetAtPath(conceptPath, typeof(GameObject))) {
+					if(EditorUtility.DisplayDialog("Hey! Listen!", "A card concept named \'" + prefabName + "\' already exists, do you want to overwrite it?", "Yes", "No")) {
+						CreateConcept(card.gameObject, conceptPath);
+						Debug.Log("Saved \'" + prefabName + "\' as a concept.");
+					}
+				} else {
+					CreateConcept(card.gameObject, conceptPath);
+					Debug.Log("Saved \'" + prefabName + "\' as a concept.");
+				}
+			}
+		}
+
+		if(GUILayout.Button("Save Card Data File")) {
+			string fileName = card.titleText.text;
+			if(fileName != null) {
+				string filePath = "Assets/Resources/Prefabs/Cards/Data/" + fileName + ".json";
+				if(AssetDatabase.LoadAssetAtPath(filePath, typeof(GameObject))) {
+					if(EditorUtility.DisplayDialog("Hey! Listen!", "Card data for \'" + fileName + "\' already exists, do you want to overwrite it?", "Yes", "No")) {
+						CreateJson(card.cardData, filePath);
+						Debug.Log("Saved \'" + fileName + "\' card data.");
+					}
+				} else {
+					CreateJson(card.cardData, filePath);
+					Debug.Log("Saved \'" + fileName + "\' card data.");
+				}
+			}
+		}
+
+		/*
+		if(GUILayout.Button("Spawn Card")) {
+			string prefabName = card.titleText.text;
 			Debug.Log(prefabName);
 			if(prefabName != null) {
-				string conceptPath = "Assets/Prefabs/Cards/Concepts/" + prefabName + ".prefab";
+				string conceptPath = "Assets/Resources/Prefabs/Cards/Concepts/" + prefabName + ".prefab";
 				if(AssetDatabase.LoadAssetAtPath(conceptPath, typeof(GameObject))) {
 					if(EditorUtility.DisplayDialog("Hey! Listen!", "A card concept named \'" + prefabName + "\' already exists, do you want to overwrite it?", "Yes", "No")) {
 						CreateConcept(card.gameObject, conceptPath);
@@ -64,7 +91,17 @@ public class CardEditor : Editor {
 					CreateConcept(card.gameObject, conceptPath);
 				}
 			}
-		}
+		}*/
+
+
+
+		card.cardDataFile = EditorGUILayout.ObjectField(new GUIContent("Card Data File"), card.cardDataFile, typeof(TextAsset), true, null) as TextAsset;
+		if(card.cardDataFile != null) {
+			if(GUILayout.Button("Load Card")) {
+				LoadJson(card, card.cardDataFile.text);
+				Debug.Log("Loaded \'" + card.cardDataFile.name + "\' card data.");
+			}
+		}		
 
 		EditorGUILayout.Space();
 		EditorGUILayout.Space();
@@ -82,19 +119,25 @@ public class CardEditor : Editor {
 			card.costText = EditorGUILayout.ObjectField(new GUIContent("Cost Text Asset"), card.costText, typeof(Text), true, null) as Text;
         }
 
-        serializedObject.ApplyModifiedProperties();
-    }
 
-    // Custom GUILayout progress bar.
-    void ProgressBar (float value, string label) {
-        // Get a rect for the progress bar using the same margins as a textfield:
-        //Rect rect = GUILayoutUtility.GetRect (18, 18, "TextField");
-        //EditorGUI.ProgressBar (rect, value, label);
-        //EditorGUILayout.Space ();
+
+        serializedObject.ApplyModifiedProperties();
     }
 
     static void CreateConcept(GameObject obj, string path) {
     	Object prefab = PrefabUtility.CreatePrefab(path, obj);
     	PrefabUtility.ReplacePrefab(obj, prefab, ReplacePrefabOptions.ConnectToPrefab);
+    }
+
+	static void CreateJson(CardData data, string path) {
+    	StreamWriter writer = new StreamWriter(path, false);
+		writer.WriteLine(JsonUtility.ToJson(data));
+    	writer.Close();
+    }
+
+	void LoadJson(Card card, string json) {
+		card.cardData = JsonUtility.FromJson<CardData>(json);
+		card.LoadCardData();
+		EditorUtility.SetDirty(target);
     }
 }
