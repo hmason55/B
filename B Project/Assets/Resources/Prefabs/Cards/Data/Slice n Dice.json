@@ -1,1 +1,1 @@
-{"Title":"Slice n Dice","DeckType":3,"ResourceCost":2,"Description":"Deal 5 Damage 2 times","OmitFromDeck":false}
+{"Title":"Slice n Dice","DeckType":3,"ResourceCost":-1,"Description":"<b>Discard Hand</b>    Replace Hand with X* number of Slice n Dice Cards","OmitFromDeck":false}
