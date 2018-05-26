@@ -1,0 +1,12 @@
+Miasma,
+Tackle,
+Slice n Dice,
+Executioner,
+Block,
+Cleave,
+Blood Healing,
+Gold Rush,
+Sanctuary,
+Plague,
+Shield Bash,
+Ravage

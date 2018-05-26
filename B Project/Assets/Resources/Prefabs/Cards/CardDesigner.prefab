@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 224331330032052604}
   - component: {fileID: 114989481711224342}
-  - component: {fileID: 114227039601341054}
   - component: {fileID: 114748407063620454}
   - component: {fileID: 114559926659761780}
+  - component: {fileID: 114227039601341054}
   m_Layer: 5
   m_Name: CardDesigner
   m_TagString: Untagged
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!114 &114184889383468188
@@ -215,9 +215,9 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 62437ce2ef436bb4fbe4bc83d296a7b6, type: 3}
+    m_Font: {fileID: 12800000, guid: 1da7ef7d2032b3a49938025dab1468c1, type: 3}
     m_FontSize: 28
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 12
     m_MaxSize: 40
@@ -227,7 +227,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Steal
 --- !u!114 &114211487824089106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.49803922, g: 0.49803922, b: 0.49803922, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -309,16 +309,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 62437ce2ef436bb4fbe4bc83d296a7b6, type: 3}
+    m_Font: {fileID: 12800000, guid: 1da7ef7d2032b3a49938025dab1468c1, type: 3}
     m_FontSize: 40
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 64
@@ -328,7 +328,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 1
 --- !u!114 &114340931588449526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -340,8 +340,8 @@ MonoBehaviour:
   m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 0.5, y: -0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!114 &114559926659761780
 MonoBehaviour:
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.3137255}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -401,11 +401,11 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 62437ce2ef436bb4fbe4bc83d296a7b6, type: 3}
+    m_Font: {fileID: 12800000, guid: 1da7ef7d2032b3a49938025dab1468c1, type: 3}
     m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 1
+    m_MinSize: 8
     m_MaxSize: 24
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -413,7 +413,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Deal 1 Damage. Steal a card, reduce its cost by 1.
 --- !u!114 &114718393036147446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Color: {r: 0.73, g: 0.95, b: 0.34, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -477,7 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!114 &114939715179022828
@@ -505,10 +505,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819e48401b77d6e42bb7191adb569e46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: 
-  deckType: 0
-  resourceCost: 0
-  description: 
+  title: Steal
+  deckType: 3
+  resourceCost: 1
+  description: Deal 1 Damage. Steal a card, reduce its cost by 1.
+  omitFromDeck: 0
   showObjectReferences: 0
   backgroundImage: {fileID: 114927725948195238}
   artworkImage: {fileID: 114137649761013594}
@@ -519,11 +520,12 @@ MonoBehaviour:
   costText: {fileID: 114304084164142088}
   showCardData: 0
   cardData:
-    Title: 
-    DeckType: 0
-    ResourceCost: 0
-    Description: 
-  cardDataFile: {fileID: 0}
+    Title: Steal
+    DeckType: 3
+    ResourceCost: 1
+    Description: Deal 1 Damage. Steal a card, reduce its cost by 1.
+    OmitFromDeck: 0
+  cardDataFile: {fileID: 4900000, guid: d05b31a417709c04e802c211a2c91c95, type: 3}
 --- !u!222 &222102302143370762
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -618,7 +620,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: -10}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224127718968909798
@@ -647,7 +649,7 @@ RectTransform:
   m_GameObject: {fileID: 1110093360586766}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224597715379825872}
   - {fileID: 224476658413426696}
@@ -659,7 +661,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1920, y: -1080}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 250, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224476658413426696

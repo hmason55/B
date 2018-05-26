@@ -43,7 +43,8 @@ public class CardEditor : Editor {
 		EditorGUILayout.PropertyField(pTitle, new GUIContent("Card Title"), null);
 		EditorGUILayout.PropertyField(pDeckType, new GUIContent("Deck Type"), null);
 		EditorGUILayout.IntSlider(pResourceCost, -1, 8, new GUIContent("Resource Cost"));
-		EditorGUILayout.PropertyField(pDescription, new GUIContent("Description"), null);
+		EditorGUILayout.LabelField("Description");
+		pDescription.stringValue = EditorGUILayout.TextArea(pDescription.stringValue, GUILayout.MaxHeight(75));
 		EditorGUILayout.PropertyField(pOmitFromDeck, new GUIContent("Omit From Deck"), null);
 
 		EditorGUILayout.Space();
@@ -125,7 +126,6 @@ public class CardEditor : Editor {
 		if(GUILayout.Button("Format All Data Files")) {
 			FormatDataFiles(card);
 		}
-
         serializedObject.ApplyModifiedProperties();
     }
 
@@ -161,4 +161,5 @@ public class CardEditor : Editor {
 		card.LoadCardData();
 		EditorUtility.SetDirty(target);
     }
+
 }

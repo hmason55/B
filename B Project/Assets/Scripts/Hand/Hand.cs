@@ -7,13 +7,25 @@ public class Hand : MonoBehaviour {
 	
 	[SerializeField] Deck deck;
 	[SerializeField] int drawCount = 7;
+	List<CardData> handList;
+
+	public List<CardData> HandList {
+		get{return handList;}
+	}
 
 	public void Deal() {
 		Clear();
 
-		for(int i = 0; i < drawCount; i++) {
-			Draw(deck.GetRandomCard());
+		if(deck.ReferenceDeck.Count < drawCount) {
+			for(int i = 0; i < deck.ReferenceDeck.Count; i++) {
+				Draw(deck.DrawRandomCard(handList));
+			}
+		} else {
+			for(int i = 0; i < drawCount; i++) {
+				Draw(deck.DrawRandomCard(handList));
+			}
 		}
+
 	}
 
 	public void Draw(CardData cardData) {
@@ -21,6 +33,7 @@ public class Hand : MonoBehaviour {
 		Card card = obj.GetComponent<Card>();
 		card.cardData = cardData;
 		card.LoadCardData();
+		handList.Add(card.cardData);
 		obj.name = card.title;
 		obj.transform.SetParent(transform);
 		obj.transform.SetAsLastSibling();
@@ -28,6 +41,7 @@ public class Hand : MonoBehaviour {
 	}
 
 	public void Clear() {
+		handList = new List<CardData>();
 		int childCount = transform.childCount;
 		for(int i = childCount-1; i >= 0; i--) {
 			//GameObject child = transform.GetChild(i).gameObject;

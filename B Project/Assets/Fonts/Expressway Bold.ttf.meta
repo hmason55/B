@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: ca9909a2f7621c6478c39614c4199919
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Expressway
+  fontNames:
+  - Expressway
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 1da7ef7d2032b3a49938025dab1468c1, type: 3}
+  - {fileID: 12800000, guid: 7b9c333f8da634145ae3601387d5a860, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

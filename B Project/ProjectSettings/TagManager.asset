@@ -7,6 +7,7 @@ TagManager:
   - Canvas
   - Deck
   - Hand
+  - Board
   layers:
   - Default
   - TransparentFX

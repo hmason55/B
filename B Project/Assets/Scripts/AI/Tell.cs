@@ -24,7 +24,7 @@ public class Tell : MonoBehaviour {
 	}
 
 	void ShowTell() {
-		CardData cardData = deck.GetRandomCard(deckType);
+		CardData cardData = deck.DrawRandomCard(deckType, null, false);
 		tellObject = GameObject.Instantiate(Resources.Load("Prefabs/Cards/CardDesigner")) as GameObject;
 		Card card = tellObject.GetComponent<Card>();
 		card.cardData = cardData;
