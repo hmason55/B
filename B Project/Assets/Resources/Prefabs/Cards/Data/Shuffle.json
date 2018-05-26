@@ -1,1 +1,1 @@
-{"Title":"Shuffle","DeckType":0,"ResourceCost":2,"Description":"Pick 2 adjacent Allies, swap their positions.","OmitFromDeck":false}
+{"Title":"Shuffle","DeckType":0,"ResourceCost":-1,"Description":"(ALL) Move up to X Spaces","OmitFromDeck":false}
