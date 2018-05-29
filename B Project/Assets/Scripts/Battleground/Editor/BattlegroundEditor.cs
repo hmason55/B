@@ -9,7 +9,9 @@ public class BattlegroundEditor : Editor
     private string[] _handleNames = new string[6]
     { "Player top left", "Player top right", "Player bottom left", "Enemy top left", "Enemy top right", "Enemy bottom left" };
 
+    // Show additional buttons
     private bool _editorVisible =false;
+
 
     public override void OnInspectorGUI()
     {
@@ -50,11 +52,9 @@ public class BattlegroundEditor : Editor
             }
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
-        }
-        
-
+        }   
     }
-
+    
     void OnSceneGUI()
     {
         if (!_editorVisible)
@@ -69,6 +69,7 @@ public class BattlegroundEditor : Editor
         Vector2[] rights = new Vector2[4];
         Vector2[] tops = new Vector2[4];
         Vector2[] bottoms = new Vector2[4];
+
         for (int n = 0; n < 2; n++)
         {
             // External border vectors
