@@ -36,6 +36,8 @@ public class Card : MonoBehaviour {
 	public CardData cardData;
 	public TextAsset cardDataFile;
 
+	public int zIndex = 0;
+
 	void Awake() {
 		if(cardData == null) {
 			cardData = new CardData();

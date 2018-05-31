@@ -39,6 +39,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34a53d73af6a2384fb4a9e3f283d8fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardWidth: 250
+  cardHeight: 250
+  spacing: 24
   deck: {fileID: 0}
   drawCount: 7
 --- !u!114 &114479532053473622
@@ -70,7 +73,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1416393934296530}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -79,6 +82,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 250}
+  m_AnchoredPosition: {x: 0, y: 830}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0}
