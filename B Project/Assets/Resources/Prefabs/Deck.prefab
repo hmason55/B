@@ -38,13 +38,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63ccd43c333083045b71d1a7bc854f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deckFile: {fileID: 4900000, guid: b19dece9acd108c42b80a7362cca9f9f, type: 3}
 --- !u!224 &224201030336638448
 RectTransform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1809191849126836}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

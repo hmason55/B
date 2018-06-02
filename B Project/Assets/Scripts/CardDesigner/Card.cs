@@ -36,6 +36,16 @@ public class Card : MonoBehaviour {
 	public CardData cardData;
 	public TextAsset cardDataFile;
 
+	public int zIndex = 0;
+
+	Vector2 handPosition;
+	bool raycastState = true;
+
+	public Vector2 HandPosition {
+		get{return handPosition;}
+		set{handPosition = value;}
+	}
+
 	void Awake() {
 		if(cardData == null) {
 			cardData = new CardData();
@@ -131,5 +141,17 @@ public class Card : MonoBehaviour {
 		text = text.Replace("33", "!");
 		text = text.Replace("_", "");
 		return text;
+	}
+
+	public void SnapToHand() {
+		GetComponent<RectTransform>().anchoredPosition = handPosition;
+	}
+
+	public void DisableRaycast() {
+		backgroundImage.raycastTarget = false;
+	}
+
+	public void ResumeRaycastState() {
+		backgroundImage.raycastTarget = raycastState;
 	}
 }
