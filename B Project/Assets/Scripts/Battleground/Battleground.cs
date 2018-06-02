@@ -384,5 +384,11 @@ public class Battleground : MonoBehaviour
         _units[position] = null;
     }
 
+
+    public BaseUnit GetUnitSelected()
+    {
+        return _mouseoverUnit;
+    }
+
     #endregion
 }
