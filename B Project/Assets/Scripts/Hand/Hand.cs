@@ -42,6 +42,8 @@ public class Hand : MonoBehaviour {
 				yield return new WaitForSeconds(drawDelay);
 			}
 		}
+
+		deal = null;
 	}
 
 	public void Draw(CardData cardData) {
@@ -62,9 +64,9 @@ public class Hand : MonoBehaviour {
 		handList = new List<CardData>();
 		int childCount = transform.childCount;
 		for(int i = childCount-1; i >= 0; i--) {
-			//GameObject child = transform.GetChild(i).gameObject;
-			//child.transform.SetParent(null);
-			Destroy(transform.GetChild(i).gameObject);
+			GameObject flagged = transform.GetChild(i).gameObject;
+			flagged.transform.SetParent(null);
+			Destroy(flagged);
 		}
 	}
 
@@ -75,7 +77,10 @@ public class Hand : MonoBehaviour {
 			if(t != null) {
 				float handWidth = (handSize-1) * (spacing + cardWidth);
 				float xPosition = i * (spacing + cardWidth);
-				t.GetComponent<RectTransform>().localPosition = new Vector2(xPosition - handWidth/2, 0f);
+				RectTransform rt = t.GetComponent<RectTransform>();
+				Vector2 handPosition = new Vector2(xPosition - handWidth/2, 0f);
+				t.GetComponent<RectTransform>().anchoredPosition = handPosition;
+				t.GetComponent<Card>().HandPosition = handPosition;
 			}
 		}
 	}

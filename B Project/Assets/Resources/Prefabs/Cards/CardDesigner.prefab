@@ -21,9 +21,7 @@ GameObject:
   - component: {fileID: 224331330032052604}
   - component: {fileID: 114989481711224342}
   - component: {fileID: 114748407063620454}
-  - component: {fileID: 114559926659761780}
-  - component: {fileID: 114942619017076478}
-  - component: {fileID: 114599900335465604}
+  - component: {fileID: 114879036902814186}
   - component: {fileID: 114227039601341054}
   m_Layer: 5
   m_Name: CardDesigner
@@ -389,30 +387,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114559926659761780
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1110093360586766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44f2d1865f0826f4382a8d1c90a24500, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114599900335465604
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1110093360586766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a9061608dbb8f42a7ef61852f2a0ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  card: {fileID: 114989481711224342}
-  outline: {fileID: 114516172145034828}
 --- !u!114 &114616248439065912
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -498,6 +472,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8b78f5efa815e41984ea80db9aa8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  card: {fileID: 114989481711224342}
+  hand: {fileID: 0}
+--- !u!114 &114879036902814186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110093360586766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b169b6eed0d94c42af947af8f2934c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 114989481711224342}
+  outline: {fileID: 114516172145034828}
 --- !u!114 &114927725948195238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -553,19 +542,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &114942619017076478
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1110093360586766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b169b6eed0d94c42af947af8f2934c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  card: {fileID: 114989481711224342}
-  outline: {fileID: 114516172145034828}
 --- !u!114 &114989481711224342
 MonoBehaviour:
   m_ObjectHideFlags: 1
