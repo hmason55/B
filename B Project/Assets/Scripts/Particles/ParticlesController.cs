@@ -28,6 +28,7 @@ public class ParticlesController : MonoBehaviour {
 
 	void Update() {
 		if(particlesPlaying) {
+			
 			//OverlayParticles.Move(Input.mousePosition);
 		}
 	}
