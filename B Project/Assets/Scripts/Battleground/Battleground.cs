@@ -20,12 +20,12 @@ public class Battleground : MonoBehaviour
     // Tile inhabitants
     private BaseUnit[] _units; // TODO eventually change with unit class or interface
     // Mouseover unit
-    private BaseUnit _mouseoverUnit;
+    private List<BaseUnit> _mouseoverUnit;
     // Target Method
     private bool _targetTile = true;
     // Target shape
     private TargetShape _targetShape = TargetShape.Single;
-    
+
     void Start()
     {
         //setup tiles
@@ -33,6 +33,7 @@ public class Battleground : MonoBehaviour
         _units = new BaseUnit[18];
         _spriteOrder = new int[18];
         _mesh = new Mesh();
+        _mouseoverUnit = new List<BaseUnit>();
 
         CalculateGridPositions();
         CalculateGridMesh();
@@ -49,7 +50,7 @@ public class Battleground : MonoBehaviour
         else
             CheckMouseAgainstUnits();
     }
-     
+
     #region Grid calculations
 
     void CalculateGridPositions()
@@ -71,7 +72,7 @@ public class Battleground : MonoBehaviour
                 _playerGrid[i, j] = Vector2.Lerp(ptl, ptr, (0.5f + i) / 3.0f) + Vector2.Lerp(ptl, pbl, (0.5f + j) / 3.0f) - ptl;
 
                 _enemyGrid[i, j] = Vector2.Lerp(etl, etr, (0.5f + i) / 3.0f) + Vector2.Lerp(etl, ebl, (0.5f + j) / 3.0f) - etl;
-                
+
             }
         }
     }
@@ -117,7 +118,7 @@ public class Battleground : MonoBehaviour
             }
 
         }
-        
+
         _mesh.vertices = points;
         _mesh.triangles = triangles;
         _mesh.uv = uvs;
@@ -125,7 +126,7 @@ public class Battleground : MonoBehaviour
 
         GameObject obj = new GameObject();
         obj.name = "Grid Mesh Object";
-        MeshFilter filter= obj.AddComponent<MeshFilter>();
+        MeshFilter filter = obj.AddComponent<MeshFilter>();
         filter.mesh = _mesh;
         MeshRenderer rend = obj.AddComponent<MeshRenderer>();
         Texture2D text = new Texture2D(2, 1);
@@ -145,10 +146,10 @@ public class Battleground : MonoBehaviour
         positionList.Clear();
         for (int i = 0; i < 9; i++)
         {
-            KeyValuePair<int, Vector2> pair= new KeyValuePair<int, Vector2>(i, _playerGrid[i % 3, i / 3]);
+            KeyValuePair<int, Vector2> pair = new KeyValuePair<int, Vector2>(i, _playerGrid[i % 3, i / 3]);
             positionList.Add(pair);
         }
-        positionList.Sort(delegate( KeyValuePair < int, Vector2 > pair1, KeyValuePair < int, Vector2 > pair2){ return pair2.Value.y.CompareTo(pair1.Value.y); });
+        positionList.Sort(delegate (KeyValuePair<int, Vector2> pair1, KeyValuePair<int, Vector2> pair2) { return pair2.Value.y.CompareTo(pair1.Value.y); });
         for (int i = 0; i < 9; i++)
         {
             _spriteOrder[i] = positionList[i].Key;
@@ -164,7 +165,7 @@ public class Battleground : MonoBehaviour
         positionList.Sort(delegate (KeyValuePair<int, Vector2> pair1, KeyValuePair<int, Vector2> pair2) { return pair2.Value.y.CompareTo(pair1.Value.y); });
         for (int i = 0; i < 9; i++)
         {
-            _spriteOrder[i+9] = positionList[i].Key;
+            _spriteOrder[i + 9] = positionList[i].Key;
         }
 
     }
@@ -174,14 +175,14 @@ public class Battleground : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D[] hits;
         hits = Physics2D.RaycastAll(mousePos, Vector2.zero, 0f);
-        if (hits.Length>0)
+        if (hits.Length > 0)
         {
             GameObject closer = gameObject; // Just random assignement
             float minDist = 9999f;
             for (int i = 0; i < hits.Length; i++)
             {
                 float dist = (hits[i].collider.transform.position - mousePos).sqrMagnitude;
-                if (dist<minDist)
+                if (dist < minDist)
                 {
                     minDist = dist;
                     closer = hits[i].collider.gameObject;
@@ -230,7 +231,7 @@ public class Battleground : MonoBehaviour
             SetTileHighlighted(result);
         else
             ClearHighlights();
-        
+
     }
 
     void SetTileHighlighted(int tile)
@@ -259,13 +260,13 @@ public class Battleground : MonoBehaviour
             case TargetShape.Cross:
                 int x = tile % 3;
                 int side = tile / 9;
-                int y = (tile-side*9) / 3;
-                
-                for (int i =side*9+ y * 3 + Mathf.Max(0, x - 1); i <side*9+ y * 3 + Mathf.Min(2, x + 1) + 1; i++)
+                int y = (tile - side * 9) / 3;
+
+                for (int i = side * 9 + y * 3 + Mathf.Max(0, x - 1); i < side * 9 + y * 3 + Mathf.Min(2, x + 1) + 1; i++)
                 {
                     positions.Add(i);
                 }
-                for (int i = Mathf.Max(tile-3,side*9+x+3-3*(y%2)); i < Mathf.Min(tile+9,side*9+x+9+3*(y%2)); i+=6)
+                for (int i = Mathf.Max(tile - 3, side * 9 + x + 3 - 3 * (y % 2)); i < Mathf.Min(tile + 9, side * 9 + x + 9 + 3 * (y % 2)); i += 6)
                 {
                     positions.Add(i);
                 }
@@ -274,41 +275,57 @@ public class Battleground : MonoBehaviour
 
         // Highlight the tiles list
         HighlightTiles(positions.ToArray());
-        // Check if there is a unit upon the tile
+        // Highlight the unit upon tiles
+        HighlightUnits(positions);
+    }
 
+    void HighlightUnits( List<int> positions)
+    {
         // Reset old highlight
-        if (_mouseoverUnit)
+        if (_mouseoverUnit.Count > 0)
         {
-            SpriteRenderer rend = _mouseoverUnit.GetComponentInChildren<SpriteRenderer>();
-            rend.color = Color.white;
-            rend.transform.localScale = Vector2.one * 0.5f;
+            for (int i = 0; i < _mouseoverUnit.Count; i++)
+            {
+                SpriteRenderer rend = _mouseoverUnit[i].GetComponentInChildren<SpriteRenderer>();
+                rend.color = Color.white;
+                rend.transform.localScale = Vector2.one * 0.5f;
+            }
         }
+
         // Find if there is a unit and highlight it
-        if (tile >= 0 && _units[tile])
+        _mouseoverUnit.Clear();
+        if (positions.Count > 0)
         {
-            _mouseoverUnit = _units[tile];
-            SpriteRenderer rend = _mouseoverUnit.GetComponentInChildren<SpriteRenderer>();
-            rend.color = Color.Lerp(Color.white, Color.red, Mathf.Sin(Time.time * 5f));
-            rend.transform.localScale = Vector2.one * (1.2f + 0.2f * Mathf.Sin(Time.time * 2f + 1));
+            for (int i = 0; i < positions.Count; i++)
+            {
+                BaseUnit unit = _units[positions[i]];
+                if (unit)
+                {
+                    _mouseoverUnit.Add(unit);
+                    SpriteRenderer rend = unit.GetComponentInChildren<SpriteRenderer>();
+                    rend.color = Color.Lerp(Color.white, Color.red, 0.5f + 0.2f * Mathf.Sin(Time.time * 15f));
+                    rend.transform.localScale = Vector2.one * (0.6f + 0.1f * Mathf.Sin(Time.time * 4f + 1));
+                }
+            }
+
         }
         else
         {
-            _mouseoverUnit = null;
+
         }
     }
-    
 
-    void HighlightTiles(int[] numbers)
+    void HighlightTiles(int[] tiles)
     {
-        Debug.Log("highlighting tiles: " + numbers.Length);
+        //Debug.Log("highlighting tiles: " + numbers.Length);
         Vector2[] uvs = new Vector2[4 * 18];
         for (int i = 0; i < 18; i++)
         {
             // Check if actual tile is between the ones to highlight
             bool check = false;
-            for (int n = 0; n < numbers.Length; n++)
+            for (int n = 0; n < tiles.Length; n++)
             {
-                if (i == numbers[n])
+                if (i == tiles[n])
                     check = true;
             }
 
@@ -334,6 +351,7 @@ public class Battleground : MonoBehaviour
     void ClearHighlights()
     {
         HighlightTiles(new int[] { });
+        HighlightUnits(new List<int> { });
     }
 
     public void SetTargetType(bool tile)
@@ -353,7 +371,7 @@ public class Battleground : MonoBehaviour
         }
 
         float mu = ((A1.x - B1.x) * (A2.y - A1.y) - (A1.y - B1.y) * (A2.x - A1.x)) / tmp;
-        
+
         return new Vector2(
             B1.x + (B2.x - B1.x) * mu,
             B1.y + (B2.y - B1.y) * mu
@@ -402,13 +420,13 @@ public class Battleground : MonoBehaviour
         if (position < 9) // Player
             unit.transform.position = _playerGrid[j, k];
         else // Enemy
-            unit.transform.position = _enemyGrid[j, k-3];
+            unit.transform.position = _enemyGrid[j, k - 3];
         // Set sprite order
         unit.GetComponentInChildren<SpriteRenderer>().sortingOrder = _spriteOrder[position];
 
         unit.SetGridPosition(position);
         _units[position] = unit;
-        
+
     }
 
     public void ClearBattleground()
@@ -429,7 +447,7 @@ public class Battleground : MonoBehaviour
     }
 
 
-    public BaseUnit GetUnitSelected()
+    public List<BaseUnit> GetUnitsSelected()
     {
         return _mouseoverUnit;
     }
