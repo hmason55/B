@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum TargetShape { Single, Horizontal, Veritcal, Cross }
+
 public class TempBattlegroundUI : MonoBehaviour
 {
     public GameObject UnitPrefab;
 
     public Toggle ToggleTile;
+
+    
 
     private Battleground _battleGround;
 
@@ -40,6 +44,11 @@ public class TempBattlegroundUI : MonoBehaviour
     public void OnToggle()
     {
         _battleGround.SetTargetType(ToggleTile.isOn);
+    }
+
+    public void OnShapeToggle(int shape)
+    {
+        _battleGround.SetTargetShape((TargetShape)shape);
     }
 
 }

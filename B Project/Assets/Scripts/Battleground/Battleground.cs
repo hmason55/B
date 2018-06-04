@@ -23,6 +23,8 @@ public class Battleground : MonoBehaviour
     private BaseUnit _mouseoverUnit;
     // Target Method
     private bool _targetTile = true;
+    // Target shape
+    private TargetShape _targetShape = TargetShape.Single;
     
     void Start()
     {
@@ -47,12 +49,7 @@ public class Battleground : MonoBehaviour
         else
             CheckMouseAgainstUnits();
     }
-
-    public void SetTargetType(bool tile)
-    {
-        _targetTile = tile;
-    }
-
+     
     #region Grid calculations
 
     void CalculateGridPositions()
@@ -191,9 +188,11 @@ public class Battleground : MonoBehaviour
                 }
             }
 
-            int position = closer.transform.root.GetComponentInChildren<BaseUnit>().GetGridPosition();
-
-            SetTileHighlighted(position);
+            int tile = closer.transform.root.GetComponentInChildren<BaseUnit>().GetGridPosition();
+            if (tile >= 0)
+                SetTileHighlighted(tile);
+            else
+                ClearHighlights();
         }
     }
 
@@ -227,15 +226,54 @@ public class Battleground : MonoBehaviour
 
             }
         }
-
-        SetTileHighlighted(result);
+        if (result >= 0)
+            SetTileHighlighted(result);
+        else
+            ClearHighlights();
         
     }
 
-    void SetTileHighlighted(int position)
+    void SetTileHighlighted(int tile)
     {
-        HighlightTiles(new int[] { position });
+        // Fine the list of tiles depending on mouse position and the shape selected
+        List<int> positions = new List<int>();
+        switch (_targetShape)
+        {
+            case TargetShape.Single:
+                positions.Add(tile);
+                break;
+            case TargetShape.Horizontal:
+                int row = (tile / 3) * 3;
+                for (int i = 0; i < 3; i++)
+                {
+                    positions.Add(row + i);
+                }
+                break;
+            case TargetShape.Veritcal:
+                int column = tile % 3 + (tile / 9) * 9;
+                for (int i = 0; i < 3; i++)
+                {
+                    positions.Add(column + i * 3);
+                }
+                break;
+            case TargetShape.Cross:
+                int x = tile % 3;
+                int side = tile / 9;
+                int y = (tile-side*9) / 3;
+                
+                for (int i =side*9+ y * 3 + Mathf.Max(0, x - 1); i <side*9+ y * 3 + Mathf.Min(2, x + 1) + 1; i++)
+                {
+                    positions.Add(i);
+                }
+                for (int i = Mathf.Max(tile-3,side*9+x+3-3*(y%2)); i < Mathf.Min(tile+9,side*9+x+9+3*(y%2)); i+=6)
+                {
+                    positions.Add(i);
+                }
+                break;
+        }
 
+        // Highlight the tiles list
+        HighlightTiles(positions.ToArray());
         // Check if there is a unit upon the tile
 
         // Reset old highlight
@@ -246,9 +284,9 @@ public class Battleground : MonoBehaviour
             rend.transform.localScale = Vector2.one * 0.5f;
         }
         // Find if there is a unit and highlight it
-        if (position >= 0 && _units[position])
+        if (tile >= 0 && _units[tile])
         {
-            _mouseoverUnit = _units[position];
+            _mouseoverUnit = _units[tile];
             SpriteRenderer rend = _mouseoverUnit.GetComponentInChildren<SpriteRenderer>();
             rend.color = Color.Lerp(Color.white, Color.red, Mathf.Sin(Time.time * 5f));
             rend.transform.localScale = Vector2.one * (1.2f + 0.2f * Mathf.Sin(Time.time * 2f + 1));
@@ -262,6 +300,7 @@ public class Battleground : MonoBehaviour
 
     void HighlightTiles(int[] numbers)
     {
+        Debug.Log("highlighting tiles: " + numbers.Length);
         Vector2[] uvs = new Vector2[4 * 18];
         for (int i = 0; i < 18; i++)
         {
@@ -296,7 +335,12 @@ public class Battleground : MonoBehaviour
     {
         HighlightTiles(new int[] { });
     }
-        
+
+    public void SetTargetType(bool tile)
+    {
+        _targetTile = tile;
+    }
+
     public Vector2 GetIntersectionPointCoordinates(Vector2 A1, Vector2 A2, Vector2 B1, Vector2 B2)
     {
         float tmp = (B2.x - B1.x) * (A2.y - A1.y) - (B2.y - B1.y) * (A2.x - A1.x);
@@ -388,6 +432,11 @@ public class Battleground : MonoBehaviour
     public BaseUnit GetUnitSelected()
     {
         return _mouseoverUnit;
+    }
+
+    public void SetTargetShape(TargetShape shape)
+    {
+        _targetShape = shape;
     }
 
     #endregion
