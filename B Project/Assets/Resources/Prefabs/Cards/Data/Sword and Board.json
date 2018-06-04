@@ -1,1 +1,1 @@
-{"Title":"Sword and Board","DeckType":1,"ResourceCost":4,"Description":"Deal 10 Damage                   Block 10 Damage","OmitFromDeck":false}
+{"Title":"Sword and Board","DeckType":1,"ResourceCost":4,"Description":"Deal 10 Damage                   Block 10 Damage","OmitFromDeck":false,"RequireTarget":true}

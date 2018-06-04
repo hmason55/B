@@ -1,1 +1,1 @@
-{"Title":"Boned","DeckType":2,"ResourceCost":1,"Description":"(PUSH)                        Deal 3 damage","OmitFromDeck":false}
+{"Title":"Boned","DeckType":2,"ResourceCost":1,"Description":"(PUSH)                        Deal 3 damage","OmitFromDeck":false,"RequireTarget":true}

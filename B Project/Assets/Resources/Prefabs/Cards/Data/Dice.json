@@ -1,1 +1,1 @@
-{"Title":"Dice","DeckType":3,"ResourceCost":0,"Description":"Deal 4","OmitFromDeck":true}
+{"Title":"Dice","DeckType":3,"ResourceCost":0,"Description":"Deal 4","OmitFromDeck":true,"RequireTarget":false}

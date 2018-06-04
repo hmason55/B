@@ -21,6 +21,7 @@ public class Card : MonoBehaviour {
 	public int resourceCost;
 	public string description;
 	public bool omitFromDeck;
+	public bool requireTarget;
 
 	public bool showObjectReferences;
 
@@ -123,6 +124,7 @@ public class Card : MonoBehaviour {
 			resourceCost = cardData.ResourceCost;
 			description = cardData.Description;
 			omitFromDeck = cardData.OmitFromDeck;
+			requireTarget = cardData.RequireTarget;
 		}
 	}
 
@@ -133,6 +135,7 @@ public class Card : MonoBehaviour {
 			cardData.ResourceCost = resourceCost;
 			cardData.Description = description;
 			cardData.OmitFromDeck = omitFromDeck;
+			cardData.RequireTarget = requireTarget;
 		}
 	}
 

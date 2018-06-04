@@ -1,1 +1,1 @@
-{"Title":"Block","DeckType":0,"ResourceCost":1,"Description":"Block 4 Damage.","OmitFromDeck":true}
+{"Title":"Block","DeckType":0,"ResourceCost":1,"Description":"Block 4 Damage.","OmitFromDeck":true,"RequireTarget":false}

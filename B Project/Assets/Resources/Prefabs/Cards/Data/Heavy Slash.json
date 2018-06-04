@@ -1,1 +1,1 @@
-{"Title":"Heavy Slash","DeckType":4,"ResourceCost":4,"Description":"Deal 20 Damage.","OmitFromDeck":false}
+{"Title":"Heavy Slash","DeckType":4,"ResourceCost":4,"Description":"Deal 20 Damage.","OmitFromDeck":false,"RequireTarget":true}

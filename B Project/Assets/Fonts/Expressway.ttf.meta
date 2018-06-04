@@ -3,7 +3,7 @@ guid: 1da7ef7d2032b3a49938025dab1468c1
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
-  fontSize: 16
+  fontSize: 24
   forceTextureCase: -2
   characterSpacing: 0
   characterPadding: 1
@@ -12,7 +12,7 @@ TrueTypeFontImporter:
   fontNames:
   - Expressway
   fallbackFontReferences:
-  - {fileID: 12800000, guid: 7b9c333f8da634145ae3601387d5a860, type: 3}
+  - {instanceID: 0}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

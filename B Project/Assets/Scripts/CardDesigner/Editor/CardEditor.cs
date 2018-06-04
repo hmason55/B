@@ -14,6 +14,7 @@ public class CardEditor : Editor {
 	SerializedProperty pResourceCost;
 	SerializedProperty pDescription;
 	SerializedProperty pOmitFromDeck;
+	SerializedProperty pRequireTarget;
 
 	SerializedProperty pBackgroundImageObj;
 	SerializedProperty pArtworkImageObj;
@@ -33,6 +34,7 @@ public class CardEditor : Editor {
         pResourceCost = serializedObject.FindProperty("resourceCost");
 		pDescription = serializedObject.FindProperty("description");
 		pOmitFromDeck = serializedObject.FindProperty("omitFromDeck");
+		pRequireTarget = serializedObject.FindProperty("requireTarget");
     }
 
 	public override void OnInspectorGUI() {
@@ -46,6 +48,10 @@ public class CardEditor : Editor {
 		EditorGUILayout.LabelField("Description");
 		pDescription.stringValue = EditorGUILayout.TextArea(pDescription.stringValue, GUILayout.MaxHeight(75));
 		EditorGUILayout.PropertyField(pOmitFromDeck, new GUIContent("Omit From Deck"), null);
+		EditorGUILayout.PropertyField(pRequireTarget, new GUIContent("Require Target"), null);
+		if(pRequireTarget.boolValue) {
+			EditorGUILayout.LabelField("target stuff goes here.", null);
+		}
 
 		EditorGUILayout.Space();
 

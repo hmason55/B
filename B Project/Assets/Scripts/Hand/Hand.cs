@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Hand : MonoBehaviour {
 
+	public bool mouseOver;
+	public Card draggedCard;
+	public float verticalThreshold;
+
 	// UI
 	[SerializeField] float cardWidth = 250f;
 	[SerializeField] float cardHeight = 350f;
-	[SerializeField] float spacing = 24f;
+	[SerializeField] float maxSpacing = 24f;
+	[SerializeField] float horizontalPadding = 75f;
 
 	// Hand Data
 	[SerializeField] Deck deck;
@@ -31,6 +36,10 @@ public class Hand : MonoBehaviour {
 	public IEnumerator IEDeal() {
 		Clear();
 
+		foreach(Transform t in transform) {
+			t.GetComponent<Card>().DisableRaycast();
+		}
+
 		if(deck.ReferenceDeck.Count < drawCount) {
 			for(int i = 0; i < deck.ReferenceDeck.Count; i++) {
 				Draw(deck.DrawRandomCard(handList));
@@ -43,12 +52,17 @@ public class Hand : MonoBehaviour {
 			}
 		}
 
+		foreach(Transform t in transform) {
+			t.GetComponent<Card>().ResumeRaycastState();
+		}
+
 		deal = null;
 	}
 
 	public void Draw(CardData cardData) {
 		GameObject obj = GameObject.Instantiate(Resources.Load("Prefabs/Cards/CardDesigner")) as GameObject;
 		Card card = obj.GetComponent<Card>();
+		card.DisableRaycast();
 		card.cardData = cardData;
 		card.LoadCardData();
 		handList.Add(card.cardData);
@@ -71,17 +85,29 @@ public class Hand : MonoBehaviour {
 	}
 
 	public void Resize() {
+		Canvas canvas = GameObject.FindObjectOfType<Canvas>();
+		float spacingResize = maxSpacing;
+		float difference = canvas.GetComponent<RectTransform>().sizeDelta.x - (2*horizontalPadding) - (cardWidth*transform.childCount) - (maxSpacing*(transform.childCount-1));
+		if(difference < 0) {
+			spacingResize = difference / (transform.childCount-1);
+		}
+
 		for(int i = 0; i < transform.childCount; i ++) {
 			int handSize = transform.childCount;
 			Transform t = transform.GetChild(i);
 			if(t != null) {
-				float handWidth = (handSize-1) * (spacing + cardWidth);
-				float xPosition = i * (spacing + cardWidth);
+				float handWidth = (handSize-1) * (spacingResize + cardWidth);
+				float xPosition = i * (spacingResize + cardWidth);
 				RectTransform rt = t.GetComponent<RectTransform>();
 				Vector2 handPosition = new Vector2(xPosition - handWidth/2, 0f);
 				t.GetComponent<RectTransform>().anchoredPosition = handPosition;
 				t.GetComponent<Card>().HandPosition = handPosition;
 			}
 		}
+	}
+
+	void Start() {
+		RectTransform rt = GetComponent<RectTransform>();
+		verticalThreshold = rt.anchoredPosition.y + rt.sizeDelta.y;
 	}
 }

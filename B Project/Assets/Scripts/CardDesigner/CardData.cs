@@ -11,4 +11,5 @@ public class CardData {
 	public int ResourceCost;
 	public string Description;
 	public bool OmitFromDeck;
+	public bool RequireTarget;
 }
