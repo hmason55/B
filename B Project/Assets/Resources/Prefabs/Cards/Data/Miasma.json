@@ -1,1 +1,1 @@
-{"Title":"Miasma","DeckType":2,"ResourceCost":3,"Description":"<b>Field</b>\nDeal 3 Damage to each enemy in a <b>Plus</b> stays for 3 turns.","OmitFromDeck":false,"RequireTarget":true}
+{"Title":"Miasma","DeckType":2,"ResourceCost":3,"Description":"<b>Field</b>\nDeal 3 Damage to each enemy in a <b>Plus</b> stays for 3 turns.","OmitFromDeck":false,"RequireTarget":true,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[]}

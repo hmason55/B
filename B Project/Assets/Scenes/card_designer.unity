@@ -201,6 +201,21 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 699118247}
     m_Modifications:
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effectFoldouts.Array.size
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 224331330032052604, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -293,49 +308,74 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
-      propertyPath: title
-      value: Zombies_63_33
+      propertyPath: areaOfEffect
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
-      propertyPath: deckType
-      value: 2
+      propertyPath: targetArea.Array.data[1]
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
-      propertyPath: resourceCost
-      value: 2
+      propertyPath: targetArea.Array.data[4]
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
-      propertyPath: description
-      value: <b>LINK</b>, Deal 4 Damage.
+      propertyPath: targetArea.Array.data[7]
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
-      propertyPath: cardData.Title
-      value: Zombies_63_33
+      propertyPath: effectFoldouts.Array.data[19]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
-      propertyPath: cardData.DeckType
-      value: 2
+      propertyPath: effectFoldouts.Array.data[20]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
-      propertyPath: cardData.ResourceCost
-      value: 2
+      propertyPath: effectFoldouts.Array.data[21]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
-      propertyPath: cardData.Description
-      value: <b>LINK</b>, Deal 4 Damage.
+      propertyPath: effectFoldouts.Array.data[22]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
-      propertyPath: cardDataFile
-      value: 
-      objectReference: {fileID: 4900000, guid: 7809c9ae3c2ca7542a652a8dae47b2a2, type: 3}
+      propertyPath: effectFoldouts.Array.data[23]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effectFoldouts.Array.data[24]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.TargetArea.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.TargetArea.Array.data[4]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.TargetArea.Array.data[7]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.AreaOfEffect
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: requireTarget
@@ -348,6 +388,115 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
+      propertyPath: effects.Array.data[0].targetType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effects.Array.data[0].effectValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effects.Array.data[1].targetType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effects.Array.data[1].effectType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effects.Array.data[1].effectValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.data[0].targetType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.data[0].effectValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.data[1].targetType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.data[1].effectType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.data[1].effectValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: description
+      value: 'Deal 10 Damage
+
+        Block 10 Damage'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Description
+      value: 'Deal 10 Damage
+
+        Block 10 Damage'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: title
+      value: Sword and Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: deckType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: resourceCost
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: targetType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Title
+      value: Sword and Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.DeckType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.ResourceCost
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.TargetType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardDataFile
+      value: 
+      objectReference: {fileID: 4900000, guid: 9c0e0ad82bdb0f948b62cf945caba901, type: 3}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
       propertyPath: omitFromDeck
       value: 0
       objectReference: {fileID: 0}
@@ -355,6 +504,11 @@ Prefab:
         type: 2}
       propertyPath: cardData.OmitFromDeck
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effectFoldouts.Array.data[25]
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 00100c204167b884e855627b542abb4a, type: 2}

@@ -1,1 +1,1 @@
-{"Title":"Battlecry","DeckType":4,"ResourceCost":1,"Description":"Next attack does 50% more Damage.","OmitFromDeck":false,"RequireTarget":false}
+{"Title":"Battlecry","DeckType":4,"ResourceCost":1,"Description":"Next attack does 50% more Damage.","OmitFromDeck":false,"RequireTarget":false,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[]}

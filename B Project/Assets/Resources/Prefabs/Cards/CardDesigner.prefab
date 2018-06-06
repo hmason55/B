@@ -244,7 +244,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Steal
+  m_Text: Cleave
 --- !u!114 &114211487824089106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -345,7 +345,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1
+  m_Text: 3
 --- !u!114 &114340931588449526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -446,7 +446,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Deal 1 Damage. Steal a card, reduce its cost by 1.
+  m_Text: Deal 10 Damage to each enemy in a (Column).
 --- !u!114 &114718393036147446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -473,8 +473,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 114989481711224342}
-  outline: {fileID: 0}
-  hand: {fileID: 0}
+  outline: {fileID: 114516172145034828}
+  hand: {fileID: 224913217809941272, guid: 35f32b31200e9f24d9c4f1ca77da5378, type: 2}
 --- !u!114 &114879036902814186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.73, g: 0.95, b: 0.34, a: 1}
+  m_Color: {r: 0.84, g: 0.26, b: 0.27, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -554,13 +554,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819e48401b77d6e42bb7191adb569e46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Steal
-  deckType: 3
-  resourceCost: 1
-  description: Deal 1 Damage. Steal a card, reduce its cost by 1.
+  title: Cleave
+  deckType: 4
+  resourceCost: 3
+  description: Deal 10 Damage to each enemy in a (Column).
   omitFromDeck: 0
-  requireTarget: 0
+  requireTarget: 1
+  targetType: 2
+  areaOfEffect: 1
+  targetArea: 000100000100000100
   showObjectReferences: 0
+  effectFoldouts: 01010101010101010101010101010101010101
   backgroundImage: {fileID: 114927725948195238}
   artworkImage: {fileID: 114137649761013594}
   titleText: {fileID: 114184889383468188}
@@ -570,13 +574,16 @@ MonoBehaviour:
   costText: {fileID: 114304084164142088}
   showCardData: 0
   cardData:
-    Title: Steal
-    DeckType: 3
-    ResourceCost: 1
-    Description: Deal 1 Damage. Steal a card, reduce its cost by 1.
+    Title: Cleave
+    DeckType: 4
+    ResourceCost: 3
+    Description: Deal 10 Damage to each enemy in a (Column).
     OmitFromDeck: 0
-    RequireTarget: 0
-  cardDataFile: {fileID: 4900000, guid: d05b31a417709c04e802c211a2c91c95, type: 3}
+    RequireTarget: 1
+    AreaOfEffect: 1
+    TargetArea: 000100000100000100
+    TargetType: 2
+  cardDataFile: {fileID: 4900000, guid: 69dfafd0864dee64bad4d06d17b0a4d6, type: 3}
   zIndex: 0
 --- !u!222 &222102302143370762
 CanvasRenderer:

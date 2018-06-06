@@ -1,1 +1,1 @@
-{"Title":"Sword and Board","DeckType":1,"ResourceCost":4,"Description":"Deal 10 Damage                   Block 10 Damage","OmitFromDeck":false,"RequireTarget":true}
+{"Title":"Sword and Board","DeckType":1,"ResourceCost":4,"Description":"Deal 10 Damage\nBlock 10 Damage","OmitFromDeck":false,"RequireTarget":true,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":2,"Effects":[{"targetType":2,"effectType":0,"effectValue":10,"duration":0},{"targetType":1,"effectType":1,"effectValue":10,"duration":0}]}
