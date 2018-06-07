@@ -2427,10 +2427,6 @@ MonoBehaviour:
   maxMerchants: 2
   maxSettlements: 1
   maxTreasure: 4
-  maxGlobalRests: 3
-  maxGlobalMerchants: 2
-  maxGlobalSettlements: 3
-  maxGlobalTreasure: 5
   maxSteps: 50
   center: {x: 0, y: 0}
   distribution: 4
@@ -4209,6 +4205,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1776414633}
+  - component: {fileID: 1776414634}
   m_Layer: 0
   m_Name: HexTile(Clone)
   m_TagString: Untagged
@@ -4231,6 +4228,21 @@ Transform:
   m_Father: {fileID: 1245496811}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1776414634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1776414632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c6d5fa351236448be8d99898f8a846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    type: 4
+    obj: {fileID: 0}
+    pos: {x: 0, y: 0}
 --- !u!1 &1787207342
 GameObject:
   m_ObjectHideFlags: 0

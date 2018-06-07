@@ -21,10 +21,6 @@ public class AgentInspector : Editor {
     SerializedProperty maxMerchants;
     SerializedProperty maxSettlements;
     SerializedProperty maxTreasure;
-    SerializedProperty maxGlobalRests;
-    SerializedProperty maxGlobalMerchants;
-    SerializedProperty maxGlobalSettlements;
-    SerializedProperty maxGlobalTreasure;
     SerializedProperty maxSteps;
     SerializedProperty center;
     SerializedProperty distribution;
@@ -38,7 +34,7 @@ public class AgentInspector : Editor {
     SerializedProperty parent;
 
     ProcAgent procGen;
-    bool showMore = false;
+    private static bool showMore = false;
 
     void OnEnable()
     {
@@ -57,10 +53,6 @@ public class AgentInspector : Editor {
         maxMerchants = serializedObject.FindProperty("maxMerchants");
         maxSettlements = serializedObject.FindProperty("maxSettlements");
         maxTreasure = serializedObject.FindProperty("maxTreasure");
-        maxGlobalRests = serializedObject.FindProperty("maxGlobalRests");
-        maxGlobalMerchants = serializedObject.FindProperty("maxGlobalMerchants");
-        maxGlobalSettlements = serializedObject.FindProperty("maxGlobalSettlements");
-        maxGlobalTreasure = serializedObject.FindProperty("maxGlobalTreasure");
         maxSteps = serializedObject.FindProperty("maxSteps");
         center = serializedObject.FindProperty("center");
         distribution = serializedObject.FindProperty("distribution");
@@ -133,6 +125,17 @@ public class AgentInspector : Editor {
 
         EditorGUILayout.PropertyField(overWriteCells);
 
+        showMore = EditorGUILayout.Foldout(showMore, "Extra");
+        if (showMore)
+        {
+            EditorGUILayout.PropertyField(maxRests, new GUIContent("Maximum Rests", "The maximum amount of rests present in the map."));
+            EditorGUILayout.PropertyField(maxMerchants, new GUIContent("Maximum Merchants","The maximum amount of merchants present in the map."));
+            EditorGUILayout.PropertyField(maxSettlements, new GUIContent("Maximum Settlements","The maximum amount of settlements present in the map"));
+            EditorGUILayout.PropertyField(maxTreasure, new GUIContent("Maximum Treasure","The maximum amount of treasure present in the map."));
+            EditorGUILayout.PropertyField(maxSteps, new GUIContent("Maximum Steps", "The maximum amount of steps the agent will take while traversing the map."));
+            EditorGUILayout.PropertyField(debug, new GUIContent("Debug"));
+        }
+
         EditorGUILayout.Space();
 
         EditorGUILayout.LabelField("Information", EditorStyles.boldLabel);
@@ -155,6 +158,7 @@ public class AgentInspector : Editor {
         }
         EditorGUILayout.EndHorizontal();
 
+        
         EditorGUILayout.Space();
         if (GUILayout.Button("Generate heatmap")) {
             //TODO

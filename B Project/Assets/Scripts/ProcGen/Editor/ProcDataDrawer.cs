@@ -16,14 +16,15 @@ public class ProcDataDrawer : PropertyDrawer {
         EditorGUI.PrefixLabel(pos, GUIUtility.GetControlID(FocusType.Passive), label);
 
         // Calculate rects
-        var typeRect = new Rect(pos.x, pos.y, 30, pos.height);
-        var objRect = new Rect(pos.x + 35, pos.y, 50, pos.height);
-        var posRect = new Rect(pos.x + 90, pos.y, pos.width - 90, pos.height);
+        var typeRect = new Rect(pos.x, pos.y+20, pos.width, pos.height - 83);
+        var objRect = new Rect(pos.x + 25, pos.y + 40, 50, pos.height-80);
+        var posRect = new Rect(pos.x + 10, pos.y + 70, pos.width - 90, pos.height+40);
 
         EditorGUI.PropertyField(typeRect, prop.FindPropertyRelative("type"), GUIContent.none);
         EditorGUI.PropertyField(objRect, prop.FindPropertyRelative("obj"), GUIContent.none);
         EditorGUI.PropertyField(posRect, prop.FindPropertyRelative("pos"), GUIContent.none);
 
+        //EditorGUI.
         // Set indent back to what it was
         EditorGUI.indentLevel = indent;
 
@@ -32,6 +33,6 @@ public class ProcDataDrawer : PropertyDrawer {
 
     public override float GetPropertyHeight(SerializedProperty prop, GUIContent label) {
 
-        return base.GetPropertyHeight(prop, label);
+        return 100;
     }
 }

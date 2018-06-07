@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum TileDistribution
-{
+public enum TileDistribution {
     exponential,
     uniform,
     geometric,
@@ -34,11 +33,6 @@ public class ProcAgent : MonoBehaviour {
     public int maxMerchants = 1;
     public int maxSettlements = 1;
     public int maxTreasure = 2;
-
-    public int maxGlobalRests = 3;
-    public int maxGlobalMerchants = 2;
-    public int maxGlobalSettlements = 3;
-    public int maxGlobalTreasure = 5;
 
     public int maxSteps = 50;
 
@@ -186,7 +180,11 @@ public class ProcAgent : MonoBehaviour {
                 if (data.type != CellType.nil) {
                     Vector2 pos = hexCoordinate(x, y);
                     data.obj = Instantiate(tile, new Vector3(pos.x, 0f, pos.y), this.tile.transform.rotation, parent.transform);
-                    data.obj.transform.Translate(0f, 0f, pos.y);
+                    //data.obj.transform.Translate(0f, 0f, pos.y);
+                    data.pos.x = x;
+                    data.pos.y = y;
+                    HexTile hexTile = data.obj.AddComponent<HexTile>();
+                    hexTile.data = data;
                     ++tileCount;
                 }
             }

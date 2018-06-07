@@ -4,7 +4,6 @@ using UnityEngine;
 public class HexTile : MonoBehaviour {
 
     public ProcData data;
-    public string test;
 
 	void Start () {
 		

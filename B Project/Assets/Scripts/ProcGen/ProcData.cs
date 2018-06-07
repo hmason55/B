@@ -17,6 +17,10 @@ public class ProcData {
     public GameObject obj;
     public Vector2Int pos;
 
+    public ProcData(CellType type, int x, int y) {
+
+    }
+
     public ProcData(CellType type) {
         this.type = type;
     }
