@@ -149,6 +149,11 @@ public class AgentInspector : Editor {
             {
                 procGen.createMap();
             }
+            else
+            {
+                procGen.destroyMapEdit();
+                procGen.createMap();
+            }
         }
 
         if (GUILayout.Button("Destroy")) {

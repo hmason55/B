@@ -332,7 +332,7 @@ public class ProcAgent : MonoBehaviour {
     /// <returns></returns>
     Vector2 hexCoordinate(int x, int y) {
         float w = Mathf.Sqrt(3) * tileSize;
-        float h = Mathf.Sqrt(2) * tileSize;
+        float h = 2 * tileSize;
         float thirdH = h * 0.75f;
 
         float xPos = (y % 2) == 0 ? w * x + x * tilePaddingX : w * x + w / 2 + x * tilePaddingX;
