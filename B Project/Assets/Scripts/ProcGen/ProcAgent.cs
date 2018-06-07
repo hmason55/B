@@ -172,7 +172,8 @@ public class ProcAgent : MonoBehaviour {
         if (parent == null) {
             parent = this.gameObject;
         }
-
+        
+        
         for (int x = 0; x < islandDim; x++) {
             for (int y = 0; y < islandDim; y++) {
 
@@ -180,7 +181,7 @@ public class ProcAgent : MonoBehaviour {
                 if (data.type != CellType.nil) {
                     Vector2 pos = hexCoordinate(x, y);
                     data.obj = Instantiate(tile, new Vector3(pos.x, 0f, pos.y), this.tile.transform.rotation, parent.transform);
-                    //data.obj.transform.Translate(0f, 0f, pos.y);
+                    data.obj.transform.Translate(0f, 0f, pos.y);
                     data.pos.x = x;
                     data.pos.y = y;
                     HexTile hexTile = data.obj.AddComponent<HexTile>();
@@ -197,10 +198,19 @@ public class ProcAgent : MonoBehaviour {
         ProcData[,] map = new ProcData[2 * islandSize + 1, 2 * islandSize + 1];
         islandDim = 2 * islandSize + 1;
 
+        //Set the vector to the custom vector if the user has specified one.
+        Vector2Int vCenter = new Vector2Int();
+        if (!customCenter) {
+            vCenter = new Vector2Int(islandSize, islandSize);
+        }
+        else {
+            vCenter = center;
+        }
+        
         for (int x = 0; x < islandDim; x++) {
             for (int y = 0; y < islandDim; y++) {
                 map[x, y] = new ProcData(CellType.nil);
-                int d = distance(x, y, islandSize, islandSize);
+                int d = distance(x, y, vCenter.x, vCenter.y);
                 //Find probability of the tile appearing in (x,y)
                 float p = evaluateProb(distribution, d);
 
@@ -216,7 +226,7 @@ public class ProcAgent : MonoBehaviour {
         }
 
         //Place a cell in the center of the map
-        map[islandSize, islandSize].type = CellType.empty;
+        map[vCenter.x, vCenter.y].type = CellType.empty;
 
         //Basis to be used to check cell neighbours
         int[] neighbours = basis();
@@ -276,7 +286,7 @@ public class ProcAgent : MonoBehaviour {
                 {
                     int r = Random.Range(0, graph.Count - 1);
 
-                    Connect(graph[r], center, map);
+                    Connect(graph[r], vCenter, map);
                 }
             }
         }

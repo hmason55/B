@@ -86,9 +86,9 @@ public class AgentInspector : Editor {
         EditorGUILayout.PropertyField(islandSize, new GUIContent("Map Radius","Determines the radius of the map from its center"));
         EditorGUILayout.PropertyField(minAdjacency, new GUIContent("Minimal Adjacency", "Removes any cells from the map with less adjacent cells than the given number. The higher this value is, the smoother the map."));
 
-        EditorGUILayout.PropertyField(connectCells, new GUIContent("Connect Cells", "Connects all disconnected subgraphs the the center tile. Making sure every place on the map is reachable."));
+        EditorGUILayout.PropertyField(connectCells, new GUIContent("Connect Cells", "Connects all disconnected subgraphs to the center tile. Making sure every place on the map is reachable."));
         EditorGUILayout.PropertyField(fillHoles, new GUIContent("Fill Holes", "Makes it impossible for small holes to appear in the map"));
-        EditorGUILayout.PropertyField(customCenter, new GUIContent("Custom Center", "Assign a custom center to the map."));
+        EditorGUILayout.PropertyField(customCenter, new GUIContent("Custom Center", "Assign a custom center to the map, if not checked the center will default to the middle of the map."));
 
         if (customCenter.boolValue)
         {
@@ -102,7 +102,7 @@ public class AgentInspector : Editor {
             customProb.animationCurveValue = EditorGUILayout.CurveField(customProb.animationCurveValue);
         }
 
-        EditorGUILayout.PropertyField(parent);
+        EditorGUILayout.PropertyField(parent, new GUIContent("Parent", "The gameobject that the units will be spawned under."));
         EditorGUILayout.PropertyField(tile);
 
         Vector2 padding = EditorGUILayout.Vector2Field(new GUIContent("Padding"), new Vector2(tilePaddingX.floatValue, tilepaddingY.floatValue));
