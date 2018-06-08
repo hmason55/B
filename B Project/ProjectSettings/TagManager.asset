@@ -8,6 +8,7 @@ TagManager:
   - Deck
   - Hand
   - Board
+  - TargetLine
   layers:
   - Default
   - TransparentFX
