@@ -1,1 +1,1 @@
-{"Title":"Cleave","DeckType":4,"ResourceCost":3,"Description":"Deal 10 Damage to each enemy in a (Column).","OmitFromDeck":false}
+{"Title":"Cleave","DeckType":4,"ResourceCost":3,"Description":"Deal 10 Damage to each enemy in a (Column).","OmitFromDeck":false,"RequireTarget":true,"AreaOfEffect":true,"TargetArea":[false,true,false,false,true,false,false,true,false],"TargetType":2,"Effects":[{"targetType":2,"effectType":0,"effectValue":10,"duration":0}]}
