@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEditor;
 
 public class HexTile : MonoBehaviour {
 
@@ -9,6 +10,20 @@ public class HexTile : MonoBehaviour {
 		
 	}
 
+    void OnValidate() {
+ 
+        if (data != null && data.agent != null) {
+            Vector2 pos = data.agent.hexCoordinate(data.pos.x, data.pos.y);
+            this.transform.position = new Vector3(pos.x, 0, pos.y);
+            this.transform.Translate(0f, 0f, pos.y);
+            //data.agent.setData(data.pos.x, data.pos.y, data);
+        }   
+    }
+
+    void OnDestroy() {
+        data.obj = null;
+    }
+
     /// <summary>
     /// A helper method used to retrieve the x,y position of the map present in the ProcAgent.
     /// </summary>
@@ -17,12 +32,18 @@ public class HexTile : MonoBehaviour {
         return data.pos;
     }
 
-    public void setMaterial()
+    void OnDrawGizmos()
     {
+        if (data.agent.debug)
+        {
+            Handles.Label(transform.position, "(" + data.pos.x + "," + data.pos.y + ")");
+        }
+    }
+
+    public void setMaterial() {
         Renderer rend = data.obj.GetComponent<Renderer>();
 
-        switch (data.type)
-        {
+        switch (data.type) {
             case CellType.empty:
                 rend.material.SetColor("Empty", new Color(0, 0, 0.8f, 1));
                 break;

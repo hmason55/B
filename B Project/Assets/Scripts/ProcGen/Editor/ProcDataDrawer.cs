@@ -17,7 +17,7 @@ public class ProcDataDrawer : PropertyDrawer {
 
         // Calculate rects
         var typeRect = new Rect(pos.x, pos.y+20, pos.width, pos.height - 83);
-        var objRect = new Rect(pos.x + 25, pos.y + 40, 50, pos.height-80);
+        var objRect = new Rect(pos.x + 25, pos.y + 40, pos.width / 2, pos.height-80);
         var posRect = new Rect(pos.x + 10, pos.y + 70, pos.width - 90, pos.height+40);
 
         EditorGUI.PropertyField(typeRect, prop.FindPropertyRelative("type"), GUIContent.none);

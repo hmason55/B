@@ -169,6 +169,19 @@ public class AgentInspector : Editor {
             //TODO
         }
 
+        //Draw debug visuals
+        if (debug.boolValue)
+        {
+            //Debug.DrawLine(procGen.hexCoordinate(0,0),)
+        }
+
         serializedObject.ApplyModifiedProperties();
     } 
+
+    Texture2D heatMap()
+    {
+        Texture2D heat = new Texture2D(800, 800);
+
+        return heat;
+    }
 }
