@@ -421,8 +421,8 @@ public class Battleground : MonoBehaviour
             unit.transform.position = _playerGrid[j, k];
         else // Enemy
             unit.transform.position = _enemyGrid[j, k - 3];
-        // Set sprite order
-        unit.GetComponentInChildren<SpriteRenderer>().sortingOrder = _spriteOrder[position];
+        // Set sprite order both tile and UI
+        unit.SetSpriteOrder(_spriteOrder[position]);
 
         unit.SetGridPosition(position);
         _units[position] = unit;
