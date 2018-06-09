@@ -16,6 +16,7 @@ public class ProcData {
     public CellType type;
     public GameObject obj;
     public Vector2Int pos;
+    public ProcAgent agent = null;
 
     public ProcData(CellType type, int x, int y) {
 
