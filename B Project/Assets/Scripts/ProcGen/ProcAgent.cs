@@ -63,8 +63,7 @@ public class ProcAgent : MonoBehaviour {
     /// <summary>
     /// Creates a map using the current settings.
     /// </summary>
-    public void createMap()
-    {
+    public void createMap() {
         generateGraph();
         InstantiateHexes();
     }
@@ -79,8 +78,7 @@ public class ProcAgent : MonoBehaviour {
         tileCount = 0;
     }
 
-    public void destroyMapEdit()
-    {
+    public void destroyMapEdit() {
         var children = new List<GameObject>();
         foreach (Transform child in parent.transform) children.Add(child.gameObject);
         children.ForEach(child => DestroyImmediate(child));
@@ -98,6 +96,27 @@ public class ProcAgent : MonoBehaviour {
 
     public string tileCountString() {
         return tileCount.ToString();
+    }
+
+    /// <summary>
+    /// Sets the data at position (x,y) to the given data
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="data"></param>
+    public void setData(int x, int y, ProcData data) {
+        if (isBounds(x, y) && tilemap[x,y] != null) {
+            tilemap[x, y] = data;
+        }
+    }
+
+    public bool isBounds(int x, int y)
+    {
+        if (x > 0 && x < islandDim && y > 0 && y < islandDim)
+        {
+            return true;
+        }
+        return false;
     }
 
     void Start() {
@@ -180,10 +199,11 @@ public class ProcAgent : MonoBehaviour {
                 ProcData data = tilemap[x, y];
                 if (data.type != CellType.nil) {
                     Vector2 pos = hexCoordinate(x, y);
-                    data.obj = Instantiate(tile, new Vector3(pos.x, 0f, pos.y), this.tile.transform.rotation, parent.transform);
-                    data.obj.transform.Translate(0f, 0f, pos.y);
+                    data.obj = Instantiate(tile, new Vector3(0f, 0f, 0f), this.tile.transform.rotation, parent.transform);
+                    data.obj.transform.Translate(pos.x, 0f, pos.y);
                     data.pos.x = x;
                     data.pos.y = y;
+                    data.agent = this;
                     HexTile hexTile = data.obj.AddComponent<HexTile>();
                     hexTile.data = data;
                     ++tileCount;
@@ -234,6 +254,7 @@ public class ProcAgent : MonoBehaviour {
 
         //boolean hashmap used for constructing disjointed subgraphs
         bool[] visited = new bool[islandDim * islandDim];
+        //List of subgraphs
         List<List<Vector2Int>> subgraphs = new List<List<Vector2Int>>();
 
         //Get rid of tiles without the minimal adjacent neighbours.
@@ -262,12 +283,13 @@ public class ProcAgent : MonoBehaviour {
 
                 //Fill any holes if specified
                 if (map[x, y].type == CellType.nil && fillHoles && adjCount == 6) {
+                    Debug.Log("filled (" + x + "," + y + ")");
                     map[x, y].type = CellType.empty;
                 }
 
                 //Connect disjointed subgraphs if specified
                 if (connectCells && map[x, y].type == CellType.empty && !visited[hash(x, y)]) {
-                    subgraphs.Add(BFS(x, y, visited));
+                    subgraphs.Add(BFS(x, y, visited, map));
                 }
             }
         }
@@ -277,13 +299,10 @@ public class ProcAgent : MonoBehaviour {
         }
 
         //Connect subgraphs seperated from the center
-        if (connectCells)
-        {
-            foreach(List<Vector2Int> graph in subgraphs)
-            {
+        if (connectCells) {
+            foreach(List<Vector2Int> graph in subgraphs) {
                 //Check if this graph has the center, draw a line connecting the two.
-                if(!graph.Contains(center))
-                {
+                if(!graph.Contains(center)) {
                     int r = Random.Range(0, graph.Count - 1);
 
                     Connect(graph[r], vCenter, map);
@@ -330,7 +349,7 @@ public class ProcAgent : MonoBehaviour {
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    Vector2 hexCoordinate(int x, int y) {
+    public Vector2 hexCoordinate(int x, int y) {
         float w = Mathf.Sqrt(3) * tileSize;
         float h = 2 * tileSize;
         float thirdH = h * 0.75f;
@@ -361,17 +380,17 @@ public class ProcAgent : MonoBehaviour {
         return x * y + x;
     }
 
-    List<Vector2Int> neighbours(int x, int y, List<Vector2Int> neigh, bool[] visited) {
+    List<Vector2Int> neighbours(int x, int y, List<Vector2Int> neigh, bool[] visited, ProcData[,] map) {
         int[] b = basis();
         for (int i = 0; i < b.Length; i += 2) {
             int xPos = x + b[i];
             int yPos = y + b[i + 1];
 
-            if (xPos < 0 || xPos >= islandDim || yPos < 0 || yPos >= islandDim || tilemap[xPos, yPos].type == CellType.nil) {
+            if (!isBounds(xPos, yPos) || map[xPos, yPos].type == CellType.nil) {
                 continue;
             }
 
-            if (visited[hash(x, y)])
+            if (!visited[hash(x, y)])
             {
                 continue;
             }
@@ -434,15 +453,18 @@ public class ProcAgent : MonoBehaviour {
         return neighbours;
     }
 
-    List<Vector2Int> BFS(int x, int y, bool[] visited) {
+    List<Vector2Int> BFS(int x, int y, bool[] visited, ProcData[,] map) {
         
         List<Vector2Int> subgraph = new List<Vector2Int>();
         int current = 0;
-        neighbours(x, y, subgraph, visited);
-        current = subgraph.Count - 1;
+        subgraph.Add(new Vector2Int(x, y));
+        neighbours(x, y, subgraph, visited, map);
+        current = subgraph.Count;
 
         for (int i = current; i < subgraph.Count; i++) {
-            neighbours(subgraph[i].x, subgraph[i].y, subgraph, visited);
+            Debug.Log("Current Index: " + i);
+            Debug.Log("Subgraph size: " + subgraph.Count);
+            neighbours(subgraph[i].x, subgraph[i].y, subgraph, visited, map);
         }
 
         return subgraph;
