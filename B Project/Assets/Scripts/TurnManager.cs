@@ -7,6 +7,14 @@ public class TurnManager : MonoBehaviour
 
     private bool _playerTurn = true;
 
+    public void StartGame()
+    {
+        // Place enemies 
+
+        // Draw enemy cards
+
+    }
+
     public void StartPlayerTurn()
     {
         _playerTurn = true;

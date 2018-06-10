@@ -23,7 +23,7 @@ public class BaseUnit : MonoBehaviour, Entity
     private SpriteRenderer _spriteRenderer;
 
 
-    void Awake()
+    protected virtual void Awake()
     {        
         _actualHP = MaxHP;
 
@@ -31,7 +31,7 @@ public class BaseUnit : MonoBehaviour, Entity
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         // Initialize UI
-        GameObject UI = new GameObject();
+        GameObject UI = new GameObject("Unit UI");
         _textMeshUI = UI.AddComponent<TextMesh>();
         UI.transform.SetParent(transform);
         UpdateUI();
@@ -94,7 +94,7 @@ public class BaseUnit : MonoBehaviour, Entity
     void UpdateUI()
     {
         _textMeshUI.transform.position = transform.position + Vector3.up * 2.5f;
-        _textMeshUI.text = UnitName + "\r" + _actualHP + "/" + MaxHP;
+        _textMeshUI.text = UnitName + "\n" + _actualHP + "/" + MaxHP;
         _textMeshUI.fontSize = 24;
         _textMeshUI.characterSize = 0.1f;
         _textMeshUI.anchor = TextAnchor.MiddleCenter;        
@@ -102,10 +102,17 @@ public class BaseUnit : MonoBehaviour, Entity
 
     public void SetSpriteOrder(int n)
     {
+        /*
         _spriteRenderer.sortingOrder = n;
 
         Renderer rend = _textMeshUI.GetComponent<Renderer>();
         rend.sortingOrder = n;
+        */
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].sortingOrder = n;
+        }
     }
 
 }
