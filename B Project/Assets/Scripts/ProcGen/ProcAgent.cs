@@ -58,35 +58,64 @@ public class ProcAgent : MonoBehaviour {
     private int steps = 0;
     [SerializeField]
     private int tileCount = 0; //The number of tiles in the current map
-    private ProcData[,] tilemap;
+    [SerializeField]
+    private Rect mapBounds;
 
+    private ProcData[,] tilemap;
+    //Agent events
+    [SerializeField]
+    private ProcEvent onMove;
+    [SerializeField]
+    private ProcEvent onSet;
+    [SerializeField]
+    private ProcEvent onCenter;
+    [SerializeField]
+    private ProcEvent onBoundary;
+    [SerializeField]
+    private ProcEvent onBarren;
+    
     /// <summary>
     /// Creates a map using the current settings.
     /// </summary>
-    public void createMap() {
-        generateGraph();
+    public void CreateMap() {
+        GenerateGraph();
         InstantiateHexes();
+        if(tileCount <= 1) {
+            Debug.Log("Nothing for the agent to traverse. Create a larger map");
+        }
+        vertex = RandomPoint();
+        TraverseGraph();
     }
 
     /// <summary>
     /// Destroys the map
     /// </summary>
-    public void destroyMap() {
+    public void DestroyMap() {
         var children = new List<GameObject>();
         foreach (Transform child in parent.transform) children.Add(child.gameObject);
         children.ForEach(child => Destroy(child));
         tileCount = 0;
+        rests = 0;
+        settlements = 0;
+        steps = 0;
+        treasure = 0;
+        merchants = 0;
     }
 
-    public void destroyMapEdit() {
+    public void DestroyMapEdit() {
         var children = new List<GameObject>();
         foreach (Transform child in parent.transform) children.Add(child.gameObject);
         children.ForEach(child => DestroyImmediate(child));
 
         tileCount = 0;
+        rests = 0;
+        settlements = 0;
+        steps = 0;
+        treasure = 0;
+        merchants = 0;
     }
 
-    public bool mapExists() {
+    public bool MapExists() {
 
         if (tileCount > 0) {
             return true;
@@ -94,7 +123,7 @@ public class ProcAgent : MonoBehaviour {
         return false;
     }
 
-    public string tileCountString() {
+    public string TileCountString() {
         return tileCount.ToString();
     }
 
@@ -104,16 +133,14 @@ public class ProcAgent : MonoBehaviour {
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="data"></param>
-    public void setData(int x, int y, ProcData data) {
-        if (isBounds(x, y) && tilemap[x,y] != null) {
+    public void SetData(int x, int y, ProcData data) {
+        if (IsBounds(x, y) && tilemap[x,y] != null) {
             tilemap[x, y] = data;
         }
     }
 
-    public bool isBounds(int x, int y)
-    {
-        if (x > 0 && x < islandDim && y > 0 && y < islandDim)
-        {
+    public bool IsBounds(int x, int y) {
+        if (x >= 0 && x < islandDim && y >= 0 && y < islandDim) {
             return true;
         }
         return false;
@@ -124,7 +151,7 @@ public class ProcAgent : MonoBehaviour {
     }
 
     void OnValidate() {
-        float[] arr = tileDistribution();
+        float[] arr = TileDistributions();
         prob = this.GetComponent<Probability>();
         prob.normalizeDistribution(arr);
 
@@ -137,50 +164,74 @@ public class ProcAgent : MonoBehaviour {
         minAdjacency = Mathf.Clamp(minAdjacency, 0, 6);
     }
 
-    void traverseGraph() {
+    void TraverseGraph() {
         ++steps;
-        List<Vector2Int> adjacent = neighbours(vertex.x, vertex.y);
+        List<Vector2Int> adjacent = Neighbours(vertex.x, vertex.y);
 
         int v = Random.Range(0, adjacent.Count - 1);
-        vertex = adjacent[v];
+        if (adjacent.Count == 0)
+        {
+            vertex = RandomPoint();
+        }
+        else
+        {
+            vertex = adjacent[v];
+        }
+        
         ProcData data = tilemap[vertex.x, vertex.y];
         HexTile tile = data.obj.GetComponent<HexTile>();
 
         if (data.type == CellType.empty || overwriteCells) {
-            int index = prob.pickIndex(tileDistribution());
-
+            int index = prob.pickIndex(TileDistributions());
+            /*if(index != 4)
+            {
+                onSet.Invoke(data);
+            }*/
             switch (index) {
                 case 0:
                     if (rests < maxRests) {
                         data.type = CellType.rest;
-                        tile.setMaterial();
+                        ++rests;
+                        tile.SetMaterial();
                     }
                     break;
                 case 1:
                     if (merchants < maxMerchants) {
                         data.type = CellType.merchant;
-                        tile.setMaterial();
+                        ++merchants;
+                        tile.SetMaterial();
                     }
                     break;
                 case 2:
                     if (settlements < maxSettlements) {
                         data.type = CellType.settlement;
-                        tile.setMaterial();
+                        ++settlements;
+                        tile.SetMaterial();
                     }
                     break;
                 case 3:
                     if (treasure < maxTreasure) {
                         data.type = CellType.treasure;
-                        tile.setMaterial();
+                        ++treasure;
+                        tile.SetMaterial();
                     }
                     break;
                 case 4:
                     break;
             }
         }
-
+        //Agent events
+        /*onMove.Invoke(data);
+        if(adjacent.Count < 4)
+        {
+            onBoundary.Invoke(data);
+        }
+        if(vertex == center)
+        {
+            onCenter.Invoke(data);
+        }*/
         if (steps < maxSteps) {
-            Invoke("traverseGraph", 0.5f);
+            TraverseGraph();
         }
         else {
             steps = 0;
@@ -198,7 +249,12 @@ public class ProcAgent : MonoBehaviour {
 
                 ProcData data = tilemap[x, y];
                 if (data.type != CellType.nil) {
-                    Vector2 pos = hexCoordinate(x, y);
+                    mapBounds.width = Mathf.Max(x, mapBounds.width);
+                    mapBounds.height = Mathf.Max(y, mapBounds.height);
+                    mapBounds.x = Mathf.Min(mapBounds.x);
+                    mapBounds.y = Mathf.Min(mapBounds.y);
+
+                    Vector2 pos = HexCoordinate(x, y);
                     data.obj = Instantiate(tile, new Vector3(0f, 0f, 0f), this.tile.transform.rotation, parent.transform);
                     data.obj.transform.Translate(pos.x, 0f, pos.y);
                     data.pos.x = x;
@@ -206,13 +262,19 @@ public class ProcAgent : MonoBehaviour {
                     data.agent = this;
                     HexTile hexTile = data.obj.AddComponent<HexTile>();
                     hexTile.data = data;
+                    hexTile.SetName();
                     ++tileCount;
                 }
             }
         }
+
+        if (!debug)
+        {
+            StaticBatchingUtility.Combine(parent);
+        }
     }
 
-    void generateGraph() {
+    void GenerateGraph() {
         tileCount = 0;
         //Generate a hex map
         ProcData[,] map = new ProcData[2 * islandSize + 1, 2 * islandSize + 1];
@@ -226,13 +288,14 @@ public class ProcAgent : MonoBehaviour {
         else {
             vCenter = center;
         }
-        
+
+        //Debug.Log(vCenter.x + "," + vCenter.y);
         for (int x = 0; x < islandDim; x++) {
             for (int y = 0; y < islandDim; y++) {
                 map[x, y] = new ProcData(CellType.nil);
-                int d = distance(x, y, vCenter.x, vCenter.y);
+                int d = Distance(x, y, vCenter.x, vCenter.y);
                 //Find probability of the tile appearing in (x,y)
-                float p = evaluateProb(distribution, d);
+                float p = EvaluateProb(distribution, d);
 
                 float q = Random.Range(0f, 1f);
 
@@ -248,8 +311,7 @@ public class ProcAgent : MonoBehaviour {
         //Place a cell in the center of the map
         map[vCenter.x, vCenter.y].type = CellType.empty;
 
-        //Basis to be used to check cell neighbours
-        int[] neighbours = basis();
+        //Buffer to store cells to be removed after smooth pass
         List<Vector2Int> remove = new List<Vector2Int>();
 
         //boolean hashmap used for constructing disjointed subgraphs
@@ -261,6 +323,8 @@ public class ProcAgent : MonoBehaviour {
         for (int x = 0; x < islandDim; x++) {
             for (int y = 0; y < islandDim; y++) {
                 int adjCount = 0;
+                //Basis to be used to check cell neighbours
+                int[] neighbours = Basis(y);
 
                 //Iterate over the current cell's neighbours
                 for (int i = 0; i < neighbours.Length; i += 2) {
@@ -283,14 +347,10 @@ public class ProcAgent : MonoBehaviour {
 
                 //Fill any holes if specified
                 if (map[x, y].type == CellType.nil && fillHoles && adjCount == 6) {
-                    Debug.Log("filled (" + x + "," + y + ")");
                     map[x, y].type = CellType.empty;
                 }
 
-                //Connect disjointed subgraphs if specified
-                if (connectCells && map[x, y].type == CellType.empty && !visited[hash(x, y)]) {
-                    subgraphs.Add(BFS(x, y, visited, map));
-                }
+               
             }
         }
 
@@ -298,15 +358,30 @@ public class ProcAgent : MonoBehaviour {
             map[pos.x, pos.y].type = CellType.nil;
         }
 
-        //Connect subgraphs seperated from the center
-        if (connectCells) {
-            foreach(List<Vector2Int> graph in subgraphs) {
-                //Check if this graph has the center, draw a line connecting the two.
-                if(!graph.Contains(center)) {
-                    int r = Random.Range(0, graph.Count - 1);
 
-                    Connect(graph[r], vCenter, map);
+        if (connectCells)
+        {
+            for (int x = 0; x < islandDim; x++)
+            {
+                for (int y = 0; y < islandDim; y++)
+                {
+                    //Connect disjointed subgraphs if specified
+                    if (map[x, y].type == CellType.empty && !visited[hash(x, y)])
+                    {
+                        subgraphs.Add(BFS(x, y, visited, map));
+                    }
                 }
+            }
+        Debug.Log("Subgraph Count: " + subgraphs.Count);
+            //Connect subgraphs seperated from the center
+            Debug.Log("Graph Count: " + subgraphs[0].Count);
+            var graph = subgraphs[0];
+            for (int i=1;i<subgraphs.Count;i++) {
+                Debug.Log("Graph Count: " + subgraphs[i].Count);
+                int r1 = Random.Range(0, graph.Count - 1);
+                int r2 = Random.Range(0, subgraphs[i].Count - 1);
+                Connect(graph[r1], subgraphs[i][r2], map);
+                
             }
         }
 
@@ -320,7 +395,7 @@ public class ProcAgent : MonoBehaviour {
     /// <param name="tDistribution">The tile distribution to be used</param>
     /// <param name="d">the distance from the center</param>
     /// <returns></returns>
-    public float evaluateProb(TileDistribution tDistribution, int d) {
+    public float EvaluateProb(TileDistribution tDistribution, int d) {
         float p = 0;
         switch (tDistribution) {
             case TileDistribution.exponential:
@@ -330,7 +405,11 @@ public class ProcAgent : MonoBehaviour {
                 p = tileProbability;
                 break;
             case TileDistribution.geometric:
-                p = Mathf.Pow(1 - tileProbability, d - 1) * tileProbability;
+                p = Mathf.Pow(tileProbability, d);
+                if(p > tileProbability / 2)
+                {
+                    p = 1f;
+                }
                 break;
             case TileDistribution.custom:
                 p = Mathf.Clamp01(customProb.Evaluate(Random.Range(tileProbability, 1f)));
@@ -349,7 +428,7 @@ public class ProcAgent : MonoBehaviour {
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public Vector2 hexCoordinate(int x, int y) {
+    public Vector2 HexCoordinate(int x, int y) {
         float w = Mathf.Sqrt(3) * tileSize;
         float h = 2 * tileSize;
         float thirdH = h * 0.75f;
@@ -359,8 +438,48 @@ public class ProcAgent : MonoBehaviour {
         return new Vector2(xPos, yPos);
     }
 
-    List<Vector2Int> neighbours(int x, int y) {
-        int[] b = basis();
+    public float HexWidth() {
+        return Mathf.Sqrt(3) * tileSize;
+    }
+
+    public float HexHeight() {
+        return 2 * tileSize;
+    }
+
+    Vector2Int RandomPoint()
+    {
+        Vector2Int point = new Vector2Int(Random.Range(0, islandDim-1),Random.Range(0,islandDim-1));
+
+        for(int x = point.x; x < islandDim; x++)
+        {
+            for(int y = point.y; y < islandDim; y++)
+            {
+                if (tilemap[x, y].type != CellType.nil)
+                {
+                    point.x = x;
+                    point.y = y;
+                    return point;
+                }
+            }
+        }
+
+        for (int x = point.x; x > 0; x--)
+        {
+            for (int y = point.y; y > 0; y--)
+            {
+                if (tilemap[x, y].type != CellType.nil)
+                {
+                    point.x = x;
+                    point.y = y;
+                    return point;
+                }
+            }
+        }
+        return point;
+    }
+
+    List<Vector2Int> Neighbours(int x, int y) {
+        int[] b = Basis(y);
         List<Vector2Int> neigh = new List<Vector2Int>();
 
         for (int i = 0; i < b.Length; i += 2) {
@@ -376,28 +495,27 @@ public class ProcAgent : MonoBehaviour {
         return neigh;
     }
 
-    int hash(int x, int y) {
-        return x * y + x;
+    List<Vector2Int> Neighbours(Vector2Int pos)
+    {
+        return Neighbours(pos.x, pos.y);
     }
 
-    List<Vector2Int> neighbours(int x, int y, List<Vector2Int> neigh, bool[] visited, ProcData[,] map) {
-        int[] b = basis();
+    int hash(int x, int y) {
+        return islandDim * y + x;
+    }
+
+    List<Vector2Int> Neighbours(int x, int y, List<Vector2Int> neigh, bool[] visited, ProcData[,] map) {
+        int[] b = Basis(y);
         for (int i = 0; i < b.Length; i += 2) {
             int xPos = x + b[i];
             int yPos = y + b[i + 1];
 
-            if (!isBounds(xPos, yPos) || map[xPos, yPos].type == CellType.nil) {
+            if (!IsBounds(xPos, yPos) || map[xPos, yPos].type == CellType.nil || visited[hash(xPos, yPos)]) {
                 continue;
             }
-
-            if (!visited[hash(x, y)])
-            {
-                continue;
-            }
-            else
-            {
+            else {
                 neigh.Add(new Vector2Int(xPos, yPos));
-                visited[hash(x, y)] = true;
+                visited[hash(xPos, yPos)] = true;
             }
         }
 
@@ -419,15 +537,18 @@ public class ProcAgent : MonoBehaviour {
     }
 
     Vector2Int[] Line(int x1, int y1, int x2, int y2) {
-        int n = distance(x1,y1,x2,y2);
+        int n = Distance(x1,y1,x2,y2);
         Vector2Int[] points = new Vector2Int[n];
-        Vector3Int a = oddRToCube(x1, y1);
-        Vector3Int b = oddRToCube(x2, y2);
+        Vector3Int a = OddRToCube(x1, y1);
+        Vector3Int b = OddRToCube(x2, y2);
 
+        Debug.Log("Start drawing line");
         for(int i = 0; i < n; i++) {
-            points[i] = cubeToOddR(cubeRound(cubeLerp(a, b , 1.0f / n * i)));
+            points[i] = CubeToOddR(CubeRound(CubeLerp(a, b , 1.0f / n * i)));
+            Debug.Log(points[i]);
         }
 
+        Debug.Log("done drawing line");
         return points;
     }
 
@@ -439,42 +560,47 @@ public class ProcAgent : MonoBehaviour {
     /// Returns the 6 directional vectors used in this Hexagonal representation.
     /// </summary>
     /// <returns></returns>
-    int[] basis() {
-        int[] neighbours = 
-        {
+    int[] Basis(int y) {
+        int[][] neighbours = new int[2][];
+        neighbours[0] = new int[] {
+            1,0,
+            0,-1,
             -1,-1,
             -1,0,
             -1,1,
-            0,-1,
-            1,0,
-            0,1
+            0,1, 
         };
 
-        return neighbours;
+        //Offset Basis
+        neighbours[1] = new int[] {
+            1,0,
+            1,-1,
+            0,-1,
+            -1,0,
+            0,1,
+            1,1
+        };
+
+        return neighbours[y & 1];
     }
 
     List<Vector2Int> BFS(int x, int y, bool[] visited, ProcData[,] map) {
-        
         List<Vector2Int> subgraph = new List<Vector2Int>();
-        int current = 0;
         subgraph.Add(new Vector2Int(x, y));
-        neighbours(x, y, subgraph, visited, map);
-        current = subgraph.Count;
+        visited[hash(x, y)] = true;
+        subgraph = Neighbours(x, y, subgraph, visited, map);
 
-        for (int i = current; i < subgraph.Count; i++) {
-            Debug.Log("Current Index: " + i);
-            Debug.Log("Subgraph size: " + subgraph.Count);
-            neighbours(subgraph[i].x, subgraph[i].y, subgraph, visited, map);
+        for (int i = 1; i < subgraph.Count; i++) {
+            subgraph = Neighbours(subgraph[i].x, subgraph[i].y, subgraph, visited, map);
         }
-
         return subgraph;
     }
 
-    CellType pickType(float s) {
+    CellType PickType(float s) {
         return CellType.empty;
     }
 
-    float[] tileDistribution() {
+    float[] TileDistributions() {
         float[] arr = {
             restProbability,
             merchantProbability,
@@ -486,7 +612,7 @@ public class ProcAgent : MonoBehaviour {
         return arr;
     }
 
-    Vector3Int cubeRound(Vector3 a) {
+    Vector3Int CubeRound(Vector3 a) {
         int rx = Mathf.RoundToInt(a.x);
         int ry = Mathf.RoundToInt(a.y);
         int rz = Mathf.RoundToInt(a.z);
@@ -508,39 +634,39 @@ public class ProcAgent : MonoBehaviour {
         return new Vector3Int(rx, ry, rz);
     }
 
-    Vector3 cubeLerp(Vector3Int a, Vector3Int b, float t) {
+    Vector3 CubeLerp(Vector3Int a, Vector3Int b, float t) {
         return new Vector3(
             Mathf.Lerp(a.x, b.x, t),
             Mathf.Lerp(a.y, b.y, t),
             Mathf.Lerp(a.z, b.z, t));
     }
 
-    Vector2Int cubeToOddR(int x, int y, int z) {
+    Vector2Int CubeToOddR(int x, int y, int z) {
         int col = x + (z - (z & 1)) / 2;
         int row = z;
         return new Vector2Int(col, row);
     }
 
-    Vector2Int cubeToOddR(Vector3Int a) {
-        return cubeToOddR(a.x, a.y, a.z);
+    Vector2Int CubeToOddR(Vector3Int a) {
+        return CubeToOddR(a.x, a.y, a.z);
     }
 
-    Vector3Int oddRToCube(int a0, int a1) {
+    Vector3Int OddRToCube(int a0, int a1) {
         int x = a0 - (a1 - (a1 & 1)) / 2;
         int z = a1;
         int y = -x - z;
         return new Vector3Int(x, y, z);
     }
 
-    Vector3Int oddRToCube(Vector2Int a) {
-        return oddRToCube(a.x, a.y);
+    Vector3Int OddRToCube(Vector2Int a) {
+        return OddRToCube(a.x, a.y);
     }
 
-    int distance(int a0, int a1, int b0, int b1) {
-        return length(oddRToCube(a0, a1) - oddRToCube(b0, b1));
+    int Distance(int a0, int a1, int b0, int b1) {
+        return Length(OddRToCube(a0, a1) - OddRToCube(b0, b1));
     }
 
-    int length(Vector3Int hex) {
+    int Length(Vector3Int hex) {
         return ((Mathf.Abs(hex.x) + Mathf.Abs(hex.y) + Mathf.Abs(hex.z)) / 2);
     }
 

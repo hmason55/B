@@ -7,16 +7,16 @@ public class HexTile : MonoBehaviour {
     public ProcData data;
 
 	void Start () {
-		
 	}
 
     void OnValidate() {
  
         if (data != null && data.agent != null) {
-            Vector2 pos = data.agent.hexCoordinate(data.pos.x, data.pos.y);
+            Vector2 pos = data.agent.HexCoordinate(data.pos.x, data.pos.y);
             this.transform.position = new Vector3(pos.x, 0, pos.y);
             this.transform.Translate(0f, 0f, pos.y);
             //data.agent.setData(data.pos.x, data.pos.y, data);
+            SetName();
         }   
     }
 
@@ -32,36 +32,37 @@ public class HexTile : MonoBehaviour {
         return data.pos;
     }
 
-    void OnDrawGizmos()
-    {
-        if (data.agent.debug)
-        {
+    void OnDrawGizmos() {
+        if (data.agent.debug) {
             Handles.Label(transform.position, "(" + data.pos.x + "," + data.pos.y + ")");
         }
     }
 
-    public void setMaterial() {
+    public void SetName() {
+        data.obj.name = string.Format("Hex: ({0},{1})", data.pos.x, data.pos.y);
+    }
+
+    public void SetMaterial() {
         Renderer rend = data.obj.GetComponent<Renderer>();
 
         switch (data.type) {
             case CellType.empty:
-                rend.material.SetColor("Empty", new Color(0, 0, 0.8f, 1));
+                rend.sharedMaterial = Resources.Load("Material/Tile", typeof(Material)) as Material;
                 break;
             case CellType.merchant:
-                rend.material.SetColor("Merchant", new Color(0.95f, 0.95f, 0.05f, 1));
+                rend.sharedMaterial = Resources.Load("Material/Merchant", typeof(Material)) as Material;
                 break;
             case CellType.rest:
-                rend.material.SetColor("Rest", new Color(0.7f, 0.5f, 0.3f, 1));
+                rend.sharedMaterial = Resources.Load("Material/Rest", typeof(Material)) as Material;
                 break;
             case CellType.settlement:
-                rend.material.SetColor("Settlement", new Color(0.9f, 0.0f, 0.0f, 1));
+                rend.sharedMaterial = Resources.Load("Material/Settlement", typeof(Material)) as Material;
                 break;
             case CellType.treasure:
-                rend.material.SetColor("Treasure", new Color(0, 0, 0.9f, 1));
+                rend.sharedMaterial = Resources.Load("Material/Treasure", typeof(Material)) as Material;
                 break;
             default:
                 break;
         }
-
     }
 }

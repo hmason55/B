@@ -32,12 +32,16 @@ public class AgentInspector : Editor {
     SerializedProperty customProb;
     SerializedProperty tile;
     SerializedProperty parent;
+    SerializedProperty onMove;
+    SerializedProperty onSet;
+    SerializedProperty onCenter;
+    SerializedProperty onBoundary;
+    SerializedProperty onBarren;
 
     ProcAgent procGen;
     private static bool showMore = false;
 
-    void OnEnable()
-    {
+    void OnEnable() {
         restProbability = serializedObject.FindProperty("restProbability");
         merchantProbability = serializedObject.FindProperty("merchantProbability");
         settlementProbability = serializedObject.FindProperty("settlementProbability");
@@ -64,12 +68,16 @@ public class AgentInspector : Editor {
         customProb = serializedObject.FindProperty("customProb");
         tile = serializedObject.FindProperty("tile");
         parent = serializedObject.FindProperty("parent");
+        onMove = serializedObject.FindProperty("onMove");
+        onSet = serializedObject.FindProperty("onSet");
+        onCenter = serializedObject.FindProperty("onCenter");
+        onBoundary = serializedObject.FindProperty("onBoundary");
+        onBarren = serializedObject.FindProperty("onBarren");
 
         procGen = (ProcAgent)target;
     }
 
-    public override void OnInspectorGUI()
-    {
+    public override void OnInspectorGUI() {
         serializedObject.Update();
 
         EditorGUIUtility.labelWidth = 0;
@@ -86,19 +94,17 @@ public class AgentInspector : Editor {
         EditorGUILayout.PropertyField(islandSize, new GUIContent("Map Radius","Determines the radius of the map from its center"));
         EditorGUILayout.PropertyField(minAdjacency, new GUIContent("Minimal Adjacency", "Removes any cells from the map with less adjacent cells than the given number. The higher this value is, the smoother the map."));
 
-        EditorGUILayout.PropertyField(connectCells, new GUIContent("Connect Cells", "Connects all disconnected subgraphs to the center tile. Making sure every place on the map is reachable."));
+        EditorGUILayout.PropertyField(connectCells, new GUIContent("Connect Cells", "Connects all disconnected subgraphs. Making sure every place on the map is reachable."));
         EditorGUILayout.PropertyField(fillHoles, new GUIContent("Fill Holes", "Makes it impossible for small holes to appear in the map"));
         EditorGUILayout.PropertyField(customCenter, new GUIContent("Custom Center", "Assign a custom center to the map, if not checked the center will default to the middle of the map."));
 
-        if (customCenter.boolValue)
-        {
+        if (customCenter.boolValue) {
             center.vector2IntValue = EditorGUILayout.Vector2IntField(new GUIContent("Center", "Where should the center of the map be?"),
             center.vector2IntValue);
         }
 
         EditorGUILayout.PropertyField(distribution);
-        if ((TileDistribution)distribution.enumValueIndex == TileDistribution.custom || (TileDistribution)distribution.enumValueIndex == TileDistribution.customCenter)
-        {
+        if ((TileDistribution)distribution.enumValueIndex == TileDistribution.custom || (TileDistribution)distribution.enumValueIndex == TileDistribution.customCenter) {
             customProb.animationCurveValue = EditorGUILayout.CurveField(customProb.animationCurveValue);
         }
 
@@ -126,39 +132,41 @@ public class AgentInspector : Editor {
         EditorGUILayout.PropertyField(overWriteCells);
 
         showMore = EditorGUILayout.Foldout(showMore, "Extra");
-        if (showMore)
-        {
+        if (showMore) {
             EditorGUILayout.PropertyField(maxRests, new GUIContent("Maximum Rests", "The maximum amount of rests present in the map."));
             EditorGUILayout.PropertyField(maxMerchants, new GUIContent("Maximum Merchants","The maximum amount of merchants present in the map."));
             EditorGUILayout.PropertyField(maxSettlements, new GUIContent("Maximum Settlements","The maximum amount of settlements present in the map"));
             EditorGUILayout.PropertyField(maxTreasure, new GUIContent("Maximum Treasure","The maximum amount of treasure present in the map."));
             EditorGUILayout.PropertyField(maxSteps, new GUIContent("Maximum Steps", "The maximum amount of steps the agent will take while traversing the map."));
             EditorGUILayout.PropertyField(debug, new GUIContent("Debug"));
+            EditorGUILayout.PropertyField(onMove, new GUIContent("onMove"));
+            EditorGUILayout.PropertyField(onSet, new GUIContent("onSet"));
+            EditorGUILayout.PropertyField(onCenter, new GUIContent("onCenter"));
+            EditorGUILayout.PropertyField(onBoundary, new GUIContent("onBoundary"));
+            EditorGUILayout.PropertyField(onBarren, new GUIContent("onBarren"));
         }
 
         EditorGUILayout.Space();
 
         EditorGUILayout.LabelField("Information", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField(new GUIContent("Number of Tiles: "), new GUIContent(procGen.tileCountString()));
+        EditorGUILayout.LabelField(new GUIContent("Number of Tiles: "), new GUIContent(procGen.TileCountString()));
 
         EditorGUILayout.Space();
 
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Generate Map")) {
-            if (!procGen.mapExists())
-            {
-                procGen.createMap();
+            if (!procGen.MapExists()) {
+                procGen.CreateMap();
             }
-            else
-            {
-                procGen.destroyMapEdit();
-                procGen.createMap();
+            else {
+                procGen.DestroyMapEdit();
+                procGen.CreateMap();
             }
         }
 
         if (GUILayout.Button("Destroy")) {
-            if (procGen.mapExists()) {
-                procGen.destroyMapEdit();
+            if (procGen.MapExists()) {
+                procGen.DestroyMapEdit();
             }
         }
         EditorGUILayout.EndHorizontal();
@@ -170,16 +178,14 @@ public class AgentInspector : Editor {
         }
 
         //Draw debug visuals
-        if (debug.boolValue)
-        {
+        if (debug.boolValue) {
             //Debug.DrawLine(procGen.hexCoordinate(0,0),)
         }
 
         serializedObject.ApplyModifiedProperties();
     } 
 
-    Texture2D heatMap()
-    {
+    Texture2D HeatMap() {
         Texture2D heat = new Texture2D(800, 800);
 
         return heat;
