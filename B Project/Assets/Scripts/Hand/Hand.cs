@@ -74,6 +74,18 @@ public class Hand : MonoBehaviour {
 		Resize();
 	}
 
+	public void Remove(Card card) {
+		int childCount = transform.childCount;
+		for(int i = childCount-1; i >= 0; i--) {
+			if(GameObject.ReferenceEquals(card.gameObject, transform.GetChild(i).gameObject)) {
+				GameObject flagged = transform.GetChild(i).gameObject;
+				flagged.transform.SetParent(null);
+				Destroy(flagged);
+			}
+		}
+		Resize();
+	}
+
 	public void Clear() {
 		handList = new List<CardData>();
 		int childCount = transform.childCount;

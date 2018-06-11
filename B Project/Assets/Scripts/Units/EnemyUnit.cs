@@ -16,7 +16,8 @@ public class EnemyUnit : BaseUnit
     protected override void Awake()
     {
         base.Awake();
-        
+        _player = false;
+
         GameObject UI = new GameObject("Next Card UI");
         _nextCardUI = UI.AddComponent<TextMesh>();
         UI.transform.SetParent(transform);

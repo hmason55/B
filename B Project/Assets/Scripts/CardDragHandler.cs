@@ -12,6 +12,16 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 	LineRenderer targetLine;
 	Vector3 mouseOffset;
 
+	BaseUnit[] targets;
+
+	void Awake() {
+		hand = GameObject.FindGameObjectWithTag("Hand").transform;
+		GameObject lineGO = GameObject.FindGameObjectWithTag("TargetLine");
+		if(lineGO != null) {
+			targetLine = lineGO.GetComponent<LineRenderer>();
+		}
+	}
+
 	public void OnBeginDrag(PointerEventData eventData) {
 		mouseOffset = transform.position - Input.mousePosition;
 		Debug.Log("Drag " + gameObject.name);
@@ -31,7 +41,24 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 			if(Input.mousePosition.y > hand.GetComponent<Hand>().verticalThreshold) {
 				transform.position = new Vector3(Screen.width/2f, 210f, 0f);
 				EnableLineTarget();
+				int layerMask = 1 << 9; // Entity layer
+				RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, layerMask);
+				if(hit) {
+					EnemyUnit enemyUnit = hit.transform.parent.GetComponent<EnemyUnit>();
+					BaseUnit allyUnit = hit.transform.parent.GetComponent<BaseUnit>();
 
+					if(enemyUnit) {
+						targets = new BaseUnit[1];
+						targets[0] = enemyUnit;
+					} else if(allyUnit) {
+						targets = new BaseUnit[1];
+						targets[0] = allyUnit;
+					} else {
+						targets = null;
+					}
+				} else {
+					targets = null;
+				}
 			} else {
 				transform.position = mousePosition + mouseOffset;
 				DisableLineTarget();
@@ -49,6 +76,45 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 	public void OnEndDrag(PointerEventData eventData) {
 		Debug.Log("Drop " + gameObject.name);
 		if(hand == null) {return;}
+
+		if(targets != null) {
+			Debug.Log(targets.Length);
+			if(EvaluateTargets()) {
+				Play();
+			} else {
+				Debug.Log("Invalid target");
+			}
+		} else {
+			CancelDrag();
+		}
+	}
+
+	bool EvaluateTargets() {
+		Debug.Log("Evaluating targets");
+		foreach(BaseUnit target in targets) {
+			if(!target.IsTargetable()) {
+				Debug.Log("Not targetable");
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	void Play() {
+		DisableLineTarget();
+
+		foreach(Transform cardTransform in hand) {
+			Card card = cardTransform.GetComponent<Card>();
+			card.ResumeRaycastState();
+		}
+
+		hand.GetComponent<Hand>().draggedCard = null;
+
+		card.Play(targets);
+	}
+
+	void CancelDrag() {
 		card.SnapToHand();
 		DisableLineTarget();
 
@@ -62,14 +128,6 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 		transform.SetSiblingIndex(card.zIndex);
 
 		hand.GetComponent<Hand>().draggedCard = null;
-	}
-
-	void Awake() {
-		hand = GameObject.FindGameObjectWithTag("Hand").transform;
-		GameObject lineGO = GameObject.FindGameObjectWithTag("TargetLine");
-		if(lineGO != null) {
-			targetLine = lineGO.GetComponent<LineRenderer>();
-		}
 	}
 
 	void EnableLineTarget() {
