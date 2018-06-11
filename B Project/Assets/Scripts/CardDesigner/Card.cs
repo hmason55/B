@@ -16,14 +16,47 @@ public class Card : MonoBehaviour {
 		Warrior
 	}
 
+	public enum TargetType {
+		None,
+		Self,
+		Enemy,
+		Ally,
+		RandomEnemy,
+		RandomAlly,
+	}
+
+	public enum EffectType {
+		Damage,
+		Block,
+		Heal,
+		Stun,
+		Push,
+		Resource
+	}
+
+	[Serializable]
+	public struct Effect {
+		public TargetType targetType;
+		public EffectType effectType;
+		public int effectValue;
+		public int duration;
+	}
+
 	public string title;
 	public Card.DeckClass deckType;
 	public int resourceCost;
 	public string description;
 	public bool omitFromDeck;
+	public bool requireTarget;
+	public Card.TargetType targetType;
+	public bool areaOfEffect;
+	public bool[] targetArea = new bool[9];
+	public List<Effect> effects = new List<Effect>();
+
 
 	public bool showObjectReferences;
 
+	public List<bool> effectFoldouts = new List<bool>();
 	public Image backgroundImage;
 	public Image artworkImage;
 	public Text titleText;
@@ -35,6 +68,16 @@ public class Card : MonoBehaviour {
 	public bool showCardData;
 	public CardData cardData;
 	public TextAsset cardDataFile;
+
+	public int zIndex = 0;
+
+	Vector2 handPosition;
+	bool raycastState = true;
+
+	public Vector2 HandPosition {
+		get{return handPosition;}
+		set{handPosition = value;}
+	}
 
 	void Awake() {
 		if(cardData == null) {
@@ -113,6 +156,11 @@ public class Card : MonoBehaviour {
 			resourceCost = cardData.ResourceCost;
 			description = cardData.Description;
 			omitFromDeck = cardData.OmitFromDeck;
+			requireTarget = cardData.RequireTarget;
+			targetType = cardData.TargetType;
+			areaOfEffect = cardData.AreaOfEffect;
+			targetArea = cardData.TargetArea;
+			effects = cardData.Effects;
 		}
 	}
 
@@ -123,6 +171,11 @@ public class Card : MonoBehaviour {
 			cardData.ResourceCost = resourceCost;
 			cardData.Description = description;
 			cardData.OmitFromDeck = omitFromDeck;
+			cardData.RequireTarget = requireTarget;
+			cardData.TargetType = targetType;
+			cardData.AreaOfEffect = areaOfEffect;
+			cardData.TargetArea = targetArea;
+			cardData.Effects = effects;
 		}
 	}
 
@@ -132,4 +185,21 @@ public class Card : MonoBehaviour {
 		text = text.Replace("_", "");
 		return text;
 	}
+
+	public void SnapToHand() {
+		GetComponent<RectTransform>().anchoredPosition = handPosition;
+	}
+
+	public void DisableRaycast() {
+		backgroundImage.raycastTarget = false;
+	}
+
+	public void ResumeRaycastState() {
+		backgroundImage.raycastTarget = raycastState;
+	}
+}
+
+[Serializable]
+public class EffectList {
+	public List<Card.Effect> list;
 }

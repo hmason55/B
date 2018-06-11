@@ -1,1 +1,1 @@
-{"Title":"Slice n Dice","DeckType":3,"ResourceCost":-1,"Description":"<b>Discard Hand</b>    Replace Hand with X* number of Slice n Dice Cards","OmitFromDeck":false}
+{"Title":"Slice n Dice","DeckType":3,"ResourceCost":-1,"Description":"<b>Discard Hand</b>    Replace Hand with X* number of Slice n Dice Cards","OmitFromDeck":false,"RequireTarget":false,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[]}
