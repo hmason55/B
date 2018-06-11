@@ -20,7 +20,7 @@ public class Battleground : MonoBehaviour
     // Tile inhabitants
     private BaseUnit[] _units; // TODO eventually change with unit class or interface
     // Mouseover unit
-    private List<BaseUnit> _mouseoverUnit;
+    private List<BaseUnit> _mouseoverUnits;
     // Target Method
     private bool _targetTile = true;
     // Target shape
@@ -33,7 +33,7 @@ public class Battleground : MonoBehaviour
         _units = new BaseUnit[18];
         _spriteOrder = new int[18];
         _mesh = new Mesh();
-        _mouseoverUnit = new List<BaseUnit>();
+        _mouseoverUnits = new List<BaseUnit>();
 
         CalculateGridPositions();
         CalculateGridMesh();
@@ -43,6 +43,10 @@ public class Battleground : MonoBehaviour
 
     void Update()
     {
+        // Set target shape to none to not display anything on battleground
+        if (_targetShape == TargetShape.None)
+            return;
+
         // TEMP check mouse position and highlight eventual tile
         // TODO enable and disable based on game flow
         if (_targetTile)
@@ -282,18 +286,18 @@ public class Battleground : MonoBehaviour
     void HighlightUnits( List<int> positions)
     {
         // Reset old highlight
-        if (_mouseoverUnit.Count > 0)
+        if (_mouseoverUnits.Count > 0)
         {
-            for (int i = 0; i < _mouseoverUnit.Count; i++)
+            for (int i = 0; i < _mouseoverUnits.Count; i++)
             {
-                SpriteRenderer rend = _mouseoverUnit[i].GetComponentInChildren<SpriteRenderer>();
+                SpriteRenderer rend = _mouseoverUnits[i].GetComponentInChildren<SpriteRenderer>();
                 rend.color = Color.white;
                 rend.transform.localScale = Vector2.one * 0.5f;
             }
         }
 
         // Find if there is a unit and highlight it
-        _mouseoverUnit.Clear();
+        _mouseoverUnits.Clear();
         if (positions.Count > 0)
         {
             for (int i = 0; i < positions.Count; i++)
@@ -301,7 +305,7 @@ public class Battleground : MonoBehaviour
                 BaseUnit unit = _units[positions[i]];
                 if (unit)
                 {
-                    _mouseoverUnit.Add(unit);
+                    _mouseoverUnits.Add(unit);
                     SpriteRenderer rend = unit.GetComponentInChildren<SpriteRenderer>();
                     rend.color = Color.Lerp(Color.white, Color.red, 0.5f + 0.2f * Mathf.Sin(Time.time * 15f));
                     rend.transform.localScale = Vector2.one * (0.6f + 0.1f * Mathf.Sin(Time.time * 4f + 1));
@@ -378,6 +382,11 @@ public class Battleground : MonoBehaviour
         );
     }
 
+    public List<BaseUnit> GetTargetUnits()
+    {
+        return _mouseoverUnits;
+    }
+
     #endregion
 
     #region Tiles methods
@@ -449,7 +458,7 @@ public class Battleground : MonoBehaviour
 
     public List<BaseUnit> GetUnitsSelected()
     {
-        return _mouseoverUnit;
+        return _mouseoverUnits;
     }
 
     public void SetTargetShape(TargetShape shape)

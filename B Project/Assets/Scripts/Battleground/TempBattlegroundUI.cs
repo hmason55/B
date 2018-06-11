@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum TargetShape { Single, Horizontal, Veritcal, Cross }
+public enum TargetShape { Single, Horizontal, Veritcal, Cross, None }
 
 public class TempBattlegroundUI : MonoBehaviour
 {
