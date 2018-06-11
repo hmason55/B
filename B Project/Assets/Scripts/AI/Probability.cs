@@ -5,8 +5,10 @@ using UnityEngine;
 public class Probability : MonoBehaviour {
 
     public float[] probs;
-    public int[] counts;
-    
+    private int[] counts;
+    [Range(0f,1f)]
+    public float weight = 0.5f;
+
     void Start () {
 	}
 	
@@ -14,10 +16,9 @@ public class Probability : MonoBehaviour {
 	}
     
     //Updates probability of the value at index k and returns it new value
-    //Weight is a value [0-1] that determines how much the probability of that item will be reduced
     //e.g 0.50 weight means reduce by 50%
     //This is done by solving the equation weight*x_1 + x_2 + ..... +x_n = 1 for x_1
-    public float updateProbs(int k, float weight) {
+    public float updateProbs(int k) {
         counts[k]++;
         float s = 0.0f;
         float q1 = 0; //The probability being modified
@@ -60,9 +61,37 @@ public class Probability : MonoBehaviour {
         }
     }
 
-    /*
-     *@@H{Ere 
-     */
+    public int pickIndex(float[] distribution)
+    {
+        float x = Random.Range(0f, 1.0f);
+        float s = 0;
+        for(int i = 0; i < distribution.Length; i++)
+        {
+            s += distribution[i];
+            if(s >= x)
+            {
+                return i;
+            }
+        }
+        
+        return 0;
+    }
+
+    public void normalizeDistribution(float[] distribution)
+    {
+        float s = 0;
+
+        for (int i = 0; i < distribution.Length; i++)
+        {
+            s += distribution[i];
+        }
+
+        for(int i = 0; i < distribution.Length; i++)
+        {
+            distribution[i] /= s;
+        }
+    }
+
     private void logDistribution() {
         foreach(var f in probs){
             Debug.Log(f);
