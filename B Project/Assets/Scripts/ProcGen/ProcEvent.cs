@@ -2,7 +2,11 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[Serializable]
-public class ProcEvent : UnityEvent<ProcData> {
+namespace ProcGen
+{
+    [Serializable]
+    public class ProcEvent : UnityEvent<ProcData>
+    {
 
+    }
 }
