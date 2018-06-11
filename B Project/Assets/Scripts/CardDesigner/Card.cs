@@ -42,6 +42,7 @@ public class Card : MonoBehaviour {
 		public int duration;
 	}
 
+	// Variables used by CardData
 	public string title;
 	public Card.DeckClass deckType;
 	public int resourceCost;
@@ -119,6 +120,7 @@ public class Card : MonoBehaviour {
 			}
 		} 
 
+
 		if(artworkImage) {
 			//artworkImage.sprite = artwork;
 		}
@@ -146,6 +148,38 @@ public class Card : MonoBehaviour {
 			} else {
 				costText.text = resourceCost.ToString();
 			}
+		}
+	}
+
+	public void Play(BaseUnit[] targets) {
+		Debug.Log("Playing Card");
+		foreach(Effect effect in effects) {
+			ApplyToTargets(targets, effect);
+		}
+
+		Hand hand = transform.parent.GetComponent<Hand>();
+		if(hand != null) {
+			hand.Remove(this);
+		}
+	}
+
+	void ApplyToTargets(BaseUnit[] targets, Effect effect) {
+		Debug.Log("Applying effects");
+		switch(effect.effectType) {
+			case EffectType.Damage:
+				foreach(BaseUnit target in targets) {
+					if(ParseTargetType(effect.targetType, target.IsPlayer())) {
+						Debug.Log("Deal " + effect.effectValue);
+						target.DealDamage(effect.effectValue);
+					}
+				}
+			break;
+
+			case EffectType.Block:
+				foreach(BaseUnit target in targets) {
+
+				}
+			break;
 		}
 	}
 
@@ -177,6 +211,15 @@ public class Card : MonoBehaviour {
 			cardData.TargetArea = targetArea;
 			cardData.Effects = effects;
 		}
+	}
+
+	bool ParseTargetType(TargetType type, bool isPlayer) {
+		if(type == TargetType.Ally && isPlayer) {
+			return true;
+		} else if(type == TargetType.Enemy && !isPlayer) {
+			return true;
+		}
+		return false;
 	}
 
 	string ParseText(string text) {

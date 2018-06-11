@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaseUnit : MonoBehaviour, Entity
 {
@@ -14,14 +15,13 @@ public class BaseUnit : MonoBehaviour, Entity
     // Actual HP
     private int _actualHP;
     // Player or Enemy controlled
-    private bool _player;
+    protected bool _player;
     // Tile position on grid
     private int _gridPosition = -1;
     // Unit UI
     private TextMesh _textMeshUI;
     // Unit sprite
     private SpriteRenderer _spriteRenderer;
-
 
     protected virtual void Awake()
     {        
@@ -50,12 +50,12 @@ public class BaseUnit : MonoBehaviour, Entity
 
     public bool IsPlayer()
     {
-        throw new NotImplementedException();
+        return _player;
     }
 
     public bool IsTargetable()
     {
-        throw new NotImplementedException();
+    	return true;
     }
 
     public void OnDeath()
@@ -83,6 +83,7 @@ public class BaseUnit : MonoBehaviour, Entity
     public void DealDamage(int damage)
     {
         _actualHP -= damage;
+        SpawnBattleText(damage.ToString());
         if (_actualHP > MaxHP)
             _actualHP = MaxHP;
         if (_actualHP < 1)
@@ -113,6 +114,19 @@ public class BaseUnit : MonoBehaviour, Entity
         {
             renderers[i].sortingOrder = n;
         }
+    }
+
+    public void SpawnBattleText(string text)
+    {
+		GameObject canvas = GameObject.FindGameObjectWithTag("Canvas");
+		if(canvas == null) {return;}
+
+    	GameObject battleText = GameObject.Instantiate(Resources.Load("Prefabs/Battle Text")) as GameObject;
+    	battleText.transform.SetParent(canvas.transform);
+		Vector3 screenPosition = Camera.main.WorldToViewportPoint(new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z));
+		battleText.transform.position = new Vector3(screenPosition.x * Screen.width, screenPosition.y * Screen.height, 0f);
+		Debug.Log(Camera.main.WorldToViewportPoint(transform.position));
+    	battleText.GetComponent<Text>().text = text;
     }
 
 }
