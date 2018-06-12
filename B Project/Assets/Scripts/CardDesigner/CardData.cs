@@ -15,11 +15,10 @@ public class CardData {
 	public bool AreaOfEffect;
 	public bool[] TargetArea = new bool[9];
 	public Card.TargetType TargetType;
-	//public List<Card.Effect> Effects;
-	public List<Card.Effect> Effects;
+	public List<Effect> Effects;
 }
 
 [Serializable]
 public class EffectsWrapper {
-	public List<Card.Effect> list;
+	public List<Effect> list;
 }

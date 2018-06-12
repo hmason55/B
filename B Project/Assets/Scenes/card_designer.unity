@@ -204,7 +204,7 @@ Prefab:
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: effects.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
@@ -214,7 +214,7 @@ Prefab:
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardData.Effects.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224331330032052604, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
@@ -439,21 +439,17 @@ Prefab:
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: description
-      value: 'Deal 10 Damage
-
-        Block 10 Damage'
+      value: <b>Stun</b> an Enemy, Deal 5 Damage.
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardData.Description
-      value: 'Deal 10 Damage
-
-        Block 10 Damage'
+      value: <b>Stun</b> an Enemy, Deal 5 Damage.
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: title
-      value: Sword and Board
+      value: Shield Bash
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
@@ -463,17 +459,17 @@ Prefab:
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: resourceCost
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
-        type: 2}
-      propertyPath: targetType
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
+      propertyPath: targetType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
       propertyPath: cardData.Title
-      value: Sword and Board
+      value: Shield Bash
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
@@ -483,18 +479,18 @@ Prefab:
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardData.ResourceCost
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardData.TargetType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardDataFile
       value: 
-      objectReference: {fileID: 4900000, guid: 9c0e0ad82bdb0f948b62cf945caba901, type: 3}
+      objectReference: {fileID: 4900000, guid: 703633b30c49aaa4c9eaf2a690003539, type: 3}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: omitFromDeck

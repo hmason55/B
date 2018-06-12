@@ -34,14 +34,6 @@ public class Card : MonoBehaviour {
 		Resource
 	}
 
-	[Serializable]
-	public struct Effect {
-		public TargetType targetType;
-		public EffectType effectType;
-		public int effectValue;
-		public int duration;
-	}
-
 	// Variables used by CardData
 	public string title;
 	public Card.DeckClass deckType;
@@ -244,5 +236,5 @@ public class Card : MonoBehaviour {
 
 [Serializable]
 public class EffectList {
-	public List<Card.Effect> list;
+	public List<Effect> list;
 }

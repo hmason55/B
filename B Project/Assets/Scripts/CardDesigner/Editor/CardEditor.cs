@@ -130,7 +130,7 @@ public class CardEditor : Editor {
 							EditorGUI.indentLevel = 2;
 							EditorGUILayout.Space();
 
-							Card.Effect effect = card.effects[i];
+							Effect effect = card.effects[i];
 
 							// Effect property
 							EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(256));
@@ -169,9 +169,9 @@ public class CardEditor : Editor {
 			// New effect button
 			if(GUILayout.Button("New Effect")) {
 				if(card.effects == null) {
-					card.effects = new List<Card.Effect>();
+					card.effects = new List<Effect>();
 				}
-				card.effects.Add(new Card.Effect());
+				card.effects.Add(new Effect());
 				card.effectFoldouts.Add(true);
 			}
 
