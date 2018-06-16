@@ -65,6 +65,7 @@ public class Hand : MonoBehaviour {
 		card.DisableRaycast();
 		card.cardData = cardData;
 		card.LoadCardData();
+        Debug.Log(card.title+"card has " + card.effects.Count + " effects");
 		handList.Add(card.cardData);
 		obj.name = card.title;
 		obj.transform.SetParent(transform);
