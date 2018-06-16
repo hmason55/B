@@ -48,4 +48,9 @@ public class EnemyUnit : BaseUnit
         _nextCardUI.anchor = TextAnchor.MiddleCenter;
         _nextCardUI.color = Color.red;
     }
+
+    public Card GetNextCard()
+    {
+        return _nextCard;
+    }
 }

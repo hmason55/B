@@ -21,6 +21,11 @@ public class AIManager : MonoBehaviour
         _partyManager = FindObjectOfType<PartyManager>();
         _turnManager = FindObjectOfType<TurnManager>();
 
+        
+    }
+
+    public void CreateRandomEnemies()
+    {
         // TEMP create a few enemies
         for (int i = 0; i < 4; i++)
         {
@@ -58,7 +63,7 @@ public class AIManager : MonoBehaviour
             BaseUnit target = units[Random.Range(0, units.Count)];
 
             // play the card
-
+            //_enemies[i].GetNextCard().Play(target);
 
             yield return new WaitForSeconds(1);
             // TODO check animations and all effects for appropriate delay or add an event

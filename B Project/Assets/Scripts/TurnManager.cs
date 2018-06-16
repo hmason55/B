@@ -10,28 +10,44 @@ public class TurnManager : MonoBehaviour
     private AIManager _aiManager;
     // Battleground cache
     private Battleground _battleground;
+    // Party manager cache
+    private PartyManager _partyManager;
+    // Hand cache
+    private Hand _hand;
 
     void Start()
     {
         _aiManager = FindObjectOfType<AIManager>();
         _battleground = FindObjectOfType<Battleground>();
+        _partyManager = FindObjectOfType<PartyManager>();
+        _hand = FindObjectOfType<Hand>();
     }
 
     public void StartGame()
     {
+        Debug.Log("Starting battle");
+
         // Place enemies 
+        _aiManager.CreateRandomEnemies();
 
-        // Draw enemy cards
+        // Place player units (replace with human positioning in future)
+        _partyManager.CreateRandomUnits();
 
+        // Draw player cards
+        _hand.gameObject.SetActive(true);
+        _hand.Deal();
     }
 
     public void StartPlayerTurn()
     {
+        Debug.Log("Start Player Turn");
         _playerTurn = true;
-
-        // Draw hand
-
+             
         // Turn hand UI and cards on
+        _hand.gameObject.SetActive(true);
+
+        // Draw hand cards
+        _hand.Deal();
 
         // Enable battleground targeting
         _battleground.SetTargetShape(TargetShape.Single);
@@ -44,7 +60,12 @@ public class TurnManager : MonoBehaviour
 
     public void StartEnemyTurn()
     {
+        Debug.Log("Start Enemy Turn");
+
+        _playerTurn = false;
+
         // Turn hand UI off
+        _hand.gameObject.SetActive(false);
 
         // Disable battleground targeting
         _battleground.SetTargetShape(TargetShape.None);
@@ -64,4 +85,11 @@ public class TurnManager : MonoBehaviour
         Debug.Log("Battle is lost, game over!");
     }
 
+    public void EndPlayerTurn()
+    {
+        if (!_playerTurn)
+            return;
+
+        StartEnemyTurn();
+    }
 }
