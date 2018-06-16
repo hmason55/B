@@ -21,6 +21,7 @@ public class BaseUnit : MonoBehaviour, Entity
     private TextMesh _textMeshUI;
     // Unit sprite
     private SpriteRenderer _spriteRenderer;
+    private List<BaseStatus> _statuses = new List<BaseStatus>();
 
 
     protected virtual void Awake()
@@ -114,5 +115,67 @@ public class BaseUnit : MonoBehaviour, Entity
             renderers[i].sortingOrder = n;
         }
     }
+
+    #region Status methods
+
+    BaseStatus SearchStatusLike(BaseStatus status)
+    {
+        for (int i = 0; i < _statuses.Count; i++)
+        {
+            if (_statuses[i].GetType() ==  status.GetType())
+                return _statuses[i];
+        }
+        return null;
+    }
+
+    public void AddStatus(BaseStatus newStatus)
+    {
+        BaseStatus oldStatus = SearchStatusLike(newStatus);
+        if (oldStatus == null)
+            _statuses.Add(newStatus);
+        else
+            oldStatus.Update(newStatus);
+    }
+
+    public void RemoveStatusOfType(Type type)
+    {
+        // Find all those with the same type
+        List<int> found = new List<int>();
+        for (int i = 0; i < _statuses.Count; i++)
+        {
+            if (_statuses[i].GetType() == type)
+                found.Add(i);
+        }
+
+        // Delete them
+        for (int i = found.Count-1; i >=0; i--)
+        {
+            _statuses.RemoveAt(found[i]);
+        }
+    }
+
+    public void ExecuteStartTurnStatuses()
+    {
+        // Start turn update
+        for (int i = 0; i < _statuses.Count; i++)
+        {
+            _statuses[i].StartTurnExecute();
+        }
+
+        // Remove those expired
+        for (int i = _statuses.Count-1; i >=0; i--)
+        {
+            if (_statuses[i].Duration < 1)
+                _statuses.RemoveAt(i);
+        }
+
+    }
+
+    public void ClearAllStatuses()
+    {
+        _statuses.Clear();
+    }
+
+    #endregion
 
 }
