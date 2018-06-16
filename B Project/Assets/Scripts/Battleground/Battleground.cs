@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Battleground : MonoBehaviour
+public class Battleground : Singleton<Battleground>
 {
     // Grid corner positions to set on Unity
     [HideInInspector]

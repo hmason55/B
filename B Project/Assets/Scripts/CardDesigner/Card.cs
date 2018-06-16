@@ -144,15 +144,23 @@ public class Card : MonoBehaviour {
 	}
 
 	public void Play(BaseUnit[] targets) {
-		Debug.Log("Playing Card");
+        if (targets.Length > 0)
+            Debug.Log("Playing: " + title + "  to " + targets[0].UnitName);
+        else
+            Debug.Log("no targets");
+        Debug.Log(effects.Count+" effects");
 		foreach(Effect effect in effects) {
 			ApplyToTargets(targets, effect);
 		}
 
-		Hand hand = transform.parent.GetComponent<Hand>();
-		if(hand != null) {
-			hand.Remove(this);
-		}
+        if (transform.parent)
+        {// Player card
+            Hand hand = transform.parent.GetComponent<Hand>();
+            if (hand != null)
+            {
+                hand.Remove(this);
+            }
+        }
 	}
 
 	void ApplyToTargets(BaseUnit[] targets, Effect effect) {

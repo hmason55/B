@@ -116,8 +116,7 @@ public class BaseUnit : MonoBehaviour, Entity
             renderers[i].sortingOrder = n;
         }
     }
-
-<<<<<<< HEAD
+    
     public void SpawnBattleText(string text)
     {
 		GameObject canvas = GameObject.FindGameObjectWithTag("Canvas");
@@ -131,7 +130,6 @@ public class BaseUnit : MonoBehaviour, Entity
     	battleText.GetComponent<Text>().text = text;
     }
 
-=======
     #region Status methods
 
     BaseStatus SearchStatusLike(BaseStatus status)
@@ -193,6 +191,5 @@ public class BaseUnit : MonoBehaviour, Entity
     }
 
     #endregion
-
->>>>>>> Davide_Branch
+    
 }

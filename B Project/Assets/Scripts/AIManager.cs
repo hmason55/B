@@ -60,10 +60,10 @@ public class AIManager : MonoBehaviour
             // Pick a target for the card
             
             // TODO random for now, change later
-            BaseUnit target = units[Random.Range(0, units.Count)];
+            BaseUnit[] target = { units[Random.Range(0, units.Count)] };
 
             // play the card
-            //_enemies[i].GetNextCard().Play(target);
+            _enemies[i].GetNextCard().Play(target);
 
             yield return new WaitForSeconds(1);
             // TODO check animations and all effects for appropriate delay or add an event

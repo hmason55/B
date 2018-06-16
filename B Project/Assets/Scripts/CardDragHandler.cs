@@ -32,53 +32,60 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 		}
 
 		hand.GetComponent<Hand>().draggedCard = card;
+                
+        // Notify battleground of target shape (and in future side too)
+        Battleground.Instance.SetTargetShape(TargetShape.Single);
 	}
 
-	public void OnDrag(PointerEventData eventData) {
-		Vector3 mousePosition = Input.mousePosition;
-		if(card.requireTarget) {
+    public void OnDrag(PointerEventData eventData) {
+        Vector3 mousePosition = Input.mousePosition;
+        if (card.requireTarget) {
 
-			if(Input.mousePosition.y > hand.GetComponent<Hand>().verticalThreshold) {
-				transform.position = new Vector3(Screen.width/2f, 210f, 0f);
-				EnableLineTarget();
-				int layerMask = 1 << 9; // Entity layer
-				RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, layerMask);
-				if(hit) {
-					EnemyUnit enemyUnit = hit.transform.parent.GetComponent<EnemyUnit>();
-					BaseUnit allyUnit = hit.transform.parent.GetComponent<BaseUnit>();
+            if (Input.mousePosition.y > hand.GetComponent<Hand>().verticalThreshold) {
+                transform.position = new Vector3(Screen.width / 2f, 210f, 0f);
+                EnableLineTarget();
+                                
+                /* Commented to keep this calculation on battleground
+                int layerMask = 1 << 9; // Entity layer
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, layerMask);
+                if (hit) {
+                    EnemyUnit enemyUnit = hit.transform.parent.GetComponent<EnemyUnit>();
+                    BaseUnit allyUnit = hit.transform.parent.GetComponent<BaseUnit>();
 
-					if(enemyUnit) {
-						targets = new BaseUnit[1];
-						targets[0] = enemyUnit;
-					} else if(allyUnit) {
-						targets = new BaseUnit[1];
-						targets[0] = allyUnit;
-					} else {
-						targets = null;
-					}
-				} else {
-					targets = null;
-				}
-			} else {
-				transform.position = mousePosition + mouseOffset;
-				DisableLineTarget();
-			}
-		} else {
-			transform.position = mousePosition + mouseOffset;
-			DisableLineTarget();
-		}
+                    if (enemyUnit) {
+                        targets = new BaseUnit[1];
+                        targets[0] = enemyUnit;
+                    } else if (allyUnit) {
+                        targets = new BaseUnit[1];
+                        targets[0] = allyUnit;
+                    } else {
+                        targets = null;
+                    }
+                } else {
+                    targets = null;
+                }*/
+            } else {
+                transform.position = mousePosition + mouseOffset;
+                DisableLineTarget();
+            }
+        } else {
+            transform.position = mousePosition + mouseOffset;
+            DisableLineTarget();
+        }
 
-		GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 1.2f);
-		transform.SetAsLastSibling();
-		GetComponent<CardMouseOverHandler>().ShowOutline();
-	}
+        GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        transform.SetAsLastSibling();
+        GetComponent<CardMouseOverHandler>().ShowOutline();
+    }
 
 	public void OnEndDrag(PointerEventData eventData) {
-		Debug.Log("Drop " + gameObject.name);
+        targets = Battleground.Instance.GetTargetUnits().ToArray();
+        Debug.Log("Drop " + gameObject.name+ " on "+targets.Length +" targets");
 		if(hand == null) {return;}
-
+        
+        
 		if(targets != null) {
-			Debug.Log(targets.Length);
+   
 			if(EvaluateTargets()) {
 				Play();
 			} else {
@@ -128,17 +135,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 		transform.SetSiblingIndex(card.zIndex);
 
 		hand.GetComponent<Hand>().draggedCard = null;
-
-        //TEMP TEST to apply card to units, remove all this ugly code asap!
-        Battleground bg = FindObjectOfType<Battleground>();
-        foreach (var unit in bg.GetUnitsSelected())
-        {
-            Debug.Log("target " + unit.UnitName);
-            unit.DealDamage(10);
-        } 
-        // END TEST
-
-
+        
 	}
 
 	void EnableLineTarget() {
