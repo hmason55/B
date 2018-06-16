@@ -226,6 +226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8b78f5efa815e41984ea80db9aa8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  outline: {fileID: 0}
+  hand: {fileID: 0}
 --- !u!114 &114398610625191468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -425,7 +428,17 @@ MonoBehaviour:
   resourceCost: 2
   description: Deal 10 damage.
   omitFromDeck: 0
+  requireTarget: 1
+  targetType: 2
+  areaOfEffect: 0
+  targetArea: 000000000000000000
+  effects:
+  - targetType: 2
+    effectType: 0
+    effectValue: 10
+    duration: 0
   showObjectReferences: 0
+  effectFoldouts: 01
   backgroundImage: {fileID: 114843335069718034}
   artworkImage: {fileID: 114517537212785374}
   titleText: {fileID: 114679498053893670}
@@ -440,7 +453,17 @@ MonoBehaviour:
     ResourceCost: 2
     Description: Deal 10 damage.
     OmitFromDeck: 0
+    RequireTarget: 0
+    AreaOfEffect: 0
+    TargetArea: 000000000000000000
+    TargetType: 0
+    Effects:
+    - targetType: 2
+      effectType: 0
+      effectValue: 10
+      duration: 0
   cardDataFile: {fileID: 4900000, guid: 31563ebb0af106642881ea2de70fc313, type: 3}
+  zIndex: 0
 --- !u!114 &114679498053893670
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,1 +1,1 @@
-{"Title":"Heavy Slash","DeckType":4,"ResourceCost":4,"Description":"Deal 20 Damage.","OmitFromDeck":false,"RequireTarget":false,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[]}
+{"Title":"Heavy Slash","DeckType":4,"ResourceCost":4,"Description":"Deal 20 Damage.","OmitFromDeck":false,"RequireTarget":false,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[{"targetType":2,"effectType":0,"effectValue":20,"duration":0}]}

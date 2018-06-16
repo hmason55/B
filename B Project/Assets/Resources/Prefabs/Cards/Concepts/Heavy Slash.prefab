@@ -238,7 +238,17 @@ MonoBehaviour:
   resourceCost: 4
   description: Deal 20 Damage.
   omitFromDeck: 0
+  requireTarget: 1
+  targetType: 2
+  areaOfEffect: 0
+  targetArea: 000000000000000000
+  effects:
+  - targetType: 2
+    effectType: 0
+    effectValue: 20
+    duration: 0
   showObjectReferences: 0
+  effectFoldouts: 01
   backgroundImage: {fileID: 114875767941965804}
   artworkImage: {fileID: 114053238002686598}
   titleText: {fileID: 114877147771537156}
@@ -253,7 +263,17 @@ MonoBehaviour:
     ResourceCost: 4
     Description: Deal 20 Damage.
     OmitFromDeck: 0
-  cardDataFile: {fileID: 4900000, guid: 31563ebb0af106642881ea2de70fc313, type: 3}
+    RequireTarget: 0
+    AreaOfEffect: 0
+    TargetArea: 000000000000000000
+    TargetType: 0
+    Effects:
+    - targetType: 2
+      effectType: 0
+      effectValue: 20
+      duration: 0
+  cardDataFile: {fileID: 4900000, guid: db981d413a5c2f74d9418c289c40f127, type: 3}
+  zIndex: 0
 --- !u!114 &114236232290669104
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,6 +299,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8b78f5efa815e41984ea80db9aa8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  outline: {fileID: 0}
+  hand: {fileID: 0}
 --- !u!114 &114425634867654282
 MonoBehaviour:
   m_ObjectHideFlags: 1
