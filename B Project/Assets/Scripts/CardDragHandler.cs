@@ -128,6 +128,17 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 		transform.SetSiblingIndex(card.zIndex);
 
 		hand.GetComponent<Hand>().draggedCard = null;
+
+        //TEMP TEST to apply card to units, remove all this ugly code asap!
+        Battleground bg = FindObjectOfType<Battleground>();
+        foreach (var unit in bg.GetUnitsSelected())
+        {
+            Debug.Log("target " + unit.UnitName);
+            unit.DealDamage(10);
+        } 
+        // END TEST
+
+
 	}
 
 	void EnableLineTarget() {
