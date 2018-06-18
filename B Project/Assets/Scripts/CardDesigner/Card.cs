@@ -144,22 +144,31 @@ public class Card : MonoBehaviour {
 	}
 
 	public void Play(BaseUnit[] targets) {
-        if (targets.Length > 0)
-            Debug.Log("Playing: " + title + "  to " + targets[0].UnitName);
-        else
-            Debug.Log("no targets");
-        Debug.Log(effects.Count+" effects");
-		foreach(Effect effect in effects) {
-			ApplyToTargets(targets, effect);
-		}
+		if(cardData.RequireTarget) {
+	        if(targets.Length > 0) {
+	            Debug.Log("Playing: " + title + " to " + targets[0].UnitName);
+				Debug.Log(effects.Count+" effects");
 
-        if (transform.parent)
-        {// Player card
-            Hand hand = transform.parent.GetComponent<Hand>();
-            if (hand != null)
-            {
-                hand.Remove(this);
-            }
+				foreach(Effect effect in effects) {
+					ApplyToTargets(targets, effect);
+				}
+
+				if (transform.parent)
+		        {// Player card
+		            Hand hand = transform.parent.GetComponent<Hand>();
+		            if (hand != null)
+		            {
+		                hand.Remove(this);
+		            }
+		        }
+
+	        } else {
+	            Debug.Log("no targets, canceling drag.");
+	            GetComponent<CardDragHandler>().CancelDrag();
+	        }
+        } else {
+        	Debug.Log("Playing card, no target required.");
+        	//Play card since it doesn't need a target.
         }
 	}
 

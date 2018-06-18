@@ -204,7 +204,7 @@ Prefab:
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: effects.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
@@ -214,7 +214,7 @@ Prefab:
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardData.Effects.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224331330032052604, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
@@ -439,22 +439,22 @@ Prefab:
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: description
-      value: <b>Stun</b> an Enemy, Deal 5 Damage.
+      value: Deal 10 damage.
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardData.Description
-      value: <b>Stun</b> an Enemy, Deal 5 Damage.
+      value: Deal 10 damage.
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: title
-      value: Shield Bash
+      value: Slash
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: deckType
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
@@ -464,17 +464,17 @@ Prefab:
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: targetType
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardData.Title
-      value: Shield Bash
+      value: Slash
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardData.DeckType
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
@@ -484,13 +484,13 @@ Prefab:
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardData.TargetType
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: cardDataFile
       value: 
-      objectReference: {fileID: 4900000, guid: 703633b30c49aaa4c9eaf2a690003539, type: 3}
+      objectReference: {fileID: 4900000, guid: 31563ebb0af106642881ea2de70fc313, type: 3}
     - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
         type: 2}
       propertyPath: omitFromDeck
