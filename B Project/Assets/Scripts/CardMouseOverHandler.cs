@@ -12,7 +12,7 @@ public class CardMouseOverHandler : MonoBehaviour, IPointerEnterHandler, IPointe
 	public void OnPointerEnter(PointerEventData eventData) {
 		// set scale
 		Vector2 currentPosition = GetComponent<RectTransform>().anchoredPosition;
-		GetComponent<RectTransform>().anchoredPosition = new Vector2(currentPosition.x, 70f);
+		GetComponent<RectTransform>().anchoredPosition = new Vector2(currentPosition.x, 323f);
 		GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 1.2f);
 		transform.SetAsLastSibling();
 	
