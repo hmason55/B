@@ -85,7 +85,6 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         
         
 		if(targets != null) {
-   
 			if(EvaluateTargets()) {
 				Play();
 			} else {
@@ -98,6 +97,11 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
 	bool EvaluateTargets() {
 		Debug.Log("Evaluating targets");
+
+		if(targets == null) {
+			return false;
+		}
+
 		foreach(BaseUnit target in targets) {
 			if(!target.IsTargetable()) {
 				Debug.Log("Not targetable");
@@ -121,7 +125,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 		card.Play(targets);
 	}
 
-	void CancelDrag() {
+	public void CancelDrag() {
 		card.SnapToHand();
 		DisableLineTarget();
 
