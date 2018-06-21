@@ -37,18 +37,22 @@ public class BattlegroundEditor : Editor
             if (GUILayout.Button("Reset player grid", GUILayout.Width(150), GUILayout.Height(30)))
             {
                 Undo.RecordObject(battleground, "Move Handle");
-                battleground.CornersPositions[0] = Camera.main.ViewportToWorldPoint(new Vector2(0.2f, 0.7f));
-                battleground.CornersPositions[1] = Camera.main.ViewportToWorldPoint(new Vector2(0.4f, 0.7f));
-                battleground.CornersPositions[2] = Camera.main.ViewportToWorldPoint(new Vector2(0.2f, 0.3f));
+                Vector2[] positions = battleground.GetViewportCornerPositions();
+                positions[0] = new Vector2(0.2f, 0.7f);
+                positions[1] = new Vector2(0.4f, 0.7f);
+                positions[2] = new Vector2(0.2f, 0.3f);
+                battleground.SetViewportCornerPositions(positions);
             }
             GUILayout.FlexibleSpace();
             GUI.backgroundColor = Color.red;
             if (GUILayout.Button("Reset enemy grid", GUILayout.Width(150), GUILayout.Height(30)))
             {
                 Undo.RecordObject(battleground, "Move Handle");
-                battleground.CornersPositions[3] = Camera.main.ViewportToWorldPoint(new Vector2(0.6f, 0.7f));
-                battleground.CornersPositions[4] = Camera.main.ViewportToWorldPoint(new Vector2(0.8f, 0.7f));
-                battleground.CornersPositions[5] = Camera.main.ViewportToWorldPoint(new Vector2(0.6f, 0.3f));
+                Vector2[] positions = battleground.GetViewportCornerPositions();
+                positions[3] = new Vector2(0.6f, 0.7f);
+                positions[4] = new Vector2(0.8f, 0.7f);
+                positions[5] = new Vector2(0.6f, 0.3f);
+                battleground.SetViewportCornerPositions(positions);
             }
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
@@ -70,16 +74,18 @@ public class BattlegroundEditor : Editor
         Vector2[] tops = new Vector2[4];
         Vector2[] bottoms = new Vector2[4];
 
+        Vector2[] positions = battleground.GetWorldCornerPositions();
+
         for (int n = 0; n < 2; n++)
         {
             // External border vectors
-            Vector2 right = battleground.CornersPositions[1 + n * 3] - battleground.CornersPositions[n * 3];
-            Vector2 down = battleground.CornersPositions[2 + n * 3] - battleground.CornersPositions[n * 3];
+            Vector2 right = positions[1 + n * 3] - positions[n * 3];
+            Vector2 down = positions[2 + n * 3] - positions[n * 3];
             for (int i = 0; i < 4; i++)
             {
-                lefts[i] = Vector2.Lerp(battleground.CornersPositions[ n * 3], battleground.CornersPositions[2 + n * 3], i /3.0f);
+                lefts[i] = Vector2.Lerp(positions[ n * 3], positions[2 + n * 3], i /3.0f);
                 rights[i] = lefts[i] + right;
-                tops[i]= Vector2.Lerp(battleground.CornersPositions[ n * 3], battleground.CornersPositions[1 + n * 3], i /3.0f);
+                tops[i]= Vector2.Lerp(positions[ n * 3], positions[1 + n * 3], i /3.0f);
                 bottoms[i] = tops[i] + down;
 
                 Handles.DrawLine(lefts[i], rights[i]);
@@ -93,17 +99,18 @@ public class BattlegroundEditor : Editor
         for (int i = 0; i < 6; i++)
         {
             Handles.color = Color.red;
-            oldPos = battleground.CornersPositions[i];
+            oldPos = positions[i];
             newPos = Handles.FreeMoveHandle(oldPos, Quaternion.identity, 0.1f, Vector3.zero, Handles.DotHandleCap);
             GUIStyle guiStyle = new GUIStyle();
             guiStyle.normal.textColor = Color.white;
             Handles.Label(oldPos + new Vector2(-0.5f, 0.3f), _handleNames[i], guiStyle);
             if (newPos != oldPos)
             {
-                Undo.RecordObject(battleground, "Move Handle");
-                battleground.CornersPositions[i] = newPos;
+                Undo.RecordObject(battleground, "Move Handle");                
             }
+            positions[i] = Camera.main.WorldToViewportPoint( newPos);
         }
+        battleground.SetViewportCornerPositions(positions);
     }
 
 }

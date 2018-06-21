@@ -1451,13 +1451,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a71b9972779464ea70f9203916afc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CornersPositions:
-  - {x: -5.333334, y: 1.9951111}
-  - {x: -0.98403156, y: 3.4503105}
-  - {x: -7.397842, y: -2.3823502}
-  - {x: 2.4964797, y: 0.85096717}
-  - {x: 6.9769917, y: -0.2696701}
-  - {x: 1.7777783, y: -2.002095}
+  _cornersPositions:
+  - {x: 0.19999999, y: 0.7}
+  - {x: 0.4, y: 0.7}
+  - {x: 0.19999999, y: 0.3}
+  - {x: 0.6, y: 0.7}
+  - {x: 0.8, y: 0.7}
+  - {x: 0.6, y: 0.3}
 --- !u!4 &1191449566
 Transform:
   m_ObjectHideFlags: 0
