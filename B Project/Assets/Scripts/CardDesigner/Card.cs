@@ -8,6 +8,14 @@ using System.Text.RegularExpressions;
 [ExecuteInEditMode]
 public class Card : MonoBehaviour {
 
+	public enum CharacterType {
+		Any,
+		Thy,
+		Guy,
+		Sly,
+		Die
+	}
+
 	public enum DeckClass {
 		Neutral,
 		Guardian,
@@ -36,6 +44,7 @@ public class Card : MonoBehaviour {
 
 	// Variables used by CardData
 	public string title;
+	public Card.CharacterType characterType;
 	public Card.DeckClass deckType;
 	public int resourceCost;
 	public string description;
@@ -53,6 +62,7 @@ public class Card : MonoBehaviour {
 	public Image backgroundImage;
 	public Image artworkImage;
 	public Text titleText;
+	public Text ownerText;
 	public Image descriptionImage;
 	public Text descriptionText;
 	public Image costImage;
@@ -70,6 +80,12 @@ public class Card : MonoBehaviour {
 	public Vector2 HandPosition {
 		get{return handPosition;}
 		set{handPosition = value;}
+	}
+
+	BaseUnit owner;
+
+	public BaseUnit Owner {
+		get{return owner;}
 	}
 
 	void Awake() {
@@ -120,7 +136,11 @@ public class Card : MonoBehaviour {
 		if(titleText) {
 			titleText.text = ParseText(title);
 
-		} 
+		}
+
+		if(owner) {
+			ownerText.text = ParseText(owner.UnitName);
+		}
 	
 		if(descriptionImage) {
 			//artworkImage.sprite = artwork;
@@ -195,6 +215,7 @@ public class Card : MonoBehaviour {
 	public void LoadCardData() {
 		if(cardData != null) {
 			title = cardData.Title;
+			characterType = cardData.CharacterType;
 			deckType = cardData.DeckType;
 			resourceCost = cardData.ResourceCost;
 			description = cardData.Description;
@@ -210,6 +231,7 @@ public class Card : MonoBehaviour {
 	public void SaveCardData() {
 		if(cardData != null) {
 			cardData.Title = title;
+			cardData.CharacterType = characterType;
 			cardData.DeckType = deckType;
 			cardData.ResourceCost = resourceCost;
 			cardData.Description = description;

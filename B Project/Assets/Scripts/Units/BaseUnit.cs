@@ -24,6 +24,9 @@ public class BaseUnit : MonoBehaviour, Entity
     private SpriteRenderer _spriteRenderer;
     private List<BaseStatus> _statuses = new List<BaseStatus>();
 
+    // Unit deck list
+    private List<CardData> _deckList;
+
     protected virtual void Awake()
     {        
         _actualHP = MaxHP;

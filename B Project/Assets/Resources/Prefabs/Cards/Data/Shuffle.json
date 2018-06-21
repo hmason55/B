@@ -1,1 +1,1 @@
-{"Title":"Shuffle","DeckType":0,"ResourceCost":-1,"Description":"(ALL) Move up to X Spaces","OmitFromDeck":true,"RequireTarget":false,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[]}
+{"Title":"Shuffle","CharacterType":0,"DeckType":0,"ResourceCost":-1,"Description":"(ALL) Move up to X Spaces","OmitFromDeck":true,"RequireTarget":false,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[],"OwnerID":0}

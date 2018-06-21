@@ -70,6 +70,31 @@ public class Deck : MonoBehaviour {
 		}
 	}
 
+	public void LoadCardsFromFile(int saveSlot, Character.ID characterID) {
+		ClearReferenceDeck();
+		ClearDeck();
+
+		deckFile = Resources.Load<TextAsset>("Prefabs/Cards/Decks/Slot_" + saveSlot + "/" + characterID.ToString());
+
+		if(deckFile == null) {
+			return;
+		}
+
+		// Remove newline characters
+		string formattedText = deckFile.text.Replace(System.Environment.NewLine, String.Empty);
+		string[] cardNames = formattedText.Split(',');
+
+		foreach(string cardName in cardNames) {
+			TextAsset textAsset = Resources.Load<TextAsset>(cardDataPath + cardName);
+			if(textAsset != null) {
+				CardData cardData = JsonUtility.FromJson<CardData>(textAsset.text);
+				if(!cardData.OmitFromDeck) {
+					referenceDeck.Add(cardData);
+				}
+			}
+		}
+	}
+
 	public void ClearDeck() {
 		deck = new List<CardData>();
 	}

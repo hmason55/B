@@ -6,7 +6,9 @@ using System;
 [Serializable]
 public class CardData {
 
+	// Save and Load variables.
 	public string Title;
+	public Card.CharacterType CharacterType;
 	public Card.DeckClass DeckType;
 	public int ResourceCost;
 	public string Description;
@@ -16,6 +18,9 @@ public class CardData {
 	public bool[] TargetArea = new bool[9];
 	public Card.TargetType TargetType;
 	public List<Effect> Effects;
+
+	// Used only at runtime.
+	public Character.ID OwnerID;
 }
 
 [Serializable]

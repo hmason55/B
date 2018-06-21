@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 222990638605545952}
   - component: {fileID: 114616248439065912}
   m_Layer: 5
-  m_Name: Description
+  m_Name: Owner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,6 +135,41 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1787587988234374
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224561279572086478}
+  - component: {fileID: 222461223451429638}
+  - component: {fileID: 114351856210303168}
+  - component: {fileID: 114976910869687758}
+  m_Layer: 5
+  m_Name: DescriptionText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1894701733710156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224217698326826758}
+  - component: {fileID: 222127067784016122}
+  - component: {fileID: 114367655414978034}
+  m_Layer: 5
+  m_Name: Description
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1979092401381134
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +200,7 @@ GameObject:
   - component: {fileID: 114662143297563100}
   - component: {fileID: 114340931588449526}
   m_Layer: 5
-  m_Name: DescriptionText
+  m_Name: OwnerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -244,7 +279,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Cleave
+  m_Text: Slash
 --- !u!114 &114211487824089106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -345,7 +380,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 3
+  m_Text: 2
 --- !u!114 &114340931588449526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -360,6 +395,66 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_EffectDistance: {x: 1.5, y: -1.5}
   m_UseGraphicAlpha: 1
+--- !u!114 &114351856210303168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1787587988234374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 1da7ef7d2032b3a49938025dab1468c1, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 16
+    m_MaxSize: 48
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Deal 10 damage.
+--- !u!114 &114367655414978034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1894701733710156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.3137255}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!114 &114516172145034828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -436,7 +531,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 1da7ef7d2032b3a49938025dab1468c1, type: 3}
     m_FontSize: 40
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 16
     m_MaxSize: 48
@@ -446,7 +541,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Deal 10 Damage to each enemy in a (Column).
+  m_Text: Thy
 --- !u!114 &114718393036147446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -543,6 +638,20 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &114976910869687758
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1787587988234374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_EffectDistance: {x: 1.5, y: -1.5}
+  m_UseGraphicAlpha: 1
 --- !u!114 &114989481711224342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -554,36 +663,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819e48401b77d6e42bb7191adb569e46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Cleave
+  title: Slash
   deckType: 4
-  resourceCost: 3
-  description: Deal 10 Damage to each enemy in a (Column).
+  resourceCost: 2
+  description: Deal 10 damage.
   omitFromDeck: 0
   requireTarget: 1
   targetType: 2
-  areaOfEffect: 1
-  targetArea: 000100000100000100
+  areaOfEffect: 0
+  targetArea: 000000000000000000
+  effects:
+  - targetType: 2
+    effectType: 0
+    effectValue: 10
+    duration: 0
   showObjectReferences: 0
-  effectFoldouts: 01010101010101010101010101010101010101
+  effectFoldouts: 0101010101010101010101010101010101010101010101010101
   backgroundImage: {fileID: 114927725948195238}
   artworkImage: {fileID: 114137649761013594}
   titleText: {fileID: 114184889383468188}
-  descriptionImage: {fileID: 114616248439065912}
-  descriptionText: {fileID: 114662143297563100}
+  ownerText: {fileID: 114662143297563100}
+  descriptionImage: {fileID: 114367655414978034}
+  descriptionText: {fileID: 114351856210303168}
   costImage: {fileID: 114211487824089106}
   costText: {fileID: 114304084164142088}
   showCardData: 0
   cardData:
-    Title: Cleave
+    Title: Slash
     DeckType: 4
-    ResourceCost: 3
-    Description: Deal 10 Damage to each enemy in a (Column).
+    ResourceCost: 2
+    Description: Deal 10 damage.
     OmitFromDeck: 0
     RequireTarget: 1
-    AreaOfEffect: 1
-    TargetArea: 000100000100000100
+    AreaOfEffect: 0
+    TargetArea: 000000000000000000
     TargetType: 2
-  cardDataFile: {fileID: 4900000, guid: 69dfafd0864dee64bad4d06d17b0a4d6, type: 3}
+    Effects:
+    - targetType: 2
+      effectType: 0
+      effectValue: 10
+      duration: 0
+  cardDataFile: {fileID: 4900000, guid: 31563ebb0af106642881ea2de70fc313, type: 3}
   zIndex: 0
 --- !u!222 &222102302143370762
 CanvasRenderer:
@@ -591,6 +711,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1988512157612708}
+--- !u!222 &222127067784016122
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1894701733710156}
 --- !u!222 &222309346813400344
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -615,6 +741,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1147969657548878}
+--- !u!222 &222461223451429638
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1787587988234374}
 --- !u!222 &222586252791373726
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -664,11 +796,11 @@ RectTransform:
   m_Father: {fileID: 224605991669731004}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -115}
-  m_SizeDelta: {x: 430, y: 220}
-  m_Pivot: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 215, y: 60}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224106332244119932
 RectTransform:
   m_ObjectHideFlags: 1
@@ -681,7 +813,7 @@ RectTransform:
   m_Children:
   - {fileID: 224021040217656624}
   m_Father: {fileID: 224331330032052604}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -706,6 +838,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -10}
   m_SizeDelta: {x: 400, y: 80}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!224 &224217698326826758
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1894701733710156}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 224561279572086478}
+  m_Father: {fileID: 224331330032052604}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10}
+  m_SizeDelta: {x: 230, y: 120}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!224 &224331330032052604
 RectTransform:
   m_ObjectHideFlags: 1
@@ -721,6 +872,7 @@ RectTransform:
   - {fileID: 224476658413426696}
   - {fileID: 224127718968909798}
   - {fileID: 224605991669731004}
+  - {fileID: 224217698326826758}
   - {fileID: 224106332244119932}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -748,6 +900,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 40}
   m_SizeDelta: {x: 230, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224561279572086478
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1787587988234374}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 224217698326826758}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -115}
+  m_SizeDelta: {x: 430, y: 220}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!224 &224597715379825872
 RectTransform:
   m_ObjectHideFlags: 1
@@ -780,11 +950,11 @@ RectTransform:
   m_Father: {fileID: 224331330032052604}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 10}
-  m_SizeDelta: {x: 230, y: 120}
-  m_Pivot: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 115, y: 30}
+  m_Pivot: {x: 1, y: 0}
 --- !u!224 &224892498710996728
 RectTransform:
   m_ObjectHideFlags: 1

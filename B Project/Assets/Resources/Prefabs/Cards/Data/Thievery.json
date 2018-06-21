@@ -1,1 +1,1 @@
-{"Title":"Thievery","DeckType":3,"ResourceCost":7,"Description":"<b>Link</b>, Gain 2*","OmitFromDeck":false,"RequireTarget":false,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[]}
+{"Title":"Thievery","CharacterType":0,"DeckType":3,"ResourceCost":7,"Description":"<b>Link</b>, Gain 2*","OmitFromDeck":false,"RequireTarget":false,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[],"OwnerID":0}
