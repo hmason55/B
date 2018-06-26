@@ -5,8 +5,10 @@ using UnityEngine;
 public class Battleground : Singleton<Battleground>
 {
     // Grid corner positions to set on Unity
+    // Coordinates in viewport position [0-1]
     [HideInInspector]
-    public Vector2[] CornersPositions = new Vector2[6];
+    [SerializeField]
+    private Vector2[] _cornersPositions = new Vector2[6];
 
     // Screen position of each tile
     private Vector2[,] _playerGrid = new Vector2[3, 3];
@@ -57,17 +59,42 @@ public class Battleground : Singleton<Battleground>
 
     #region Grid calculations
 
+    public void SetViewportCornerPositions(Vector2[] corners)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            _cornersPositions[i] = corners[i];
+        }
+    }
+
+    public Vector2[] GetWorldCornerPositions()
+    {
+        Vector2[] positions = new Vector2[6];
+        for (int i = 0; i < 6; i++)
+        {
+            positions[i] = Camera.main.ViewportToWorldPoint(_cornersPositions[i]);
+        }
+        return positions;
+    }
+
+    public Vector2[] GetViewportCornerPositions()
+    {        
+        return _cornersPositions;
+    }
+
+
     void CalculateGridPositions()
     {
+        Vector2[] positions = GetWorldCornerPositions();
         Vector2 ptl, ptr, pbl; // Corners positions for player
-        ptl = CornersPositions[0]; // Top left
-        ptr = CornersPositions[1]; // Top right
-        pbl = CornersPositions[2]; // Bottom left
+        ptl = positions[0]; // Top left
+        ptr = positions[1]; // Top right
+        pbl = positions[2]; // Bottom left
 
         Vector2 etl, etr, ebl; // Corners positions for enemy
-        etl = CornersPositions[3]; // Top left
-        etr = CornersPositions[4]; // Top right
-        ebl = CornersPositions[5]; // Bottom left
+        etl = positions[3]; // Top left
+        etr = positions[4]; // Top right
+        ebl = positions[5]; // Bottom left
 
         for (int i = 0; i < 3; i++)
         {
@@ -83,6 +110,8 @@ public class Battleground : Singleton<Battleground>
 
     void CalculateGridMesh()
     {
+        Vector2[] positions = GetWorldCornerPositions();
+
         Vector3[] points = new Vector3[4 * 18];
         int[] triangles = new int[6 * 18];
         Vector2[] uvs = new Vector2[4 * 18];
@@ -90,18 +119,18 @@ public class Battleground : Singleton<Battleground>
 
         for (int n = 0; n < 2; n++)
         {
-            Vector2 right = CornersPositions[1 + n * 3] - CornersPositions[n * 3];
-            Vector2 down = CornersPositions[2 + n * 3] - CornersPositions[n * 3];
+            Vector2 right = positions[1 + n * 3] - positions[n * 3];
+            Vector2 down = positions[2 + n * 3] - positions[n * 3];
 
             for (int i = 0; i < 9; i++)
             {
                 int j = i % 3;
                 int k = i / 3;
 
-                points[(n * 9 + i) * 4] = CornersPositions[n * 3] + right * (j / 3f + 0.01f) + down * (k / 3f + 0.01f);
-                points[(n * 9 + i) * 4 + 1] = CornersPositions[n * 3] + right * ((j + 1) / 3f - 0.01f) + down * (k / 3f + 0.01f);
-                points[(n * 9 + i) * 4 + 2] = CornersPositions[n * 3] + right * (j / 3f + 0.01f) + down * ((k + 1) / 3f - 0.01f);
-                points[(n * 9 + i) * 4 + 3] = CornersPositions[n * 3] + right * ((j + 1) / 3f - 0.01f) + down * ((k + 1) / 3f - 0.01f);
+                points[(n * 9 + i) * 4] = positions[n * 3] + right * (j / 3f + 0.01f) + down * (k / 3f + 0.01f);
+                points[(n * 9 + i) * 4 + 1] = positions[n * 3] + right * ((j + 1) / 3f - 0.01f) + down * (k / 3f + 0.01f);
+                points[(n * 9 + i) * 4 + 2] = positions[n * 3] + right * (j / 3f + 0.01f) + down * ((k + 1) / 3f - 0.01f);
+                points[(n * 9 + i) * 4 + 3] = positions[n * 3] + right * ((j + 1) / 3f - 0.01f) + down * ((k + 1) / 3f - 0.01f);
 
                 triangles[(n * 9 + i) * 6] = 0 + (n * 9 + i) * 4;
                 triangles[(n * 9 + i) * 6 + 1] = 1 + (n * 9 + i) * 4;
@@ -203,19 +232,19 @@ public class Battleground : Singleton<Battleground>
 
     void CheckMouseAgainstGrid()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         int result = -1;
 
         for (int n = 0; n < 2; n++)
         {
-            Vector2 right = CornersPositions[1 + n * 3] - CornersPositions[n * 3];
-            Vector2 down = CornersPositions[2 + n * 3] - CornersPositions[n * 3];
+            Vector2 right = _cornersPositions[1 + n * 3] - _cornersPositions[n * 3];
+            Vector2 down = _cornersPositions[2 + n * 3] - _cornersPositions[n * 3];
 
-            Vector2 result1 = GetIntersectionPointCoordinates(CornersPositions[n * 3], CornersPositions[n * 3 + 1], mousePos, mousePos + down);
-            float j = (result1.x - CornersPositions[n * 3].x) / right.x;
+            Vector2 result1 = GetIntersectionPointCoordinates(_cornersPositions[n * 3], _cornersPositions[n * 3 + 1], mousePos, mousePos + down);
+            float j = (result1.x - _cornersPositions[n * 3].x) / right.x;
 
-            Vector2 result2 = GetIntersectionPointCoordinates(CornersPositions[n * 3], CornersPositions[n * 3 + 2], mousePos, mousePos + right);
-            float k = (result2.y - CornersPositions[n * 3].y) / down.y;
+            Vector2 result2 = GetIntersectionPointCoordinates(_cornersPositions[n * 3], _cornersPositions[n * 3 + 2], mousePos, mousePos + right);
+            float k = (result2.y - _cornersPositions[n * 3].y) / down.y;
 
             if (j > 1f || j < 0f || k > 1f || k < 0f)
             {

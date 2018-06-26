@@ -26,6 +26,7 @@ public class TurnManager : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Starting battle");
+        _battleground.SetTargetType(false);
 
         // Place enemies 
         _aiManager.CreateRandomEnemies();
