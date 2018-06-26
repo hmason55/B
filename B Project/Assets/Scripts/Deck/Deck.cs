@@ -4,11 +4,11 @@ using UnityEngine;
 using System.IO;
 using System;
 
-public class Deck : MonoBehaviour {
+public class Deck {
 
 	static string cardDataPath = "Prefabs/Cards/Data/";
-	List<CardData> referenceDeck;
-	List<CardData> deck;
+	protected List<CardData> referenceDeck;
+	protected List<CardData> deck;
 	[SerializeField] TextAsset deckFile;
 
 	public List<CardData> DeckList {
@@ -19,11 +19,18 @@ public class Deck : MonoBehaviour {
 		get{return referenceDeck;}
 	}
 
-	void Start() {
-		if(deckFile) {
+	public Deck() {
+		ClearDeck();
+		ClearReferenceDeck();
+	}
+
+	public Deck(TextAsset textAsset) {
+		ClearDeck();
+		ClearReferenceDeck();
+
+		deckFile = textAsset;
+		if(deckFile != null) {
 			LoadCardsFromFile();
-		} else {
-			LoadAllCards();
 		}
 	}
 
@@ -70,11 +77,15 @@ public class Deck : MonoBehaviour {
 		}
 	}
 
-	public void LoadCardsFromFile(int saveSlot, Character.ID characterID) {
+	public void LoadCardsFromFile(int saveSlot, BaseUnit.ID unitID) {
 		ClearReferenceDeck();
 		ClearDeck();
 
-		deckFile = Resources.Load<TextAsset>("Prefabs/Cards/Decks/Slot_" + saveSlot + "/" + characterID.ToString());
+		if(saveSlot < 0) {	// Fallback to default
+			deckFile = Resources.Load<TextAsset>("SaveData/default" + saveSlot + "/DeckData/" + unitID.ToString());
+		} else {
+			deckFile = Resources.Load<TextAsset>("SaveData/Slot_" + saveSlot + "/DeckData/" + unitID.ToString());
+		}
 
 		if(deckFile == null) {
 			return;
@@ -170,6 +181,14 @@ public class Deck : MonoBehaviour {
 				handList.RemoveAt(ndx);
 			}
 		}
+	}
+
+	public void AddCardToReferenceDeck(CardData cardData) {
+		referenceDeck.Add(cardData);
+	}
+
+	public void AddCardToDeck(CardData cardData) {
+		deck.Add(cardData);
 	}
 
 }

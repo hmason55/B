@@ -20,7 +20,7 @@ public class CardData {
 	public List<Effect> Effects;
 
 	// Used only at runtime.
-	public Character.ID OwnerID;
+	public BaseUnit Owner;
 }
 
 [Serializable]

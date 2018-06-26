@@ -9,6 +9,7 @@ TagManager:
   - Hand
   - Board
   - TargetLine
+  - PartyManager
   layers:
   - Default
   - TransparentFX

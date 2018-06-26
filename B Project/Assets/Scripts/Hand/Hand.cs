@@ -15,7 +15,7 @@ public class Hand : MonoBehaviour {
 	[SerializeField] float horizontalPadding = 75f;
 
 	// Hand Data
-	[SerializeField] Deck deck;
+	Deck deck;
 	[SerializeField] int drawCount = 7;
 	[SerializeField] int maxCards = 12;
 	List<CardData> handList;
@@ -25,6 +25,11 @@ public class Hand : MonoBehaviour {
 
 	public List<CardData> HandList {
 		get{return handList;}
+	}
+
+	public Deck DeckList {
+		get{return deck;}
+		set{deck = value;}
 	}
 
 	public void Deal() {

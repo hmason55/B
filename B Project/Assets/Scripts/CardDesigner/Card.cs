@@ -96,7 +96,6 @@ public class Card : MonoBehaviour {
 
 	void Update() {
 
-
 		SaveCardData();
 
 		if(backgroundImage) {
@@ -225,6 +224,9 @@ public class Card : MonoBehaviour {
 			areaOfEffect = cardData.AreaOfEffect;
 			targetArea = cardData.TargetArea;
 			effects = cardData.Effects;
+
+			// Do not save.
+			owner = cardData.Owner;
 		}
 	}
 

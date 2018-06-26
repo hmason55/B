@@ -31,11 +31,13 @@ public class TurnManager : MonoBehaviour
         _aiManager.CreateRandomEnemies();
 
         // Place player units (replace with human positioning in future)
-        _partyManager.CreateRandomUnits();
+        _partyManager.LoadDefaultParty();
 
         // Draw player cards
         _hand.gameObject.SetActive(true);
+        _hand.DeckList = _partyManager.PartyDeck;
         _hand.Deal();
+		Debug.Log("Party deck size: "+_hand.DeckList.ReferenceDeck.Count);
     }
 
     public void StartPlayerTurn()
