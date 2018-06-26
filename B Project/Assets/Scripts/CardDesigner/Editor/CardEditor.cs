@@ -10,6 +10,7 @@ using System.IO;
 public class CardEditor : Editor {
 
 	SerializedProperty pTitle;
+	SerializedProperty pCharacterType;
 	SerializedProperty pDeckType;
 	SerializedProperty pResourceCost;
 	SerializedProperty pDescription;
@@ -22,6 +23,7 @@ public class CardEditor : Editor {
 	SerializedProperty pBackgroundImageObj;
 	SerializedProperty pArtworkImageObj;
 	SerializedProperty pTitleTextObj;
+	SerializedProperty pOwnerTextObj;
 	SerializedProperty pDescriptionImageObj;
 	SerializedProperty pDescriptionTextObj;
 	SerializedProperty pCostImageObj;
@@ -38,6 +40,7 @@ public class CardEditor : Editor {
 	void OnEnable() {
         // Setup the SerializedProperties.
         pTitle = serializedObject.FindProperty("title");
+		pCharacterType = serializedObject.FindProperty("characterType");
 		pDeckType = serializedObject.FindProperty("deckType");
         pResourceCost = serializedObject.FindProperty("resourceCost");
 		pDescription = serializedObject.FindProperty("description");
@@ -57,6 +60,7 @@ public class CardEditor : Editor {
         if(toggleGeneral) {
 			EditorGUI.indentLevel = 1;
 			EditorGUILayout.PropertyField(pTitle, new GUIContent("Title"), null);
+			EditorGUILayout.PropertyField(pCharacterType, new GUIContent("Character"), null);
 			EditorGUILayout.PropertyField(pDeckType, new GUIContent("Deck"), null);
 			EditorGUILayout.IntSlider(pResourceCost, -1, 8, new GUIContent("Cost"));
 			EditorGUILayout.PropertyField(pOmitFromDeck, new GUIContent("Omit From Deck"), null);
@@ -242,6 +246,7 @@ public class CardEditor : Editor {
 			card.backgroundImage = EditorGUILayout.ObjectField(new GUIContent("Background Image Asset"), card.backgroundImage, typeof(Image), true, null) as Image;
 			card.artworkImage = EditorGUILayout.ObjectField(new GUIContent("Artwork Image Asset"), card.artworkImage, typeof(Image), true, null) as Image;
 			card.titleText = EditorGUILayout.ObjectField(new GUIContent("Title Text Asset"), card.titleText, typeof(Text), true, null) as Text;
+			card.ownerText = EditorGUILayout.ObjectField(new GUIContent("Owner Text Asset"), card.ownerText, typeof(Text), true, null) as Text;
 			card.descriptionImage = EditorGUILayout.ObjectField(new GUIContent("Description Image Asset"), card.descriptionImage, typeof(Image), true, null) as Image;
 			card.descriptionText = EditorGUILayout.ObjectField(new GUIContent("Description Text Asset"), card.descriptionText, typeof(Text), true, null) as Text;
 			card.costImage = EditorGUILayout.ObjectField(new GUIContent("Cost Image Asset"), card.costImage, typeof(Image), true, null) as Image;

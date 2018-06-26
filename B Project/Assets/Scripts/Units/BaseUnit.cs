@@ -3,19 +3,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class BaseUnit : MonoBehaviour, Entity
 {
     // Base unit class
 
+    // Presets
+	public enum ID {
+		None,
+		Thy,
+		Guy,
+		Sly,
+		Die
+	}
+
+	public ID UnitID {
+		get{return _unitID;}
+		set{_unitID = value;}
+	}
+
+
     // Name
     public string UnitName;
+
     // Max HP
     public int MaxHP;
+
     // Actual HP
     private int _actualHP;
+
+    // Base HP
+	[SerializeField] private int _baseHP;
+
     // Player or Enemy controlled
     protected bool _player;
+
+    // For save/load
+	private UnitData _unitData;
+
+	// ID
+	[SerializeField] private ID _unitID;
+
+    // Deck Class
+
+	[SerializeField] private Card.DeckClass _deckClass;
+
     // Tile position on grid
     private int _gridPosition = -1;
     // Unit UI
@@ -23,6 +56,14 @@ public class BaseUnit : MonoBehaviour, Entity
     // Unit sprite
     private SpriteRenderer _spriteRenderer;
     private List<BaseStatus> _statuses = new List<BaseStatus>();
+
+    // Unit deck list
+    protected Deck _deck;
+
+    public Deck DeckList {
+    	get{return _deck;}
+    	set{_deck = value;}
+    }
 
     protected virtual void Awake()
     {        
@@ -95,6 +136,7 @@ public class BaseUnit : MonoBehaviour, Entity
 
     void UpdateUI()
     {
+    	_textMeshUI.offsetZ = -1f;
         _textMeshUI.transform.position = transform.position + Vector3.up * 2.5f;
         _textMeshUI.text = UnitName + "\n" + _actualHP + "/" + MaxHP;
         _textMeshUI.fontSize = 24;
@@ -129,6 +171,73 @@ public class BaseUnit : MonoBehaviour, Entity
 		Debug.Log(Camera.main.WorldToViewportPoint(transform.position));
     	battleText.GetComponent<Text>().text = text;
     }
+
+    #region Save/Load methods
+    public void SetUnitData(UnitData unitData) {
+    	_unitData = unitData;
+    }
+
+	public void SaveUnitData() {
+		if(_unitData == null) {
+    		_unitData = new UnitData();
+    	}
+
+    	_unitData.UnitName = UnitName;
+    	_unitData.UnitID = _unitID;
+    	_unitData.DeckClass = _deckClass;
+    	_unitData.BaseHP = _baseHP;
+    	_unitData.SpritePath = _spriteRenderer.sprite.name;
+    }
+
+    public void LoadUnitData() {
+    	if(_unitData == null) {
+    		return;
+    	}
+
+		UnitName = _unitData.UnitName;
+    	_unitID = _unitData.UnitID;
+		_deckClass = _unitData.DeckClass;
+		_baseHP = _unitData.BaseHP;
+		_spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Units/"+_unitData.SpritePath);
+
+		UpdateUI();
+    }
+
+	public void SaveToJson(int saveSlot) {
+		SaveUnitData();
+
+		string dataPath = "Assets/Resources/SaveData/default/UnitData/" + _unitID.ToString() + ".json";
+
+		if(saveSlot >= 0) {
+			dataPath = "Assets/Resources/SaveData/Slot_" + saveSlot + "/UnitData/" + _unitID.ToString() + ".json";
+		}
+
+		StreamWriter writer = null;
+		if(!File.Exists(dataPath)) {
+			writer = File.CreateText(dataPath);
+		} else {
+			writer = new StreamWriter(dataPath, false);
+		}
+
+		writer.WriteLine(JsonUtility.ToJson(_unitData));
+    	writer.Close();
+
+    }
+
+    public void LoadFromJson(int saveSlot) {
+		string dataPath = "SaveData/default/UnitData/" + _unitID.ToString();
+
+		if(saveSlot >= 0) {
+			dataPath = "SaveData/Slot_" + saveSlot + "/UnitData/" + _unitID.ToString();
+		}
+
+		TextAsset textAsset = Resources.Load<TextAsset>(dataPath);
+		if(textAsset != null) {
+			_unitData = JsonUtility.FromJson<UnitData>(textAsset.text);
+			LoadUnitData();
+		}
+    }
+    #endregion
 
     #region Status methods
 
