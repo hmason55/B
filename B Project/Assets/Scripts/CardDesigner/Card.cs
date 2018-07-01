@@ -162,34 +162,42 @@ public class Card : MonoBehaviour {
 		}
 	}
 
-	public void Play(BaseUnit[] targets) {
-		if(cardData.RequireTarget) {
-	        if(targets.Length > 0) {
-	            Debug.Log("Playing: " + title + " to " + targets[0].UnitName);
-				Debug.Log(effects.Count+" effects");
+    public void Play(BaseUnit[] targets)
+    {
+        if (cardData.RequireTarget)
+        {
+            if (targets.Length > 0)
+            {
+                Debug.Log("Playing: " + title + " to " + targets[0].UnitName);
+                Debug.Log(effects.Count + " effects");
 
-				foreach(Effect effect in effects) {
-					ApplyToTargets(targets, effect);
-				}
+                foreach (Effect effect in effects)
+                {
+                    ApplyToTargets(targets, effect);
+                }
+                
+                if (transform.parent) // Added check in case the card belong to AI, so no GO
+                {// Player card
+                    Hand hand = transform.parent.GetComponent<Hand>();
+                    if (hand != null)
+                    {
+                        hand.Remove(this);
+                    }
+                }
 
-				if (transform.parent)
-		        {// Player card
-		            Hand hand = transform.parent.GetComponent<Hand>();
-		            if (hand != null)
-		            {
-		                hand.Remove(this);
-		            }
-		        }
-
-	        } else {
-	            Debug.Log("no targets, canceling drag.");
-	            GetComponent<CardDragHandler>().CancelDrag();
-	        }
-        } else {
-        	Debug.Log("Playing card, no target required.");
-        	//Play card since it doesn't need a target.
+            }
+            else
+            {
+                Debug.Log("no targets, canceling drag.");
+                GetComponent<CardDragHandler>().CancelDrag();
+            }
         }
-	}
+        else
+        {
+            Debug.Log("Playing card, no target required.");
+            //Play card since it doesn't need a target.
+        }
+    }
 
 	void ApplyToTargets(BaseUnit[] targets, Effect effect) {
 		Debug.Log("Applying effects");

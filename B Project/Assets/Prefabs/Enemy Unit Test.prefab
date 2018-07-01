@@ -109,8 +109,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitName: Enemy
   MaxHP: 70
-  PlayableCards:
-  - {fileID: 114212198392756372, guid: 5b47341f27c64c440863e7724ab8e49f, type: 2}
+  _baseHP: 0
+  _unitID: 0
+  _deckClass: 0
+  Deck: {fileID: 4900000, guid: 70f4399ddab302146bbbd0a2a17cb37d, type: 3}
 --- !u!212 &212405061170724614
 SpriteRenderer:
   m_ObjectHideFlags: 1
