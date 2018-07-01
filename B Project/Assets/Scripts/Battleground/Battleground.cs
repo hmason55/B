@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TargetEntity { Player, Enemy, Unit, Hazard }
+
 public class Battleground : Singleton<Battleground>
 {
     // Grid corner positions to set on Unity
@@ -27,6 +29,8 @@ public class Battleground : Singleton<Battleground>
     private bool _targetTile = true;
     // Target shape
     private TargetShape _targetShape = TargetShape.Single;
+    // Type of target (player, enemy, hazard etc)
+    private TargetEntity _targetEntity = TargetEntity.Unit;
 
     void Start()
     {
@@ -228,6 +232,8 @@ public class Battleground : Singleton<Battleground>
             else
                 ClearHighlights();
         }
+        else
+            ClearHighlights();
     }
 
     void CheckMouseAgainstGrid()
@@ -333,14 +339,26 @@ public class Battleground : Singleton<Battleground>
             {
                 BaseUnit unit = _units[positions[i]];
                 if (unit)
-                {
                     _mouseoverUnits.Add(unit);
-                    SpriteRenderer rend = unit.GetComponentInChildren<SpriteRenderer>();
-                    rend.color = Color.Lerp(Color.white, Color.red, 0.5f + 0.2f * Mathf.Sin(Time.time * 15f));
-                    rend.transform.localScale = Vector2.one * (0.6f + 0.1f * Mathf.Sin(Time.time * 4f + 1));
-                }
             }
 
+            // Check the target type against the unit
+            for (int i = _mouseoverUnits.Count - 1; i >= 0; i--)
+            {
+                if (_mouseoverUnits[i].IsPlayer() && (_targetEntity == TargetEntity.Enemy || _targetEntity == TargetEntity.Hazard))
+                    _mouseoverUnits.RemoveAt(i);
+                else if (!_mouseoverUnits[i].IsPlayer() && (_targetEntity == TargetEntity.Player || _targetEntity == TargetEntity.Hazard))
+                    _mouseoverUnits.RemoveAt(i);
+            }
+
+            // TEMP little highlight animation
+            for (int i = 0; i < _mouseoverUnits.Count; i++)
+            {
+                BaseUnit unit = _mouseoverUnits[i];
+                SpriteRenderer rend = unit.GetComponentInChildren<SpriteRenderer>();
+                rend.color = Color.Lerp(Color.white, Color.red, 0.5f + 0.2f * Mathf.Sin(Time.time * 15f));
+                rend.transform.localScale = Vector2.one * (0.6f + 0.1f * Mathf.Sin(Time.time * 4f + 1));
+            }
         }
         else
         {
@@ -387,7 +405,7 @@ public class Battleground : Singleton<Battleground>
         HighlightUnits(new List<int> { });
     }
 
-    public void SetTargetType(bool tile)
+    public void SetTargetTile(bool tile)
     {
         _targetTile = tile;
     }
@@ -490,9 +508,10 @@ public class Battleground : Singleton<Battleground>
         return _mouseoverUnits;
     }
 
-    public void SetTargetShape(TargetShape shape)
+    public void SetTargetShape(TargetShape shape, TargetEntity entity)
     {
         _targetShape = shape;
+        _targetEntity = entity;
     }
 
     #endregion

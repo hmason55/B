@@ -43,12 +43,12 @@ public class TempBattlegroundUI : MonoBehaviour
 
     public void OnToggle()
     {
-        _battleGround.SetTargetType(ToggleTile.isOn);
+        _battleGround.SetTargetTile(ToggleTile.isOn);
     }
 
     public void OnShapeToggle(int shape)
     {
-        _battleGround.SetTargetShape((TargetShape)shape);
+        _battleGround.SetTargetShape((TargetShape)shape, TargetEntity.Enemy );
     }
 
 }

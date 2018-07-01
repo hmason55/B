@@ -26,7 +26,7 @@ public class TurnManager : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Starting battle");
-        _battleground.SetTargetType(false);
+        _battleground.SetTargetTile(false);
 
         // Place enemies 
         _aiManager.CreateRandomEnemies();
@@ -53,7 +53,7 @@ public class TurnManager : MonoBehaviour
         _hand.Deal();
 
         // Enable battleground targeting
-        _battleground.SetTargetShape(TargetShape.Single);
+        _battleground.SetTargetShape(TargetShape.Single, TargetEntity.Enemy);
 
         // Draw next AI cards and show them 
         _aiManager.DealAICards();
@@ -71,7 +71,7 @@ public class TurnManager : MonoBehaviour
         _hand.gameObject.SetActive(false);
 
         // Disable battleground targeting
-        _battleground.SetTargetShape(TargetShape.None);
+        _battleground.SetTargetShape(TargetShape.None, TargetEntity.Enemy);
 
         // Enable AI
         StartCoroutine(_aiManager.StartAITurn());

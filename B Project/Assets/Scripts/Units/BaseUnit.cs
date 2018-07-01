@@ -37,7 +37,7 @@ public class BaseUnit : MonoBehaviour, Entity
 	[SerializeField] private int _baseHP;
 
     // Player or Enemy controlled
-    protected bool _player;
+    protected bool _player=true;
 
     // For save/load
 	private UnitData _unitData;

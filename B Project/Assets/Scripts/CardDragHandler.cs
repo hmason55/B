@@ -22,20 +22,26 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 		}
 	}
 
-	public void OnBeginDrag(PointerEventData eventData) {
-		mouseOffset = transform.position - Input.mousePosition;
-		Debug.Log("Drag " + gameObject.name);
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        mouseOffset = transform.position - Input.mousePosition;
+        Debug.Log("Drag " + gameObject.name);
 
-		if(hand == null) {return;}
-		foreach(Transform cardTransform in hand) {
-			cardTransform.GetComponent<Card>().DisableRaycast();
-		}
+        if (hand == null) { return; }
+        foreach (Transform cardTransform in hand)
+        {
+            cardTransform.GetComponent<Card>().DisableRaycast();
+        }
 
-		hand.GetComponent<Hand>().draggedCard = card;
-                
+        hand.GetComponent<Hand>().draggedCard = card;
+
         // Notify battleground of target shape (and in future side too)
-        Battleground.Instance.SetTargetShape(TargetShape.Single);
-	}
+        // Check if the spell requires a different target
+        TargetEntity entity = TargetEntity.Enemy;
+        if (card.targetType == Card.TargetType.Ally)
+            entity = TargetEntity.Player;
+        Battleground.Instance.SetTargetShape(TargetShape.Single, entity);
+    }
 
     public void OnDrag(PointerEventData eventData) {
         Vector3 mousePosition = Input.mousePosition;
@@ -139,7 +145,9 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 		transform.SetSiblingIndex(card.zIndex);
 
 		hand.GetComponent<Hand>().draggedCard = null;
-        
+
+        // Return battleground target to standard
+        Battleground.Instance.SetTargetShape(TargetShape.Single, TargetEntity.Unit);
 	}
 
 	void EnableLineTarget() {
