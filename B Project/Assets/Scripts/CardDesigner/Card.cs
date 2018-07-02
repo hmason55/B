@@ -137,8 +137,10 @@ public class Card : MonoBehaviour {
 
 		}
 
-		if(owner) {
-			ownerText.text = ParseText(owner.UnitName);
+		if(ownerText) {
+			if(owner) {
+				ownerText.text = ParseText(owner.UnitName);
+			}
 		}
 	
 		if(descriptionImage) {
@@ -183,6 +185,10 @@ public class Card : MonoBehaviour {
                     {
                         hand.Remove(this);
                     }
+				} 
+				else 
+				{	//Remove enemy card upon playing
+                	Destroy(gameObject);
                 }
 
             }
@@ -255,11 +261,19 @@ public class Card : MonoBehaviour {
 	}
 
 	bool ParseTargetType(TargetType type, bool isPlayer) {
-		if(type == TargetType.Ally && isPlayer) {
-			return true;
-		} else if(type == TargetType.Enemy && !isPlayer) {
-			return true;
+
+		if(cardData.Owner.IsPlayer() && isPlayer){
+			// Targeting own team
+			if(type == TargetType.Ally) {
+				return true;
+			} 
+		} else {
+			// Targeting enemy team
+			if(type == TargetType.Enemy) {
+				return true;
+			}
 		}
+
 		return false;
 	}
 

@@ -23,7 +23,7 @@ public class EnemyUnit : BaseUnit
         _nextCardUI = UI.AddComponent<TextMesh>();
         UI.transform.SetParent(transform);
 
-        // Loads all cards to the deck
+        // Loads cards to the deck
         _deck = new Deck(Deck);
     }
 
@@ -38,8 +38,9 @@ public class EnemyUnit : BaseUnit
 
         // Load a random card from the deck  
         GameObject card = new GameObject();
-        _nextCard =card.AddComponent<Card>();
+        _nextCard = card.AddComponent<Card>();
         _nextCard.cardData = _deck.DrawRandomCard(_deck.DeckList, false);
+        _nextCard.cardData.Owner = this;
         _nextCard.LoadCardData();
 
         // Update next card UI

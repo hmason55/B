@@ -31,6 +31,7 @@ public class Deck {
 		deckFile = textAsset;
 		if(deckFile != null) {
 			LoadCardsFromFile();
+			PopulateDeckFromReference(null);
 		}
 	}
 
@@ -75,6 +76,7 @@ public class Deck {
 				}
 			}
 		}
+
 	}
 
 	public void LoadCardsFromFile(int saveSlot, BaseUnit.ID unitID) {
@@ -167,6 +169,7 @@ public class Deck {
 
 		foreach(CardData rCardData in referenceDeck) {
 			int ndx = -1;
+
 			if(handList != null) {
 				for(int i = 0; i < handList.Count; i++) {
 					if(handList[i].Title == rCardData.Title) {
