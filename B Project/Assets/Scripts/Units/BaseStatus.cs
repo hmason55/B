@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class BaseStatus
 {
+
     // Power of the status
     public int Strength;
     // Turn until expiration
