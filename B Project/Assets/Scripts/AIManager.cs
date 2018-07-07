@@ -6,6 +6,8 @@ public class AIManager : MonoBehaviour
 {
     // TEMP Enemy Prefab
     public GameObject EnemyPrefab;
+    public GameObject EnemyUIPrefab;
+
     // Enemy units
     private List<EnemyUnit> _enemies;
     // Party Manager cache
@@ -35,6 +37,11 @@ public class AIManager : MonoBehaviour
 
             Battleground bg = FindObjectOfType<Battleground>();
             bg.PlaceUnitAt(enemy, i + 9);
+
+            //create UI
+            CharacterUI UI = Instantiate(EnemyUIPrefab).GetComponent<CharacterUI>();
+            enemy.AssignUI(UI);
+            UI.SetEnemyTell(true);
 
             enemy.DealAnotherCard();
         }

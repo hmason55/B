@@ -51,11 +51,17 @@ public class BaseUnit : MonoBehaviour, Entity
 
     // Tile position on grid
     private int _gridPosition = -1;
+
     // Unit UI
-    private TextMesh _textMeshUI;
+    //private TextMesh _textMeshUI;
+    protected CharacterUI _characterUI;
+
     // Unit sprite
     private SpriteRenderer _spriteRenderer;
     private List<BaseStatus> _statuses = new List<BaseStatus>();
+
+    // Threat level
+    public float Threat;
 
     // Unit deck list
     protected Deck _deck;
@@ -72,17 +78,19 @@ public class BaseUnit : MonoBehaviour, Entity
         // Cache renderer
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
+        /*
         // Initialize UI
         GameObject UI = new GameObject("Unit UI");
         _textMeshUI = UI.AddComponent<TextMesh>();
         UI.transform.SetParent(transform);
         UpdateUI();
+        */
     }
 
 
     public int GetActualHP()
     {
-        throw new NotImplementedException();
+        return _actualHP;
     }
 
     public int GetMaxHP()
@@ -134,28 +142,57 @@ public class BaseUnit : MonoBehaviour, Entity
         UpdateUI();
     }
 
-    void UpdateUI()
+    public void AssignUI(CharacterUI charUI)
     {
+        charUI.transform.SetParent(transform);
+        charUI.transform.localPosition = Vector2.zero;
+        charUI.SetUnit(this);
+        _characterUI = charUI;
+        Debug.Log("assigning " + charUI + " to " + this.UnitName);
+    }
+
+    public void UpdateUI()
+    {
+        if (_characterUI)
+            _characterUI.SetUnit(this);
+        /*
     	_textMeshUI.offsetZ = -1f;
         _textMeshUI.transform.position = transform.position + Vector3.up * 2.5f;
         _textMeshUI.text = UnitName + "\n" + _actualHP + "/" + MaxHP;
         _textMeshUI.fontSize = 24;
         _textMeshUI.characterSize = 0.1f;
-        _textMeshUI.anchor = TextAnchor.MiddleCenter;        
+        _textMeshUI.anchor = TextAnchor.MiddleCenter;  
+        */      
+    }
+
+    public void SetUIFocus(bool focus)
+    {
+        if (_characterUI)
+            _characterUI.SetFocus(focus);
     }
 
     public void SetSpriteOrder(int n)
     {
+        Vector3 pos = _spriteRenderer.transform.position;
+        pos.z =20-n;
+        _spriteRenderer.transform.position = pos;
         /*
         _spriteRenderer.sortingOrder = n;
 
         Renderer rend = _textMeshUI.GetComponent<Renderer>();
         rend.sortingOrder = n;
-        */
+        
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         for (int i = 0; i < renderers.Length; i++)
         {
             renderers[i].sortingOrder = n;
+        }
+        */
+        if (_characterUI)
+        {
+            pos = _characterUI.transform.position;
+            pos.z = 20-n;
+            _characterUI.transform.position = pos;
         }
     }
 

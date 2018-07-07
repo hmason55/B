@@ -11,17 +11,20 @@ public class EnemyUnit : BaseUnit
 
     // The card the enemy will play on its turn
     private Card _nextCard;
+
     // Enemy next card UI
-    private TextMesh _nextCardUI;
+    //private TextMesh _nextCardUI;
 
     protected override void Awake()
     {
         base.Awake();
         _player = false;
 
+        /*
         GameObject UI = new GameObject("Next Card UI");
         _nextCardUI = UI.AddComponent<TextMesh>();
         UI.transform.SetParent(transform);
+        */
 
         // Loads cards to the deck
         _deck = new Deck(Deck);
@@ -49,12 +52,15 @@ public class EnemyUnit : BaseUnit
 
     void UpdateNextCardUI()
     {
+        /*
         _nextCardUI.transform.position = transform.position + Vector3.up * 3f;
         _nextCardUI.text = _nextCard.title;
         _nextCardUI.fontSize = 24;
         _nextCardUI.characterSize = 0.1f;
         _nextCardUI.anchor = TextAnchor.MiddleCenter;
         _nextCardUI.color = Color.red;
+        */
+        _characterUI.SetNextCard(_nextCard);
     }
 
     public Card GetNextCard()

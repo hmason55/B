@@ -8,6 +8,21 @@ public class CharacterUI : MonoBehaviour
     // Panel for all status effects
     public Transform StatusPanel;
 
+    // Char name
+    public Text CharacterName;
+    // Char HP text
+    public Text CharacterHP;
+    // HP bar 
+    public Image HPBar;
+    // Threat bar
+    public Image ThreatBar;
+    // Enemy tell
+    public Image EnemyTell;
+
+    public Sprite[] HPBars;
+    public Sprite[] ThreatIcons;
+
+
     // Each Icon inside status panel
     private Image[] _statusIcons;
     // Text components inside status icons
@@ -32,6 +47,8 @@ public class CharacterUI : MonoBehaviour
         Sprite sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
 
         SetStatusIcons(new Sprite[] { sprite, sprite, sprite }, new string[] { "test1", "test2", "test3" });
+
+        SetFocus(false);
     }
 
     public void OnPointerEnter(int n)
@@ -40,11 +57,15 @@ public class CharacterUI : MonoBehaviour
         {
             _iconsTexts[n].transform.parent.gameObject.SetActive(true);
         }
+
+        Debug.Log("pointer enters on " + transform.root.name);
     }
 
     public void OnPointerExit(int n)
     {
         _iconsTexts[n].transform.parent.gameObject.SetActive(false);
+        Debug.Log("pointer exits from on " + transform.root.name);
+
     }
 
     public void SetStatusIcons(Sprite[] sprites, string[] descriptions)
@@ -62,6 +83,43 @@ public class CharacterUI : MonoBehaviour
                 _statusIcons[i].gameObject.SetActive(false);
             }
         }
+    }
+    
+    public void SetUnit(BaseUnit unit)
+    {
+        CharacterName.text = unit.UnitName;
+        CharacterHP.text = unit.GetActualHP() + "/" + unit.MaxHP;
+        HPBar.fillAmount =(float) unit.GetActualHP() / unit.MaxHP;
+        ThreatBar.fillAmount = unit.Threat;
+    }
+
+    public void SetFocus(bool focus)
+    {
+        CharacterName.enabled = focus;
+        CharacterHP.enabled = focus;
+        //ThreatBar.transform.parent.gameObject.SetActive( focus);
+        //EnemyTell.enabled = focus;
+        ThreatBar.gameObject.SetActive(focus);
+        if (focus)
+        {
+            HPBar.transform.parent.localScale = Vector3.one;
+        }
+        else
+        {
+            HPBar.transform.parent.localScale = Vector3.one * 0.5f;
+        }
+    }
+
+    public void SetEnemyTell(bool value)
+    {
+        EnemyTell.gameObject.SetActive(value);
+        //ThreatBar.transform.parent.gameObject.SetActive(!value);
+        ThreatBar.enabled = !value;
+    }
+
+    public void SetNextCard(Card card)
+    {
+
     }
 
 }

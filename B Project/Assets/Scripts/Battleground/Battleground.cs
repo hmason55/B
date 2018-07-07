@@ -163,6 +163,7 @@ public class Battleground : Singleton<Battleground>
 
         GameObject obj = new GameObject();
         obj.name = "Grid Mesh Object";
+        obj.transform.position = new Vector3(0, 0, 150);
         MeshFilter filter = obj.AddComponent<MeshFilter>();
         filter.mesh = _mesh;
         MeshRenderer rend = obj.AddComponent<MeshRenderer>();
@@ -211,7 +212,7 @@ public class Battleground : Singleton<Battleground>
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D[] hits;
-        hits = Physics2D.RaycastAll(mousePos, Vector2.zero, 0f);
+        hits = Physics2D.RaycastAll(mousePos, Vector2.zero, 0f, ~(1<<5)); // inverse of UI layer
         if (hits.Length > 0)
         {
             GameObject closer = gameObject; // Just random assignement
@@ -225,12 +226,20 @@ public class Battleground : Singleton<Battleground>
                     closer = hits[i].collider.gameObject;
                 }
             }
-
-            int tile = closer.transform.root.GetComponentInChildren<BaseUnit>().GetGridPosition();
-            if (tile >= 0)
-                SetTileHighlighted(tile);
+            BaseUnit unit = closer.transform.root.GetComponentInChildren<BaseUnit>();
+            if (unit)
+            {
+                int tile = unit.GetGridPosition();
+                if (tile >= 0)
+                    SetTileHighlighted(tile);
+                else
+                    ClearHighlights();
+            }
             else
-                ClearHighlights();
+            {
+                Debug.Log("closer= " + closer.name + " has no baseunit");
+                Debug.Log("hit= " + hits[0].transform.name);
+            }
         }
         else
             ClearHighlights();
@@ -328,6 +337,7 @@ public class Battleground : Singleton<Battleground>
                 SpriteRenderer rend = _mouseoverUnits[i].GetComponentInChildren<SpriteRenderer>();
                 rend.color = Color.white;
                 rend.transform.localScale = Vector2.one * 0.5f;
+                _mouseoverUnits[i].SetUIFocus(false);
             }
         }
 
@@ -358,6 +368,7 @@ public class Battleground : Singleton<Battleground>
                 SpriteRenderer rend = unit.GetComponentInChildren<SpriteRenderer>();
                 rend.color = Color.Lerp(Color.white, Color.red, 0.5f + 0.2f * Mathf.Sin(Time.time * 15f));
                 rend.transform.localScale = Vector2.one * (0.6f + 0.1f * Mathf.Sin(Time.time * 4f + 1));
+                _mouseoverUnits[i].SetUIFocus(true);
             }
         }
         else

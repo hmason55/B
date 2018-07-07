@@ -6,7 +6,9 @@ using System.IO;
 
 public class PartyManager : MonoBehaviour
 {
+    // TEMP
     public GameObject PlayerUnitPrefab;
+    public GameObject PlayerUIPrefab;
 
     // Units placed on battleground
     private List<BaseUnit> _playerUnits;
@@ -38,9 +40,40 @@ public class PartyManager : MonoBehaviour
             BaseUnit player = go.GetComponent<BaseUnit>();
             _playerUnits.Add(player);
 
+            player.Threat = 0.25f;
+
             Battleground bg = FindObjectOfType<Battleground>();
             bg.PlaceUnitAt(player, i);
+
+            //create UI
+            CharacterUI UI = Instantiate(PlayerUIPrefab).GetComponent<CharacterUI>();
+            player.AssignUI(UI);
+
+             
         }
+    }
+
+    public void ChangeThreat(BaseUnit unit, float value)
+    {
+        if( _playerUnits.Count==1)
+        {
+            // only 1 guy left
+            if (_playerUnits.Contains(unit))
+                unit.Threat = 1.0f;
+            else
+                Debug.Log("something is wrong...");
+        }
+        float opposite = -value / (_playerUnits.Count - 1);
+        for (int i = 0; i < _playerUnits.Count; i++)
+        {
+            BaseUnit u = _playerUnits[i];
+            if (u == unit)
+                u.Threat += value;
+            else
+                u.Threat += opposite;
+            u.UpdateUI();
+        }
+
     }
 
     #region Save/Load methods
@@ -123,7 +156,15 @@ public class PartyManager : MonoBehaviour
 
 				_playerUnits.Add(unit);
 
-				Battleground bg = FindObjectOfType<Battleground>();
+                // set base threat
+                unit.Threat = 1.0f/ unitIDs.Length;
+
+                //create UI
+                CharacterUI UI = Instantiate(PlayerUIPrefab).GetComponent<CharacterUI>();
+                unit.AssignUI(UI);
+                UI.SetEnemyTell(false);
+
+                Battleground bg = FindObjectOfType<Battleground>();
            		bg.PlaceUnitAt(unit, i);
 			}
 		}
