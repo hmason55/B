@@ -213,6 +213,12 @@ public class Card : MonoBehaviour {
 					if(ParseTargetType(effect.targetType, target.IsPlayer())) {
 						Debug.Log("Deal " + effect.effectValue);
 						target.DealDamage(effect.effectValue);
+
+                        // Add threat to the owner if player
+                        if (owner.IsPlayer())
+                        {
+                            PartyManager.Instance.ChangeThreat(owner, effect.effectValue * targets.Length * 0.01f);
+                        }
 					}
 				}
 			break;

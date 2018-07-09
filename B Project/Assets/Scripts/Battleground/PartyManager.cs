@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.IO;
 
-public class PartyManager : MonoBehaviour
+public class PartyManager : Singleton<PartyManager>
 {
     // TEMP
     public GameObject PlayerUnitPrefab;
@@ -20,7 +20,7 @@ public class PartyManager : MonoBehaviour
     	set{_deck = value;}
     }
 
-    void Awake()
+    void Start()
     {
         _playerUnits = new List<BaseUnit>();
         _deck = new Deck();
@@ -74,6 +74,27 @@ public class PartyManager : MonoBehaviour
             u.UpdateUI();
         }
 
+    }
+
+    public BaseUnit PickUnitWithThreat()
+    {
+        float[] limits = new float[_playerUnits.Count];
+        for (int i = 0; i < _playerUnits.Count; i++)
+        {
+            limits[i] = 0f;
+            for (int j = 0; j < i + 1; j++)
+            {
+                limits[i] += _playerUnits[j].Threat;
+            }
+        }
+
+        float pick = UnityEngine.Random.Range(0, limits[limits.Length - 1]);
+        for (int i = 0; i < limits.Length; i++)
+        {
+            if (pick < limits[i])
+                return _playerUnits[i];
+        }
+        return _playerUnits[_playerUnits.Count - 1];
     }
 
     #region Save/Load methods

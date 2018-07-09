@@ -65,9 +65,12 @@ public class AIManager : MonoBehaviour
         for (int i = 0; i < _enemies.Count; i++)
         {
             // Pick a target for the card
-            
+
             // TODO random for now, change later
-            BaseUnit[] target = { units[Random.Range(0, units.Count)] };
+            // BaseUnit[] target = { units[Random.Range(0, units.Count)] };
+
+            // Pick a target based on thread
+            BaseUnit[] target = { _partyManager.PickUnitWithThreat() };
 
             // play the card
             _enemies[i].GetNextCard().Play(target);

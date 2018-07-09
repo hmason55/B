@@ -16,6 +16,8 @@ public class CharacterUI : MonoBehaviour
     public Image HPBar;
     // Threat bar
     public Image ThreatBar;
+    // Threat Icon
+    public Image ThreatIcon;
     // Enemy tell
     public Image EnemyTell;
 
@@ -89,8 +91,18 @@ public class CharacterUI : MonoBehaviour
     {
         CharacterName.text = unit.UnitName;
         CharacterHP.text = unit.GetActualHP() + "/" + unit.MaxHP;
-        HPBar.fillAmount =(float) unit.GetActualHP() / unit.MaxHP;
-        ThreatBar.fillAmount = unit.Threat;
+        float ratio= (float)unit.GetActualHP() / unit.MaxHP;
+        HPBar.fillAmount = ratio;
+
+        // Change HP sprite based on level
+        if (ratio <0.33)
+            HPBar.sprite = HPBars[0];
+        else if (ratio< 0.66 )
+            HPBar.sprite = HPBars[1];
+        else
+            HPBar.sprite = HPBars[2];
+
+        SetThreatIcon(unit.Threat);
     }
 
     public void SetFocus(bool focus)
@@ -100,6 +112,7 @@ public class CharacterUI : MonoBehaviour
         //ThreatBar.transform.parent.gameObject.SetActive( focus);
         //EnemyTell.enabled = focus;
         ThreatBar.gameObject.SetActive(focus);
+        /*
         if (focus)
         {
             HPBar.transform.parent.localScale = Vector3.one;
@@ -108,6 +121,7 @@ public class CharacterUI : MonoBehaviour
         {
             HPBar.transform.parent.localScale = Vector3.one * 0.5f;
         }
+        */
     }
 
     public void SetEnemyTell(bool value)
@@ -115,11 +129,25 @@ public class CharacterUI : MonoBehaviour
         EnemyTell.gameObject.SetActive(value);
         //ThreatBar.transform.parent.gameObject.SetActive(!value);
         ThreatBar.enabled = !value;
+        ThreatIcon.enabled = !value;        
     }
 
     public void SetNextCard(Card card)
     {
-
+        EnemyTell.GetComponentInChildren<Text>().text = card.title;
     }
+
+    public void SetThreatIcon(float threat)
+    {
+        //ThreatBar.fillAmount = threat;
+
+        if (threat < 0.15)
+            ThreatIcon.sprite = ThreatIcons[0];
+        else if (threat < 0.3)
+            ThreatIcon.sprite = ThreatIcons[1];
+        else
+            ThreatIcon.sprite = ThreatIcons[2];
+    }
+    
 
 }
