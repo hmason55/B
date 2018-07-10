@@ -171,13 +171,30 @@ public class Card : MonoBehaviour {
             if (targets.Length > 0)
             {
                 Debug.Log("Playing: " + title + " to " + targets[0].UnitName);
-                Debug.Log(effects.Count + " effects");
 
                 foreach (Effect effect in effects)
                 {
-                    ApplyToTargets(targets, effect);
+                	bool applied = false;
+
+                	if(ApplySelfEffect(effect)) {
+                		applied = true;
+                	}
+
+                	// Check to see if effect was already applied
+                	if(!applied) {
+	                	if(owner.GetActualHP() > 0) {
+							// Owner of this card is alive
+							ApplyToTargets(targets, effect);
+	                	} else {
+							// Owner of this card is dead
+							goto endEffectLoop;
+	                	}
+	                }
                 }
-                
+
+                // Resume
+                endEffectLoop:
+
                 if (transform.parent) // Added check in case the card belong to AI, so no GO
                 {// Player card
                     Hand hand = transform.parent.GetComponent<Hand>();
@@ -205,13 +222,25 @@ public class Card : MonoBehaviour {
         }
     }
 
+	bool ApplySelfEffect(Effect effect) {
+		switch(effect.effectType) {
+			case EffectType.Block:
+				owner.GrantBlock(effect.effectValue, effect.duration, owner);
+				return true;
+			break;
+		}
+
+		return false;
+    }
+
 	void ApplyToTargets(BaseUnit[] targets, Effect effect) {
 		Debug.Log("Applying effects");
+
+		// Apply effects to specifically targeted units (dragged card onto or put AoE targeter on).
 		switch(effect.effectType) {
 			case EffectType.Damage:
 				foreach(BaseUnit target in targets) {
-					if(ParseTargetType(effect.targetType, target.IsPlayer())) {
-						Debug.Log("Deal " + effect.effectValue);
+				if(ParseTargetType(effect.targetType, target.IsPlayer())) {
 						target.DealDamage(effect.effectValue);
 					}
 				}
@@ -219,7 +248,9 @@ public class Card : MonoBehaviour {
 
 			case EffectType.Block:
 				foreach(BaseUnit target in targets) {
-
+					if(ParseTargetType(effect.targetType, target.IsPlayer())) {
+						target.GrantBlock(effect.effectValue, effect.duration, owner);
+					}
 				}
 			break;
 		}
@@ -260,13 +291,15 @@ public class Card : MonoBehaviour {
 		}
 	}
 
-	bool ParseTargetType(TargetType type, bool isPlayer) {
+	bool ParseTargetType(TargetType type, bool isPlayer = false) {
 
-		if(cardData.Owner.IsPlayer() && isPlayer){
+		if(type == TargetType.Self) {
+			return true;
+		} else if(cardData.Owner.IsPlayer() && isPlayer){
 			// Targeting own team
 			if(type == TargetType.Ally) {
 				return true;
-			} 
+			}
 		} else {
 			// Targeting enemy team
 			if(type == TargetType.Enemy) {
