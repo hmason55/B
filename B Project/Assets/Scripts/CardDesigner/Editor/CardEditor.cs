@@ -149,15 +149,21 @@ public class CardEditor : Editor {
 							EditorGUILayout.EndHorizontal();
 
 							// Value property
-							EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(256));
+							EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(512));
 							EditorGUILayout.LabelField("Value", GUILayout.MaxWidth(88));
-							effect.effectValue = EditorGUILayout.IntSlider(effect.effectValue, -1, 20, null);
+							effect.effectValue = EditorGUILayout.IntSlider(effect.effectValue, -100, 100, null);
 							EditorGUILayout.EndHorizontal();
 
 							// Duration property
-							EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(256));
+							EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(512));
 							EditorGUILayout.LabelField("Duration", GUILayout.MaxWidth(88));
 							effect.duration = EditorGUILayout.IntSlider(effect.duration, -1, 20, null);
+							EditorGUILayout.EndHorizontal();
+
+							// Removal Condition property
+							EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(256));
+							EditorGUILayout.LabelField("Removal Condition", GUILayout.MaxWidth(88));
+							effect.condition = (Effect.RemovalCondition)EditorGUILayout.EnumPopup(effect.condition, null);
 							EditorGUILayout.EndHorizontal();
 
 							// Save changes

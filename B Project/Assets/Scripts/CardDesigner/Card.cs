@@ -39,7 +39,8 @@ public class Card : MonoBehaviour {
 		Heal,
 		Stun,
 		Push,
-		Resource
+		Resource,
+		DamageMultiplier
 	}
 
 	// Variables used by CardData
@@ -205,6 +206,8 @@ public class Card : MonoBehaviour {
 				} 
 				else 
 				{	//Remove enemy card upon playing
+
+
                 	Destroy(gameObject);
                 }
 
@@ -217,13 +220,40 @@ public class Card : MonoBehaviour {
         }
         else
         {
+			//Play card since it doesn't need a target.
             Debug.Log("Playing card, no target required.");
-            //Play card since it doesn't need a target.
+
+			foreach (Effect effect in effects)
+            {
+            	bool applied = false;
+
+            	if(ApplySelfEffect(effect)) {
+            		applied = true;
+            	}
+            }
+
+			if (transform.parent) // Added check in case the card belong to AI, so no GO
+            {// Player card
+                Hand hand = transform.parent.GetComponent<Hand>();
+                if (hand != null)
+                {
+                    hand.Remove(this);
+                }
+			} 
+			else 
+			{	//Remove enemy card upon playing
+            	Destroy(gameObject);
+            }
         }
     }
 
 	bool ApplySelfEffect(Effect effect) {
 		switch(effect.effectType) {
+			case EffectType.DamageMultiplier:
+				owner.GrantDamageMultiplier((float)effect.effectValue, effect.duration, owner, effect.condition);
+				return true;
+			break;
+
 			case EffectType.Block:
 				owner.GrantBlock(effect.effectValue, effect.duration, owner);
 				return true;
@@ -241,7 +271,15 @@ public class Card : MonoBehaviour {
 			case EffectType.Damage:
 				foreach(BaseUnit target in targets) {
 				if(ParseTargetType(effect.targetType, target.IsPlayer())) {
-						target.DealDamage(effect.effectValue);
+						float mult = 1.00f;
+						foreach(BaseStatus status in owner.Statuses) {
+							if(status.GetType() == typeof(DamageMultiplierStatus)) {
+								mult += status.Multiplier;
+							}
+						}
+
+						int damage = (int)Math.Round(effect.effectValue * mult);
+						target.DealDamage(damage);
 					}
 				}
 			break;
