@@ -5,7 +5,7 @@ using System;
 public class Effect {
 	public enum RemovalCondition {
 		None,
-		PlayAttackCard
+		PlaySkillCard
 	}
 
 	public Card.TargetType targetType;

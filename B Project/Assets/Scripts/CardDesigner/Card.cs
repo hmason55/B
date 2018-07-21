@@ -24,6 +24,12 @@ public class Card : MonoBehaviour {
 		Warrior
 	}
 
+	public enum Category {
+		Skill,
+		Spell,
+		Tactic
+	}
+
 	public enum TargetType {
 		None,
 		Self,
@@ -47,6 +53,7 @@ public class Card : MonoBehaviour {
 	public string title;
 	public Card.CharacterType characterType;
 	public Card.DeckClass deckType;
+	public Card.Category category;
 	public int resourceCost;
 	public string description;
 	public bool omitFromDeck;
@@ -64,6 +71,8 @@ public class Card : MonoBehaviour {
 	public Image artworkImage;
 	public Text titleText;
 	public Text ownerText;
+	public Image categoryImage;
+	public Text categoryText;
 	public Image descriptionImage;
 	public Text descriptionText;
 	public Image costImage;
@@ -143,13 +152,21 @@ public class Card : MonoBehaviour {
 				ownerText.text = ParseText(owner.UnitName);
 			}
 		}
-	
+
 		if(descriptionImage) {
 			//artworkImage.sprite = artwork;
 		}
 
 		if(descriptionText) {
 			descriptionText.text = description;
+		}
+
+		if(categoryImage) {
+			categoryImage.color = backgroundImage.color;
+		}
+
+		if(categoryText) {
+			categoryText.text = category.ToString();
 		}
 
 		if(costImage) {
@@ -206,11 +223,9 @@ public class Card : MonoBehaviour {
 				} 
 				else 
 				{	//Remove enemy card upon playing
-
-
                 	Destroy(gameObject);
                 }
-
+				CheckOnPlayRemovalConditions(owner);
             }
             else
             {
@@ -244,6 +259,7 @@ public class Card : MonoBehaviour {
 			{	//Remove enemy card upon playing
             	Destroy(gameObject);
             }
+			CheckOnPlayRemovalConditions(owner);
         }
     }
 
@@ -294,11 +310,28 @@ public class Card : MonoBehaviour {
 		}
 	}
 
+	public void CheckOnPlayRemovalConditions(BaseUnit unit) {
+		if(unit.Statuses == null) {return;}
+		int numStatuses = unit.Statuses.Count-1;
+		for(int i = numStatuses; i >= 0; i--) {
+			switch(unit.Statuses[i].Condition) {
+
+				case Effect.RemovalCondition.PlaySkillCard:
+					if(category == Category.Skill) {
+						Debug.Log("Removing Status");
+						owner.Statuses.RemoveAt(i);
+					}
+				break;
+			}
+		}
+	}
+
 	public void LoadCardData() {
 		if(cardData != null) {
 			title = cardData.Title;
 			characterType = cardData.CharacterType;
 			deckType = cardData.DeckType;
+			category = cardData.Category;
 			resourceCost = cardData.ResourceCost;
 			description = cardData.Description;
 			omitFromDeck = cardData.OmitFromDeck;
@@ -318,6 +351,7 @@ public class Card : MonoBehaviour {
 			cardData.Title = title;
 			cardData.CharacterType = characterType;
 			cardData.DeckType = deckType;
+			cardData.Category = category;
 			cardData.ResourceCost = resourceCost;
 			cardData.Description = description;
 			cardData.OmitFromDeck = omitFromDeck;

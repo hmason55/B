@@ -12,6 +12,7 @@ public class CardEditor : Editor {
 	SerializedProperty pTitle;
 	SerializedProperty pCharacterType;
 	SerializedProperty pDeckType;
+	SerializedProperty pCategory;
 	SerializedProperty pResourceCost;
 	SerializedProperty pDescription;
 	SerializedProperty pOmitFromDeck;
@@ -42,6 +43,7 @@ public class CardEditor : Editor {
         pTitle = serializedObject.FindProperty("title");
 		pCharacterType = serializedObject.FindProperty("characterType");
 		pDeckType = serializedObject.FindProperty("deckType");
+		pCategory = serializedObject.FindProperty("category");
         pResourceCost = serializedObject.FindProperty("resourceCost");
 		pDescription = serializedObject.FindProperty("description");
 		pOmitFromDeck = serializedObject.FindProperty("omitFromDeck");
@@ -62,6 +64,7 @@ public class CardEditor : Editor {
 			EditorGUILayout.PropertyField(pTitle, new GUIContent("Title"), null);
 			EditorGUILayout.PropertyField(pCharacterType, new GUIContent("Character"), null);
 			EditorGUILayout.PropertyField(pDeckType, new GUIContent("Deck"), null);
+			EditorGUILayout.PropertyField(pCategory, new GUIContent("Category"), null);
 			EditorGUILayout.IntSlider(pResourceCost, -1, 8, new GUIContent("Cost"));
 			EditorGUILayout.PropertyField(pOmitFromDeck, new GUIContent("Omit From Deck"), null);
 			EditorGUILayout.BeginHorizontal();
@@ -255,6 +258,8 @@ public class CardEditor : Editor {
 			card.ownerText = EditorGUILayout.ObjectField(new GUIContent("Owner Text Asset"), card.ownerText, typeof(Text), true, null) as Text;
 			card.descriptionImage = EditorGUILayout.ObjectField(new GUIContent("Description Image Asset"), card.descriptionImage, typeof(Image), true, null) as Image;
 			card.descriptionText = EditorGUILayout.ObjectField(new GUIContent("Description Text Asset"), card.descriptionText, typeof(Text), true, null) as Text;
+			card.categoryImage = EditorGUILayout.ObjectField(new GUIContent("Category Image Asset"), card.categoryImage, typeof(Image), true, null) as Image;
+			card.categoryText = EditorGUILayout.ObjectField(new GUIContent("Category Text Asset"), card.categoryText, typeof(Text), true, null) as Text;
 			card.costImage = EditorGUILayout.ObjectField(new GUIContent("Cost Image Asset"), card.costImage, typeof(Image), true, null) as Image;
 			card.costText = EditorGUILayout.ObjectField(new GUIContent("Cost Text Asset"), card.costText, typeof(Text), true, null) as Text;
         }

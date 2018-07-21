@@ -9,7 +9,7 @@ public class PartyManager : MonoBehaviour
     public GameObject PlayerUnitPrefab;
 
     // Units placed on battleground
-    private List<BaseUnit> _playerUnits;
+    private List<BaseUnit> _units;
 
     private Deck _deck;
 
@@ -20,13 +20,13 @@ public class PartyManager : MonoBehaviour
 
     void Awake()
     {
-        _playerUnits = new List<BaseUnit>();
+        _units = new List<BaseUnit>();
         _deck = new Deck();
     }
 
-    public List<BaseUnit> GetPlayerUnits()
+    public List<BaseUnit> GetUnits()
     {
-        return _playerUnits;
+        return _units;
     }
 
     public void CreateRandomUnits()
@@ -36,7 +36,7 @@ public class PartyManager : MonoBehaviour
         {
             GameObject go = Instantiate(PlayerUnitPrefab);
             BaseUnit player = go.GetComponent<BaseUnit>();
-            _playerUnits.Add(player);
+            _units.Add(player);
 
             Battleground bg = FindObjectOfType<Battleground>();
             bg.PlaceUnitAt(player, i);
@@ -60,11 +60,11 @@ public class PartyManager : MonoBehaviour
 		}
 
 		StreamWriter writer = new StreamWriter("Assets/Resources/"+partyDataPath, false);
-		for(int i = 0; i < _playerUnits.Count; i++) {
-			if(i < _playerUnits.Count-1) {
-				writer.WriteLine(_playerUnits[i].UnitID + ",");
+		for(int i = 0; i < _units.Count; i++) {
+			if(i < _units.Count-1) {
+				writer.WriteLine(_units[i].UnitID + ",");
 			} else {
-				writer.WriteLine(_playerUnits[i].UnitID);
+				writer.WriteLine(_units[i].UnitID);
 			}
 		}
 	    writer.Close();
@@ -121,7 +121,7 @@ public class PartyManager : MonoBehaviour
 					_deck.AddCardToReferenceDeck(cardData);
 				}
 
-				_playerUnits.Add(unit);
+				_units.Add(unit);
 
 				Battleground bg = FindObjectOfType<Battleground>();
            		bg.PlaceUnitAt(unit, i);

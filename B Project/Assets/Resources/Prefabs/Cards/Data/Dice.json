@@ -1,1 +1,1 @@
-{"Title":"Dice","CharacterType":0,"DeckType":3,"ResourceCost":0,"Description":"Deal 4","OmitFromDeck":true,"RequireTarget":false,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[],"Owner":{"instanceID":0}}
+{"Title":"Dice","CharacterType":0,"DeckType":3,"Category":0,"ResourceCost":0,"Description":"Deal 4","OmitFromDeck":true,"RequireTarget":false,"AreaOfEffect":false,"TargetArea":[false,false,false,false,false,false,false,false,false],"TargetType":0,"Effects":[],"Owner":{"instanceID":0}}
