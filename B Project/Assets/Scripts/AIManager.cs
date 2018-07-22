@@ -21,7 +21,6 @@ public class AIManager : MonoBehaviour
         _partyManager = FindObjectOfType<PartyManager>();
         _turnManager = FindObjectOfType<TurnManager>();
 
-        
     }
 
     public void CreateRandomEnemies()
@@ -54,7 +53,7 @@ public class AIManager : MonoBehaviour
         }
 
         // cycle AI units
-        List<BaseUnit> units = _partyManager.GetPlayerUnits();
+        List<BaseUnit> units = _partyManager.GetUnits();
         for (int i = 0; i < _enemies.Count; i++)
         {
             // Pick a target for the card
@@ -69,12 +68,17 @@ public class AIManager : MonoBehaviour
             // TODO check animations and all effects for appropriate delay or add an event
 
             // Update the player units left
-            units = _partyManager.GetPlayerUnits();
+            units = _partyManager.GetUnits();
             if (units.Count<1)
             {
                 _turnManager.BattleLost();
             }
         }
+
+		foreach(BaseUnit unit in _partyManager.GetUnits()) {
+        	unit.TickAllStatuses();
+        }
+
         // end turn
         _turnManager.StartPlayerTurn();
     }

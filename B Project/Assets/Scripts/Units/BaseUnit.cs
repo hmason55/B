@@ -23,7 +23,6 @@ public class BaseUnit : MonoBehaviour, Entity
 		set{_unitID = value;}
 	}
 
-
     // Name
     public string UnitName;
 
@@ -63,6 +62,10 @@ public class BaseUnit : MonoBehaviour, Entity
     public Deck DeckList {
     	get{return _deck;}
     	set{_deck = value;}
+    }
+
+	public List<BaseStatus> Statuses {
+		get{return _statuses;}
     }
 
     protected virtual void Awake()
@@ -224,6 +227,15 @@ public class BaseUnit : MonoBehaviour, Entity
  		}
 
 		SpawnBattleText("+" + block.ToString() + " Block");
+		UpdateUI();
+    }
+
+    public void GrantDamageMultiplier(float multiplier, int duration, BaseUnit owner, Effect.RemovalCondition condition = Effect.RemovalCondition.None) {
+		DamageMultiplierStatus status = new DamageMultiplierStatus(multiplier/100f, duration, owner, this);
+		status.Condition = condition;
+    	_statuses.Add(status);
+
+		SpawnBattleText("+" + multiplier.ToString() + "% DMG");
 		UpdateUI();
     }
 

@@ -24,6 +24,12 @@ public class Card : MonoBehaviour {
 		Warrior
 	}
 
+	public enum Category {
+		Skill,
+		Spell,
+		Tactic
+	}
+
 	public enum TargetType {
 		None,
 		Self,
@@ -39,13 +45,15 @@ public class Card : MonoBehaviour {
 		Heal,
 		Stun,
 		Push,
-		Resource
+		Resource,
+		DamageMultiplier
 	}
 
 	// Variables used by CardData
 	public string title;
 	public Card.CharacterType characterType;
 	public Card.DeckClass deckType;
+	public Card.Category category;
 	public int resourceCost;
 	public string description;
 	public bool omitFromDeck;
@@ -63,6 +71,8 @@ public class Card : MonoBehaviour {
 	public Image artworkImage;
 	public Text titleText;
 	public Text ownerText;
+	public Image categoryImage;
+	public Text categoryText;
 	public Image descriptionImage;
 	public Text descriptionText;
 	public Image costImage;
@@ -142,13 +152,21 @@ public class Card : MonoBehaviour {
 				ownerText.text = ParseText(owner.UnitName);
 			}
 		}
-	
+
 		if(descriptionImage) {
 			//artworkImage.sprite = artwork;
 		}
 
 		if(descriptionText) {
 			descriptionText.text = description;
+		}
+
+		if(categoryImage) {
+			categoryImage.color = backgroundImage.color;
+		}
+
+		if(categoryText) {
+			categoryText.text = category.ToString();
 		}
 
 		if(costImage) {
@@ -207,7 +225,7 @@ public class Card : MonoBehaviour {
 				{	//Remove enemy card upon playing
                 	Destroy(gameObject);
                 }
-
+				CheckOnPlayRemovalConditions(owner);
             }
             else
             {
@@ -217,13 +235,41 @@ public class Card : MonoBehaviour {
         }
         else
         {
+			//Play card since it doesn't need a target.
             Debug.Log("Playing card, no target required.");
-            //Play card since it doesn't need a target.
+
+			foreach (Effect effect in effects)
+            {
+            	bool applied = false;
+
+            	if(ApplySelfEffect(effect)) {
+            		applied = true;
+            	}
+            }
+
+			if (transform.parent) // Added check in case the card belong to AI, so no GO
+            {// Player card
+                Hand hand = transform.parent.GetComponent<Hand>();
+                if (hand != null)
+                {
+                    hand.Remove(this);
+                }
+			} 
+			else 
+			{	//Remove enemy card upon playing
+            	Destroy(gameObject);
+            }
+			CheckOnPlayRemovalConditions(owner);
         }
     }
 
 	bool ApplySelfEffect(Effect effect) {
 		switch(effect.effectType) {
+			case EffectType.DamageMultiplier:
+				owner.GrantDamageMultiplier((float)effect.effectValue, effect.duration, owner, effect.condition);
+				return true;
+			break;
+
 			case EffectType.Block:
 				owner.GrantBlock(effect.effectValue, effect.duration, owner);
 				return true;
@@ -241,7 +287,15 @@ public class Card : MonoBehaviour {
 			case EffectType.Damage:
 				foreach(BaseUnit target in targets) {
 				if(ParseTargetType(effect.targetType, target.IsPlayer())) {
-						target.DealDamage(effect.effectValue);
+						float mult = 1.00f;
+						foreach(BaseStatus status in owner.Statuses) {
+							if(status.GetType() == typeof(DamageMultiplierStatus)) {
+								mult += status.Multiplier;
+							}
+						}
+
+						int damage = (int)Math.Round(effect.effectValue * mult);
+						target.DealDamage(damage);
 					}
 				}
 			break;
@@ -256,11 +310,28 @@ public class Card : MonoBehaviour {
 		}
 	}
 
+	public void CheckOnPlayRemovalConditions(BaseUnit unit) {
+		if(unit.Statuses == null) {return;}
+		int numStatuses = unit.Statuses.Count-1;
+		for(int i = numStatuses; i >= 0; i--) {
+			switch(unit.Statuses[i].Condition) {
+
+				case Effect.RemovalCondition.PlaySkillCard:
+					if(category == Category.Skill) {
+						Debug.Log("Removing Status");
+						owner.Statuses.RemoveAt(i);
+					}
+				break;
+			}
+		}
+	}
+
 	public void LoadCardData() {
 		if(cardData != null) {
 			title = cardData.Title;
 			characterType = cardData.CharacterType;
 			deckType = cardData.DeckType;
+			category = cardData.Category;
 			resourceCost = cardData.ResourceCost;
 			description = cardData.Description;
 			omitFromDeck = cardData.OmitFromDeck;
@@ -280,6 +351,7 @@ public class Card : MonoBehaviour {
 			cardData.Title = title;
 			cardData.CharacterType = characterType;
 			cardData.DeckType = deckType;
+			cardData.Category = category;
 			cardData.ResourceCost = resourceCost;
 			cardData.Description = description;
 			cardData.OmitFromDeck = omitFromDeck;

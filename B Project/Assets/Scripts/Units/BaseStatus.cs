@@ -5,9 +5,9 @@ using UnityEngine;
 
 public abstract class BaseStatus
 {
-
     // Power of the status
     public int Strength;
+    public float Multiplier;
     // Turn until expiration
     public int Duration;
     // Unit that casted the status
@@ -15,10 +15,21 @@ public abstract class BaseStatus
     // Unit afflicted by status
     public BaseUnit Target;
 
+    public Effect.RemovalCondition Condition;
+
     // Base constructor
     protected  BaseStatus(int strength, int duration, BaseUnit owner, BaseUnit target)
     {
         Strength = strength;
+        Duration = duration;
+        Owner = owner;
+        Target = target;
+    }
+
+	// Float constructor
+    protected  BaseStatus(float multiplier, int duration, BaseUnit owner, BaseUnit target)
+    {
+		Multiplier = multiplier;
         Duration = duration;
         Owner = owner;
         Target = target;

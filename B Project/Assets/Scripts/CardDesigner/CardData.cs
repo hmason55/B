@@ -10,6 +10,7 @@ public class CardData {
 	public string Title;
 	public Card.CharacterType CharacterType;
 	public Card.DeckClass DeckType;
+	public Card.Category Category;
 	public int ResourceCost;
 	public string Description;
 	public bool OmitFromDeck;
