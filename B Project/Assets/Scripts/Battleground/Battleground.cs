@@ -336,7 +336,7 @@ public class Battleground : Singleton<Battleground>
             {
                 SpriteRenderer rend = _mouseoverUnits[i].GetComponentInChildren<SpriteRenderer>();
                 rend.color = Color.white;
-                rend.transform.localScale = Vector2.one * 0.5f;
+                rend.transform.localScale = Vector2.one ;
                 _mouseoverUnits[i].SetUIFocus(false);
             }
         }
@@ -367,7 +367,7 @@ public class Battleground : Singleton<Battleground>
                 BaseUnit unit = _mouseoverUnits[i];
                 SpriteRenderer rend = unit.GetComponentInChildren<SpriteRenderer>();
                 rend.color = Color.Lerp(Color.white, Color.red, 0.5f + 0.2f * Mathf.Sin(Time.time * 15f));
-                rend.transform.localScale = Vector2.one * (0.6f + 0.1f * Mathf.Sin(Time.time * 4f + 1));
+                rend.transform.localScale = Vector2.one * (1.0f + 0.2f * Mathf.Sin(Time.time * 4f + 1));
                 _mouseoverUnits[i].SetUIFocus(true);
             }
         }
