@@ -1,16 +1,24 @@
 ﻿
 using System;
+using UnityEngine;
 
 public class DamageMultiplierStatus : BaseStatus
 {
 	public DamageMultiplierStatus(float multiplier, int duration, BaseUnit owner, BaseUnit target) :base( multiplier,  duration,  owner,  target)
     {
-        
+        Icon=  UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+
     }
 
     public override void EndStatusExecute()
     {
        
+    }
+
+    public override string GetDescription()
+    {
+        string msg = "This unit deal " + Multiplier + " bonus damage";
+        return msg;
     }
 
     public override void StartTurnExecute()
