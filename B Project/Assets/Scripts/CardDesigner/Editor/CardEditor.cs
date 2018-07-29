@@ -142,13 +142,13 @@ public class CardEditor : Editor {
 							// Effect property
 							EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(256));
 							EditorGUILayout.LabelField("Effect", GUILayout.MaxWidth(88));
-							effect.effectType = (Card.EffectType)EditorGUILayout.EnumPopup(effect.effectType, null);
+							effect.effectType = (Card.EffectType)EditorGUILayout.EnumPopup(effect.effectType);
 							EditorGUILayout.EndHorizontal();
 
 							// Target property
 							EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(256));
 							EditorGUILayout.LabelField("Target", GUILayout.MaxWidth(88));
-							effect.targetType = (Card.TargetType)EditorGUILayout.EnumPopup(effect.targetType, null);
+							effect.targetType = (Card.TargetType)EditorGUILayout.EnumPopup(effect.targetType);
 							EditorGUILayout.EndHorizontal();
 
 							// Value property
@@ -166,7 +166,7 @@ public class CardEditor : Editor {
 							// Removal Condition property
 							EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(256));
 							EditorGUILayout.LabelField("Removal Condition", GUILayout.MaxWidth(88));
-							effect.condition = (Effect.RemovalCondition)EditorGUILayout.EnumPopup(effect.condition, null);
+							effect.condition = (Effect.RemovalCondition)EditorGUILayout.EnumPopup(effect.condition);
 							EditorGUILayout.EndHorizontal();
 
 							// Save changes
