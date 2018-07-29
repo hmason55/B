@@ -11,7 +11,7 @@ public class PartyManager : Singleton<PartyManager>
     public GameObject PlayerUIPrefab;
 
     // Units placed on battleground
-    private List<BaseUnit> _playerUnits;
+    private List<BaseUnit> _units;
 
     private Deck _deck;
 
@@ -22,13 +22,13 @@ public class PartyManager : Singleton<PartyManager>
 
     void Start()
     {
-        _playerUnits = new List<BaseUnit>();
+        _units = new List<BaseUnit>();
         _deck = new Deck();
     }
 
-    public List<BaseUnit> GetPlayerUnits()
+    public List<BaseUnit> GetUnits()
     {
-        return _playerUnits;
+        return _units;
     }
 
     public void CreateRandomUnits()
@@ -38,7 +38,7 @@ public class PartyManager : Singleton<PartyManager>
         {
             GameObject go = Instantiate(PlayerUnitPrefab);
             BaseUnit player = go.GetComponent<BaseUnit>();
-            _playerUnits.Add(player);
+            _units.Add(player);
 
             player.Threat = 0.25f;
 
@@ -114,11 +114,11 @@ public class PartyManager : Singleton<PartyManager>
 		}
 
 		StreamWriter writer = new StreamWriter("Assets/Resources/"+partyDataPath, false);
-		for(int i = 0; i < _playerUnits.Count; i++) {
-			if(i < _playerUnits.Count-1) {
-				writer.WriteLine(_playerUnits[i].UnitID + ",");
+		for(int i = 0; i < _units.Count; i++) {
+			if(i < _units.Count-1) {
+				writer.WriteLine(_units[i].UnitID + ",");
 			} else {
-				writer.WriteLine(_playerUnits[i].UnitID);
+				writer.WriteLine(_units[i].UnitID);
 			}
 		}
 	    writer.Close();
@@ -175,7 +175,7 @@ public class PartyManager : Singleton<PartyManager>
 					_deck.AddCardToReferenceDeck(cardData);
 				}
 
-				_playerUnits.Add(unit);
+				_units.Add(unit);
 
                 // set base threat
                 unit.Threat = 1.0f/ unitIDs.Length;

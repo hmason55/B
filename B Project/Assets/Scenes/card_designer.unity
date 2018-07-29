@@ -291,6 +291,116 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: title
+      value: Battlecry
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: resourceCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: description
+      value: Next attack does 50% more Damage.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: requireTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: targetType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effects.Array.data[0].targetType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effects.Array.data[0].effectType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effects.Array.data[0].effectValue
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effects.Array.data[0].duration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: effects.Array.data[0].condition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Title
+      value: Battlecry
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.ResourceCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Description
+      value: Next attack does 50% more Damage.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.RequireTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.TargetType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.data[0].targetType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.data[0].effectType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.data[0].effectValue
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.data[0].duration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardData.Effects.Array.data[0].condition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: cardDataFile
+      value: 
+      objectReference: {fileID: 4900000, guid: e83f80f58a6ec854aa07072b3e736ff4, type: 3}
+    - target: {fileID: 114989481711224342, guid: 00100c204167b884e855627b542abb4a,
+        type: 2}
+      propertyPath: category
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 00100c204167b884e855627b542abb4a, type: 2}
   m_IsPrefabParent: 0

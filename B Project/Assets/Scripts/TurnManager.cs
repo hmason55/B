@@ -93,6 +93,10 @@ public class TurnManager : MonoBehaviour
         if (!_playerTurn)
             return;
 
+        foreach(BaseUnit unit in _partyManager.GetUnits()) {
+        	unit.TickAllStatuses();
+        }
+
         StartEnemyTurn();
     }
 }
