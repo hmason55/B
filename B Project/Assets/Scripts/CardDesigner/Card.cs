@@ -13,7 +13,15 @@ public class Card : MonoBehaviour {
 		Thy,
 		Guy,
 		Sly,
-		Die
+		Die,
+		Droll,
+		Ninjaku,
+		Gambler,
+		Ramfist,
+		BunBun,
+		Bloodfiend,
+		Spellblade,
+		Lizardman
 	}
 
 	public enum DeckClass {

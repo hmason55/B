@@ -15,7 +15,15 @@ public class BaseUnit : MonoBehaviour, Entity
 		Thy,
 		Guy,
 		Sly,
-		Die
+		Die,
+		Droll,
+		Ninjaku,
+		Gambler,
+		Ramfist,
+		BunBun,
+		Bloodfiend,
+		Spellblade,
+		Lizardman
 	}
 
 	public ID UnitID {
@@ -59,6 +67,9 @@ public class BaseUnit : MonoBehaviour, Entity
     private SpriteRenderer _spriteRenderer;
     private List<BaseStatus> _statuses = new List<BaseStatus>();
 
+    // Unit Sounds
+    private AudioSource _audioSource;
+
     // Threat level
     public float Threat;
     
@@ -73,6 +84,8 @@ public class BaseUnit : MonoBehaviour, Entity
 	public List<BaseStatus> Statuses {
 		get{return _statuses;}
     }
+
+    static float _screenWidth = 60f;
     
     protected virtual void Awake()
     {
@@ -80,6 +93,10 @@ public class BaseUnit : MonoBehaviour, Entity
 
         // Cache renderer
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        // Cache audio source
+        _audioSource = GetComponent<AudioSource>();
+
 
         /*
         // Initialize UI
@@ -125,6 +142,7 @@ public class BaseUnit : MonoBehaviour, Entity
     public void SetGridPosition(int position)
     {
         _gridPosition = position;
+        _audioSource.panStereo = transform.position.x / (_screenWidth / 2f);
     }
 
     public int GetGridPosition()
@@ -149,15 +167,30 @@ public class BaseUnit : MonoBehaviour, Entity
     	if(totalDamage < 0) {
     		totalDamage = 0;
 			SpawnBattleText("Blocked (-" + damage + ")");
+
     	} else {
         	_actualHP -= totalDamage;
 
         	if(totalBlock > 0) {
 				// Partial Block
 				SpawnBattleText(totalDamage.ToString() + " (-" + (damage-totalDamage) + ")");
+
+				// Shake Camera
+				Camera.main.GetComponent<CameraRumble>().Rumble();
+
+				// Play Sound Effect
+				_audioSource.clip = Resources.Load<AudioClip>("Sounds/fx/attackHitArmor01");
+				_audioSource.Play();
 			} else {
 				// Clean Hit
 				SpawnBattleText(totalDamage.ToString());
+
+				// Shake Camera
+				Camera.main.GetComponent<CameraRumble>().Rumble();
+
+				// Play Sound Effect
+				_audioSource.clip = Resources.Load<AudioClip>("Sounds/fx/attackHitFlesh");
+				_audioSource.Play();
 			}
     	}
 
@@ -249,7 +282,7 @@ public class BaseUnit : MonoBehaviour, Entity
     public void AssignUI(CharacterUI charUI)
     {
         charUI.transform.SetParent(transform);
-        charUI.transform.localPosition = Vector2.zero;
+		charUI.transform.localPosition = new Vector3(0f, 0f, _spriteRenderer.transform.position.z);
         charUI.SetUnit(this);
         _characterUI = charUI;
         //Debug.Log("assigning " + charUI + " to " + this.UnitName);

@@ -15,7 +15,7 @@ public class Party {
 		party = new List<BaseUnit>();
 		deck = new Deck();
 
-		AddUnit(BaseUnit.ID.Guy);
+		AddUnit(BaseUnit.ID.Lizardman);
 
 		CombineDecks();
 	}

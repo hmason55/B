@@ -980,9 +980,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ec8293078e9ffc5478c53c3622794eb2, type: 3}
   - {fileID: 21300000, guid: 73b5ef2d886b4f54da80248ba9972f4c, type: 3}
   ThreatIcons:
-  - {fileID: 21300000, guid: dc819461645add74e9290bdafaa9e08e, type: 3}
-  - {fileID: 21300000, guid: 0428c270e7aec3f4187c91ea09063960, type: 3}
-  - {fileID: 21300000, guid: c49f2314a3ef4014480f710d6673e2a2, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &114243775140234218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2808,7 +2808,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1663739365911010}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 20}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.1}
   m_Children:
   - {fileID: 224901881350947094}

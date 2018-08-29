@@ -1,4 +1,4 @@
-Thy,
-Guy,
-Sly,
-Die
+Ramfist,
+Spellblade,
+Droll,
+Bloodfiend

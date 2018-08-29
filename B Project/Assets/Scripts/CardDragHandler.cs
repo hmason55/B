@@ -159,10 +159,10 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 			mouseWorldPosition.z = 0;
 			Vector3 unitVector = mouseWorldPosition-cardWorldPosition;
 
-			targetLine.SetPosition(0, new Vector3(cardWorldPosition.x, cardWorldPosition.y, -1f));
-			targetLine.SetPosition(1, new Vector3(cardWorldPosition.x, cardWorldPosition.y, -1f) + unitVector*0.795f);
-			targetLine.SetPosition(2, new Vector3(cardWorldPosition.x, cardWorldPosition.y, -1f) + unitVector*0.80f);
-			targetLine.SetPosition(3, new Vector3(mouseWorldPosition.x, mouseWorldPosition.y, -1f));
+			targetLine.SetPosition(0, new Vector3(cardWorldPosition.x, cardWorldPosition.y, 1f));
+			targetLine.SetPosition(1, new Vector3(cardWorldPosition.x, cardWorldPosition.y, 1f) + unitVector*0.795f);
+			targetLine.SetPosition(2, new Vector3(cardWorldPosition.x, cardWorldPosition.y, 1f) + unitVector*0.80f);
+			targetLine.SetPosition(3, new Vector3(mouseWorldPosition.x, mouseWorldPosition.y, 1f));
 		}
 	}
 
