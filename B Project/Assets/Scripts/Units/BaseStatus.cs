@@ -14,6 +14,8 @@ public abstract class BaseStatus
     public BaseUnit Owner;
     // Unit afflicted by status
     public BaseUnit Target;
+    // Icon sprite
+    public Sprite Icon;
 
     public Effect.RemovalCondition Condition;
 
@@ -41,6 +43,7 @@ public abstract class BaseStatus
     public abstract void StartTurnExecute();
     // Apply effect when status end, if any
     public abstract void EndStatusExecute();
-
+    // Status description
+    public abstract string GetDescription();
 
 }

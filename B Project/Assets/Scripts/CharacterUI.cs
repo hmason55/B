@@ -30,7 +30,7 @@ public class CharacterUI : MonoBehaviour
     // Text components inside status icons
     private Text[] _iconsTexts;
 
-    void Start()
+    void Awake()
     {
         // Assign all refs for the panel status
         _statusIcons = new Image[StatusPanel.childCount];
@@ -45,11 +45,12 @@ public class CharacterUI : MonoBehaviour
             _iconsTexts[i].transform.parent.gameObject.SetActive(false);
         }
 
+        
         // TEST status setup
-        Sprite sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Icons/shieldbreak");
 
-        SetStatusIcons(new Sprite[] { sprite, sprite, sprite }, new string[] { "test1", "test2", "test3" });
-
+        SetStatusIcons(new Sprite[] {sprite,sprite, sprite  }, new string[] { "a","b","c" });
+        
         SetFocus(false);
     }
 
@@ -72,6 +73,7 @@ public class CharacterUI : MonoBehaviour
 
     public void SetStatusIcons(Sprite[] sprites, string[] descriptions)
     {
+        Debug.Log("adding " + sprites.Length + " sprite icons");
         for (int i = 0; i < _statusIcons.Length; i++)
         {
             if (i<sprites.Length)
@@ -103,6 +105,17 @@ public class CharacterUI : MonoBehaviour
             HPBar.sprite = HPBars[2];
 
         SetThreatIcon(unit.Threat);
+
+        // Update status icons
+        List<BaseStatus> statuses = unit.Statuses;
+        string[] descriptions = new string[statuses.Count];
+        Sprite[] sprites = new Sprite[statuses.Count];
+        for (int i = 0; i < statuses.Count; i++)
+        {
+            descriptions[i] = statuses[i].GetDescription();
+            sprites[i] = statuses[i].Icon;
+        }
+        SetStatusIcons(sprites, descriptions);
     }
 
     public void SetFocus(bool focus)

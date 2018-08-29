@@ -1,16 +1,23 @@
 ﻿
 using System;
+using UnityEngine;
 
 public class PoisonStatus : BaseStatus
 {
     public PoisonStatus(int strength, int duration, BaseUnit owner, BaseUnit target) :base( strength,  duration,  owner,  target)
     {
-        
+        Icon = Resources.Load<Sprite>("Sprites/Icons/poison");
     }
 
     public override void EndStatusExecute()
     {
        
+    }
+
+    public override string GetDescription()
+    {
+        string msg = "At the start of next turn receive " + Strength + " poison damage";
+        return msg;
     }
 
     public override void StartTurnExecute()
