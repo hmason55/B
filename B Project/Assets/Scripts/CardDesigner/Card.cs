@@ -304,6 +304,12 @@ public class Card : MonoBehaviour {
 
 						int damage = (int)Math.Round(effect.effectValue * mult);
 						target.DealDamage(damage);
+
+                        // Add threat to player units
+                        if (owner.IsPlayer())
+                        {
+                            PartyManager.Instance.ChangeThreat(owner, damage * 0.01f);
+                        }
 					}
 				}
 			break;

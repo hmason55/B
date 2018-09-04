@@ -122,9 +122,9 @@ public class CharacterUI : MonoBehaviour
     {
         CharacterName.enabled = focus;
         CharacterHP.enabled = focus;
-        //ThreatBar.transform.parent.gameObject.SetActive( focus);
+        
         //EnemyTell.enabled = focus;
-        ThreatBar.gameObject.SetActive(focus);
+        
         /*
         if (focus)
         {
@@ -139,9 +139,11 @@ public class CharacterUI : MonoBehaviour
 
     public void SetEnemyTell(bool value)
     {
-        EnemyTell.gameObject.SetActive(value);
-        //ThreatBar.transform.parent.gameObject.SetActive(!value);
+        // Temp threat bar
+        ThreatBar.transform.parent.gameObject.SetActive(!value);
         ThreatBar.enabled = !value;
+
+        EnemyTell.gameObject.SetActive(value);      
         ThreatIcon.enabled = !value;        
     }
 
@@ -152,7 +154,8 @@ public class CharacterUI : MonoBehaviour
 
     public void SetThreatIcon(float threat)
     {
-        //ThreatBar.fillAmount = threat;
+        // Temp threat bar
+        ThreatBar.fillAmount = threat;
 
         if (threat < 0.15)
             ThreatIcon.sprite = ThreatIcons[0];

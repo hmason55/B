@@ -20,7 +20,7 @@ public class PartyManager : Singleton<PartyManager>
     	set{_deck = value;}
     }
 
-    void Awake()
+    void Start()
     {
         _playerUnits = new List<BaseUnit>();
         _deck = new Deck();

@@ -292,14 +292,6 @@ public class BaseUnit : MonoBehaviour, Entity
     {
         if (_characterUI)
             _characterUI.SetUnit(this);
-        /*
-    	_textMeshUI.offsetZ = -1f;
-        _textMeshUI.transform.position = transform.position + Vector3.up * 2.5f;
-        _textMeshUI.text = UnitName + "\n" + _actualHP + "/" + MaxHP;
-        _textMeshUI.fontSize = 24;
-        _textMeshUI.characterSize = 0.1f;
-        _textMeshUI.anchor = TextAnchor.MiddleCenter;  
-        */
     }
 
     public void SetUIFocus(bool focus)
