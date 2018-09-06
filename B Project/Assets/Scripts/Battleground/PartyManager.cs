@@ -10,6 +10,9 @@ public class PartyManager : Singleton<PartyManager>
     public GameObject PlayerUnitPrefab;
     public GameObject PlayerUIPrefab;
 
+    public bool OverrideDeck = false;
+    public TextAsset DebugDeck;
+
     // Units placed on battleground
     private List<BaseUnit> _playerUnits;
 
@@ -124,61 +127,88 @@ public class PartyManager : Singleton<PartyManager>
 	    writer.Close();
     }
 
-	void LoadPartyFromFile(int saveSlot) {
-		string partyDataPath = "SaveData/default/party";
-		string unitDataPath = "SaveData/default/UnitData/";
-		string deckDataPath = "SaveData/default/DeckData/";
+    void LoadPartyFromFile(int saveSlot)
+    {
+        string partyDataPath = "SaveData/default/party";
+        string unitDataPath = "SaveData/default/UnitData/";
+        string deckDataPath = "SaveData/default/DeckData/";
 
-		if(saveSlot >= 0) {
-			partyDataPath = "SaveData/Slot_" + saveSlot + "/party";
-			unitDataPath = "SaveData/Slot_" + saveSlot + "/UnitData/";
-			deckDataPath = "SaveData/Slot_" + saveSlot + "/DeckData/";
-		}
+        if (saveSlot >= 0)
+        {
+            partyDataPath = "SaveData/Slot_" + saveSlot + "/party";
+            unitDataPath = "SaveData/Slot_" + saveSlot + "/UnitData/";
+            deckDataPath = "SaveData/Slot_" + saveSlot + "/DeckData/";
+        }
 
-		TextAsset partyFile = Resources.Load<TextAsset>(partyDataPath);
+        TextAsset partyFile = Resources.Load<TextAsset>(partyDataPath);
 
-		if(partyFile == null) {
-			return;
-		}
+        if (partyFile == null)
+        {
+            return;
+        }
 
-		// Remove newline characters
-		string formattedPartyFile = partyFile.text.Replace(System.Environment.NewLine, String.Empty);
-		string[] unitIDs = formattedPartyFile.Split(',');
+        // Remove newline characters
+        string formattedPartyFile = partyFile.text.Replace(System.Environment.NewLine, String.Empty);
+        string[] unitIDs = formattedPartyFile.Split(',');
+        
+        // Override deck with the debug one
+        if (OverrideDeck)
+        {
+            _deck = new Deck(DebugDeck);
+        }
+        
+        // Load units decks
+        Debug.Log("Loading party of " + unitIDs.Length);
+        for (int i = 0; i < unitIDs.Length; i++)
+        {
 
-		Debug.Log("Loading party of " + unitIDs.Length);
-		for(int i = 0; i < unitIDs.Length; i++) {
+            UnitData unitData = null;
+            Deck deck = null;
 
-			UnitData unitData = null;
-			Deck deck = null;
+            // Load the UnitData
+            TextAsset unitTextAsset = Resources.Load<TextAsset>(unitDataPath + unitIDs[i]);
+            if (unitTextAsset != null)
+            {
+                unitData = JsonUtility.FromJson<UnitData>(unitTextAsset.text);
+            }
 
-			// Load the UnitData
-			TextAsset unitTextAsset = Resources.Load<TextAsset>(unitDataPath + unitIDs[i]);
-			if(unitTextAsset != null) {
-				unitData = JsonUtility.FromJson<UnitData>(unitTextAsset.text);
-			}
+            // Load the DeckData
+            TextAsset deckTextAsset = Resources.Load<TextAsset>(deckDataPath + unitIDs[i]);
+            if (deckTextAsset != null)
+            {
+                deck = new Deck(deckTextAsset);
+            }
 
-			// Load the DeckData
-			TextAsset deckTextAsset = Resources.Load<TextAsset>(deckDataPath + unitIDs[i]);
-			if(deckTextAsset != null) {
-				deck = new Deck(deckTextAsset);
-			}
+            if (unitData != null && deck != null)
+            {
+                GameObject go = Instantiate(PlayerUnitPrefab);
+                BaseUnit unit = go.GetComponent<BaseUnit>();
+                unit.UnitID = unitData.UnitID;
+                unit.SetUnitData(unitData);
+                unit.LoadFromJson(-1);
 
-			if(unitData != null && deck != null) {
-				GameObject go = Instantiate(PlayerUnitPrefab);
-				BaseUnit unit = go.GetComponent<BaseUnit>();
-				unit.UnitID = unitData.UnitID;
-				unit.SetUnitData(unitData);
-				unit.LoadFromJson(-1);
+                foreach (CardData cardData in deck.ReferenceDeck)
+                {
+                    cardData.Owner = unit;
+                    if (!OverrideDeck)
+                        _deck.AddCardToReferenceDeck(cardData);
+                    else
+                    {
+                        // search each debug deck card to assign to the corresponding character
+                        foreach(CardData deckCardData in _deck.ReferenceDeck)
+                        {
+                            if (deckCardData.Title.Equals(cardData.Title))
+                            {
+                                deckCardData.Owner = unit;
+                            }
+                        }
+                    }
+                }
 
-				foreach(CardData cardData in deck.ReferenceDeck) {
-					cardData.Owner = unit;
-					_deck.AddCardToReferenceDeck(cardData);
-				}
-
-				_playerUnits.Add(unit);
+                _playerUnits.Add(unit);
 
                 // set base threat
-                unit.Threat = 1.0f/ unitIDs.Length;
+                unit.Threat = 1.0f / unitIDs.Length;
 
                 //create UI
                 CharacterUI UI = Instantiate(PlayerUIPrefab).GetComponent<CharacterUI>();
@@ -186,10 +216,12 @@ public class PartyManager : Singleton<PartyManager>
                 UI.SetEnemyTell(false);
 
                 Battleground bg = FindObjectOfType<Battleground>();
-           		bg.PlaceUnitAt(unit, i);
-			}
-		}
-	}
+                bg.PlaceUnitAt(unit, i);
+            }
+        }
+                
+
+    }
 	#endregion
 }
 
