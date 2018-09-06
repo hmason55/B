@@ -296,9 +296,16 @@ public class Card : MonoBehaviour {
 				foreach(BaseUnit target in targets) {
 				if(ParseTargetType(effect.targetType, target.IsPlayer())) {
 						float mult = 1.00f;
-						foreach(BaseStatus status in owner.Statuses) {
+                        for (int i = owner.Statuses.Count-1; i >=0; i--)
+                        {
+                            BaseStatus status = owner.Statuses[i];
 							if(status.GetType() == typeof(DamageMultiplierStatus)) {
 								mult += status.Multiplier;
+
+                                // Remove multiplier status 
+                                // TODO change if the status can have more than 1 use
+                                owner.RemoveStatusOfType(status.GetType());
+                                owner.UpdateUI();
 							}
 						}
 

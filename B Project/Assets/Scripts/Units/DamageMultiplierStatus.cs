@@ -6,8 +6,8 @@ public class DamageMultiplierStatus : BaseStatus
 {
 	public DamageMultiplierStatus(float multiplier, int duration, BaseUnit owner, BaseUnit target) :base( multiplier,  duration,  owner,  target)
     {
-        Icon=  UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
-
+        //Icon=  UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+        Icon = Resources.Load<Sprite>("Sprites/Icons/burn");
     }
 
     public override void EndStatusExecute()
@@ -17,7 +17,7 @@ public class DamageMultiplierStatus : BaseStatus
 
     public override string GetDescription()
     {
-        string msg = "This unit deal " + Multiplier + " bonus damage";
+        string msg = "Next attack deals " + (Multiplier*100).ToString("#") + "% bonus damage";
         return msg;
     }
 
