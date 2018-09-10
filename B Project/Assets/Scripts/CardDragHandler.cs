@@ -101,22 +101,36 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 		}
 	}
 
-	bool EvaluateTargets() {
-		Debug.Log("Evaluating targets");
+    bool EvaluateTargets()
+    {
+        Debug.Log("Evaluating targets");
 
-		if(targets == null) {
-			return false;
-		}
+        if (card.targetType == Card.TargetType.Tile)
+        {
+            Debug.Log("shooting on tile " + Battleground.Instance.GetCurrentTile());
+            // Tile target
+            if (Battleground.Instance.GetCurrentTile() < 9)
+                return false;
+        }
+        else
+        {
+            // Units target
+            if (targets == null)
+            {
+                return false;
+            }
 
-		foreach(BaseUnit target in targets) {
-			if(!target.IsTargetable()) {
-				Debug.Log("Not targetable");
-				return false;
-			}
-		}
-
-		return true;
-	}
+            foreach (BaseUnit target in targets)
+            {
+                if (!target.IsTargetable())
+                {
+                    Debug.Log("Not targetable");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 	void Play() {
 		DisableLineTarget();
@@ -128,7 +142,11 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
 		hand.GetComponent<Hand>().draggedCard = null;
 
-		card.Play(targets);
+        // Call different methods based on target type
+        if (card.targetType == Card.TargetType.Tile)
+            card.Play(Battleground.Instance.GetCurrentTile());
+        else
+            card.Play(targets);
 	}
 
 	public void CancelDrag() {

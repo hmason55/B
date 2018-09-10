@@ -31,6 +31,8 @@ public class Battleground : Singleton<Battleground>
     private TargetShape _targetShape = TargetShape.Single;
     // Type of target (player, enemy, hazard etc)
     private TargetEntity _targetEntity = TargetEntity.Unit;
+    // Tile mouse is pointing at
+    private int _mouseTile;
 
     void Start()
     {
@@ -284,6 +286,9 @@ public class Battleground : Singleton<Battleground>
 
     void SetTileHighlighted(int tile)
     {
+        // Set current tile
+        _mouseTile = tile;
+
         // Fine the list of tiles depending on mouse position and the shape selected
         List<int> positions = new List<int>();
         switch (_targetShape)
@@ -470,6 +475,15 @@ public class Battleground : Singleton<Battleground>
         _hazards[tile] = hazard;
     }
 
+    public BaseUnit GetUnitOnTile( int tile)
+    {
+        return _units[tile];
+    }
+
+    public int GetCurrentTile()
+    {
+        return _mouseTile;
+    }
     #endregion
 
     #region Unit methods
@@ -523,6 +537,9 @@ public class Battleground : Singleton<Battleground>
     {
         _targetShape = shape;
         _targetEntity = entity;
+
+        // Reset actual tile
+        _mouseTile = -1;
     }
 
     #endregion

@@ -409,16 +409,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Miasma
+  characterType: 0
   deckType: 2
+  category: 1
   resourceCost: 3
   description: '<b>Field</b>
 
     Deal 3 Damage to each enemy in a <b>Plus</b> stays for 3 turns.'
   omitFromDeck: 0
+  requireTarget: 1
+  targetType: 6
+  areaOfEffect: 0
+  targetArea: 000000000000000000
+  effects:
+  - targetType: 6
+    effectType: 7
+    effectValue: 3
+    duration: 3
+    condition: 0
   showObjectReferences: 0
+  effectFoldouts: 01
   backgroundImage: {fileID: 114718227164770602}
   artworkImage: {fileID: 114043052798423116}
   titleText: {fileID: 114339783417168522}
+  ownerText: {fileID: 0}
+  categoryImage: {fileID: 0}
+  categoryText: {fileID: 0}
   descriptionImage: {fileID: 114882252365543370}
   descriptionText: {fileID: 114305849283802940}
   costImage: {fileID: 114598277197468296}
@@ -426,13 +442,27 @@ MonoBehaviour:
   showCardData: 0
   cardData:
     Title: Miasma
+    CharacterType: 0
     DeckType: 2
+    Category: 0
     ResourceCost: 3
     Description: '<b>Field</b>
 
       Deal 3 Damage to each enemy in a <b>Plus</b> stays for 3 turns.'
     OmitFromDeck: 0
+    RequireTarget: 0
+    AreaOfEffect: 0
+    TargetArea: 000000000000000000
+    TargetType: 0
+    Effects:
+    - targetType: 6
+      effectType: 7
+      effectValue: 3
+      duration: 3
+      condition: 0
+    Owner: {fileID: 0}
   cardDataFile: {fileID: 4900000, guid: 7a900aa5085789546beb56f3c04c080e, type: 3}
+  zIndex: 0
 --- !u!114 &114739868391223946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -458,6 +488,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8b78f5efa815e41984ea80db9aa8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  outline: {fileID: 0}
+  hand: {fileID: 0}
 --- !u!114 &114882252365543370
 MonoBehaviour:
   m_ObjectHideFlags: 1

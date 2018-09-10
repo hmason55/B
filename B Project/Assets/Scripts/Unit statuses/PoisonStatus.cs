@@ -10,8 +10,7 @@ public class PoisonStatus : BaseStatus
     }
 
     public override void EndStatusExecute()
-    {
-       
+    {       
     }
 
     public override string GetDescription()

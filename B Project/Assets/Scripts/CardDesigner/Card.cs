@@ -45,6 +45,7 @@ public class Card : MonoBehaviour {
 		Ally,
 		RandomEnemy,
 		RandomAlly,
+        Tile
 	}
 
 	public enum EffectType {
@@ -54,7 +55,8 @@ public class Card : MonoBehaviour {
 		Stun,
 		Push,
 		Resource,
-		DamageMultiplier
+		DamageMultiplier,
+        Miasma
 	}
 
 	// Variables used by CardData
@@ -190,6 +192,71 @@ public class Card : MonoBehaviour {
 		}
 	}
 
+
+    public void Play(int tile)
+    {
+        // Version with a tile target
+        // TODO probably refactor both methods into a more compact way
+        if (cardData.RequireTarget)
+        {
+            // Check if valid tile
+            if (tile < 0)
+            {
+                Debug.Log("no targets, canceling drag.");
+                GetComponent<CardDragHandler>().CancelDrag();
+            }
+            else
+            {
+                Debug.Log("Playing: " + title + " to tile: " + tile);
+
+                foreach (Effect effect in effects)
+                {
+                    bool applied = false;
+
+                    if (ApplySelfEffect(effect))
+                    {
+                        applied = true;
+                    }
+
+                    // Check to see if effect was already applied
+                    if (!applied)
+                    {
+                        if (owner.GetActualHP() > 0)
+                        {
+                            // Owner of this card is alive 
+
+                            // TODO
+                            // Calculate all tiles based on shape                          
+                            ApplyToTile(tile, effect);
+                        }
+                        else
+                        {
+                            // Owner of this card is dead
+                            goto endEffectLoop;
+                        }
+                    }
+                }
+
+            // Resume
+            endEffectLoop:
+
+                if (transform.parent) // Added check in case the card belong to AI, so no GO
+                {// Player card
+                    Hand hand = transform.parent.GetComponent<Hand>();
+                    if (hand != null)
+                    {
+                        hand.Remove(this);
+                    }
+                }
+                else
+                {   //Remove enemy card upon playing
+                    Destroy(gameObject);
+                }
+                CheckOnPlayRemovalConditions(owner);
+            }
+        }
+    }
+
     public void Play(BaseUnit[] targets)
     {
         if (cardData.RequireTarget)
@@ -209,7 +276,7 @@ public class Card : MonoBehaviour {
                 	// Check to see if effect was already applied
                 	if(!applied) {
 	                	if(owner.GetActualHP() > 0) {
-							// Owner of this card is alive
+							// Owner of this card is alive                            
 							ApplyToTargets(targets, effect);
 	                	} else {
 							// Owner of this card is dead
@@ -286,6 +353,9 @@ public class Card : MonoBehaviour {
 
 		return false;
     }
+
+    void ApplyToTile(int tile, Effect effect)
+    { }
 
 	void ApplyToTargets(BaseUnit[] targets, Effect effect) {
 		Debug.Log("Applying effects");

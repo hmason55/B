@@ -39,10 +39,13 @@ public abstract class BaseStatus
 
     // What happens with another identical status is applied
     public abstract void Update(BaseStatus newStatus);
+
     // Apply effect at start of turn, if any
     public abstract void StartTurnExecute();
+
     // Apply effect when status end, if any
     public abstract void EndStatusExecute();
+
     // Status description
     public abstract string GetDescription();
 
