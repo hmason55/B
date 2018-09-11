@@ -32,6 +32,7 @@ public class AIManager : MonoBehaviour
         {
             GameObject go = Instantiate(EnemyPrefab);
             EnemyUnit enemy = go.GetComponent<EnemyUnit>();
+            enemy.name += " (" + i + ")";
             _enemies.Add(enemy);
 
             Battleground bg = FindObjectOfType<Battleground>();
@@ -49,6 +50,9 @@ public class AIManager : MonoBehaviour
     public IEnumerator StartAITurn()
     {
         yield return new WaitForSeconds(1);
+
+        // Execute start turn field effects
+        yield return  StartCoroutine(Battleground.Instance.UpdateNewTurnHazards(false));
 
         // Apply all effects/dots on each enemy
 

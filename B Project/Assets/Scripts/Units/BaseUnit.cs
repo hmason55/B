@@ -327,12 +327,14 @@ public class BaseUnit : MonoBehaviour, Entity
 
     public void SpawnBattleText(string text)
     {
+       
+
 		GameObject canvas = GameObject.FindGameObjectWithTag("Canvas");
 		if(canvas == null) {return;}
 
     	GameObject battleText = GameObject.Instantiate(Resources.Load("Prefabs/Battle Text")) as GameObject;
     	battleText.transform.SetParent(canvas.transform);
-		Vector3 screenPosition = Camera.main.WorldToViewportPoint(new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z));
+		Vector3 screenPosition = Camera.main.WorldToViewportPoint(new Vector3(transform.position.x, transform.position.y + 10f, transform.position.z));
 		battleText.transform.position = new Vector3(screenPosition.x * Screen.width, screenPosition.y * Screen.height, 0f);
 		//Debug.Log(Camera.main.WorldToViewportPoint(transform.position));
     	battleText.GetComponent<Text>().text = text;

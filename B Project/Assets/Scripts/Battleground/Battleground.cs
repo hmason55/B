@@ -20,24 +20,24 @@ public class Battleground : Singleton<Battleground>
     // Grid Mesh
     private Mesh _mesh;
     // Ground hazards
-    private GameObject[] _hazards; // TODO change with hazard class eventually
+    private BaseFieldEffect[] _fieldEffects; 
     // Tile inhabitants
     private BaseUnit[] _units; // TODO eventually change with unit class or interface
     // Mouseover unit
     private List<BaseUnit> _mouseoverUnits;
     // Target Method
-    private bool _targetTile = true;
+    public bool _targetTile = true;
     // Target shape
-    private TargetShape _targetShape = TargetShape.Single;
+    public TargetShape _targetShape = TargetShape.Single;
     // Type of target (player, enemy, hazard etc)
     private TargetEntity _targetEntity = TargetEntity.Unit;
     // Tile mouse is pointing at
-    private int _mouseTile;
+    public int _mouseTile;
 
     void Start()
     {
         //setup tiles
-        _hazards = new GameObject[18];
+        _fieldEffects = new BaseFieldEffect[18];
         _units = new BaseUnit[18];
         _spriteOrder = new int[18];
         _mesh = new Mesh();
@@ -281,13 +281,13 @@ public class Battleground : Singleton<Battleground>
             SetTileHighlighted(result);
         else
             ClearHighlights();
+        _mouseTile = result;
 
     }
 
     void SetTileHighlighted(int tile)
     {
-        // Set current tile
-        _mouseTile = tile;
+        
 
         // Fine the list of tiles depending on mouse position and the shape selected
         List<int> positions = new List<int>();
@@ -329,7 +329,7 @@ public class Battleground : Singleton<Battleground>
         // Highlight the tiles list
         HighlightTiles(positions.ToArray());
         // Highlight the unit upon tiles
-        HighlightUnits(positions);
+        HighlightUnits(positions);        
     }
 
     void HighlightUnits( List<int> positions)
@@ -423,6 +423,7 @@ public class Battleground : Singleton<Battleground>
 
     public void SetTargetTile(bool tile)
     {
+        Debug.Log("setting target tile to " + tile);
         _targetTile = tile;
     }
 
@@ -458,21 +459,42 @@ public class Battleground : Singleton<Battleground>
     /// Call this when the turn switch to update the ground hazards and apply effects
     /// </summary>
     /// <param name="player"> True for player turn </param>
-    public void UpdateNewTurnHazards(bool player)
+    public IEnumerator UpdateNewTurnHazards(bool player)
     {
-        // TODO
-        // Check if tile is occupied and eventually apply effect
-        // Update timer and eventually clear the tile if the effect is expired
+        int start = player ? 0 : 9;
+
+        for (int i = 0; i < 9; i++)
+        {
+            BaseFieldEffect fieldEffect = _fieldEffects[start + i];
+            if (fieldEffect!=null)
+            {
+                bool pauseForEffect = (_units[start + i] != null);
+
+                // Check if tile is occupied and eventually apply effect
+                fieldEffect.StartTurnExecute();
+
+                // Clear the tile if the effect is expired                
+                if (fieldEffect.Duration < 1)
+                    ClearTile(start + i);
+
+                // Pause for animation and stuff
+                if (pauseForEffect)
+                    yield return new WaitForSeconds(1);
+            }
+        }
+        yield return null;
     }
 
     void ClearTile(int tile)
     {
-        _hazards[tile] = null;
+        _fieldEffects[tile].EndStatusExecute();
+
+        _fieldEffects[tile] = null;
     }
 
-    void AddHazard(int tile, GameObject hazard) // TODO change gameobject eventually
+    public void AddFieldEffect(int tile, BaseFieldEffect fieldEffect) 
     {
-        _hazards[tile] = hazard;
+        _fieldEffects[tile] = fieldEffect;
     }
 
     public BaseUnit GetUnitOnTile( int tile)
@@ -484,6 +506,42 @@ public class Battleground : Singleton<Battleground>
     {
         return _mouseTile;
     }
+
+    public List<int> GetTilesFromShape(bool[] targetArea,int tile)
+    {
+        List<int> targetTiles = new List<int>();
+        int sector = tile / 9; // 0 player 1 enemy
+        int row = (tile - sector * 9) / 3;
+        int column = tile - sector * 9 - row *3;
+        
+        for (int i = Mathf.Max(0,1-column); i < Mathf.Min(3,4-column); i++)
+        {
+            for (int j = Mathf.Max(0,1-row); j < Mathf.Min(3,4-row); j++)
+            {
+                if(targetArea[i+j*3])
+                {
+                    targetTiles.Add(tile + i + j * 3-4);
+                }
+            }
+        }
+
+        return targetTiles;
+    }
+
+    public Vector2 GetPositionFromTile(int tile)
+    {
+        Vector2 position;
+        // Set position
+        int j = tile % 3;
+        int k = tile / 3;
+        if (tile < 9) // Player
+            position = _playerGrid[j, k];
+        else // Enemy
+            position = _enemyGrid[j, k - 3];
+
+        return position;
+    }
+
     #endregion
 
     #region Unit methods
@@ -495,13 +553,8 @@ public class Battleground : Singleton<Battleground>
         if (oldUnit)
             RemoveUnitFromBattleGround(position);
 
-        // Set position
-        int j = position % 3;
-        int k = position / 3;
-        if (position < 9) // Player
-            unit.transform.position = _playerGrid[j, k];
-        else // Enemy
-            unit.transform.position = _enemyGrid[j, k - 3];
+        unit.transform.position = GetPositionFromTile(position);
+
         // Set sprite order both tile and UI
         unit.SetSpriteOrder(_spriteOrder[position]);
 

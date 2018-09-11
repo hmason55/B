@@ -224,9 +224,7 @@ public class Card : MonoBehaviour {
                         if (owner.GetActualHP() > 0)
                         {
                             // Owner of this card is alive 
-
-                            // TODO
-                            // Calculate all tiles based on shape                          
+            
                             ApplyToTile(tile, effect);
                         }
                         else
@@ -355,7 +353,32 @@ public class Card : MonoBehaviour {
     }
 
     void ApplyToTile(int tile, Effect effect)
-    { }
+    {
+        Debug.Log("apply to tile");
+        // Get list of valid tiles
+        List<int> targetTiles;
+        if (areaOfEffect)
+            targetTiles = Battleground.Instance.GetTilesFromShape(targetArea, tile);
+        else
+            targetTiles = new List<int> {tile };
+
+        Debug.Log("tiles number: " + targetTiles.Count);
+        switch (effect.effectType)
+        {
+            case EffectType.Miasma:
+               
+                
+                // Spawn miasma on tiles
+                foreach (int t in targetTiles)
+                {
+                    MiasmaFieldEffect miasma = new MiasmaFieldEffect(effect.effectValue, effect.duration, owner, t);
+                    Battleground.Instance.AddFieldEffect(t, miasma);
+                }
+                break;
+
+        }
+    }
+
 
 	void ApplyToTargets(BaseUnit[] targets, Effect effect) {
 		Debug.Log("Applying effects");

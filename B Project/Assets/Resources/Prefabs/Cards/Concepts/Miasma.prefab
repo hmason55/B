@@ -411,7 +411,7 @@ MonoBehaviour:
   title: Miasma
   characterType: 0
   deckType: 2
-  category: 1
+  category: 0
   resourceCost: 3
   description: '<b>Field</b>
 
@@ -419,8 +419,8 @@ MonoBehaviour:
   omitFromDeck: 0
   requireTarget: 1
   targetType: 6
-  areaOfEffect: 0
-  targetArea: 000000000000000000
+  areaOfEffect: 1
+  targetArea: 000100010101000100
   effects:
   - targetType: 6
     effectType: 7
@@ -452,7 +452,7 @@ MonoBehaviour:
     OmitFromDeck: 0
     RequireTarget: 0
     AreaOfEffect: 0
-    TargetArea: 000000000000000000
+    TargetArea: 000100010101000100
     TargetType: 0
     Effects:
     - targetType: 6

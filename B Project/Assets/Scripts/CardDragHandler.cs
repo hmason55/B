@@ -40,7 +40,11 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         TargetEntity entity = TargetEntity.Enemy;
         if (card.targetType == Card.TargetType.Ally)
             entity = TargetEntity.Player;
-        Battleground.Instance.SetTargetShape(TargetShape.Single, entity);
+        // TEMP only work for miasma
+        if (card.targetType == Card.TargetType.Tile)
+            Battleground.Instance.SetTargetShape(TargetShape.Cross, entity);
+        else
+            Battleground.Instance.SetTargetShape(TargetShape.Single, entity);
     }
 
     public void OnDrag(PointerEventData eventData) {
@@ -85,6 +89,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     }
 
 	public void OnEndDrag(PointerEventData eventData) {
+               
         targets = Battleground.Instance.GetTargetUnits().ToArray();
         Debug.Log("Drop " + gameObject.name+ " on "+targets.Length +" targets");
 		if(hand == null) {return;}
@@ -95,11 +100,15 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 				Play();
 			} else {
 				Debug.Log("Invalid target");
+                CancelDrag();
 			}
 		} else {
 			CancelDrag();
 		}
-	}
+
+        // Return battleground target to standard
+        Battleground.Instance.SetTargetShape(TargetShape.Single, TargetEntity.Unit);
+    }
 
     bool EvaluateTargets()
     {
@@ -163,9 +172,6 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 		transform.SetSiblingIndex(card.zIndex);
 
 		hand.GetComponent<Hand>().draggedCard = null;
-
-        // Return battleground target to standard
-        Battleground.Instance.SetTargetShape(TargetShape.Single, TargetEntity.Unit);
 	}
 
 	void EnableLineTarget() {

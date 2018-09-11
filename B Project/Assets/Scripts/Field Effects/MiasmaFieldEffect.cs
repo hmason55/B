@@ -9,11 +9,13 @@ public class MiasmaFieldEffect : BaseFieldEffect
     private GameObject _particle;
 
 
-    public MiasmaFieldEffect(int strength, int duration, BaseUnit owner, int position) : base(strength, duration, owner, position)
+    public MiasmaFieldEffect(int strength, int duration, BaseUnit owner, int tile) : base(strength, duration, owner, tile)
     {
         Icon = Resources.Load<Sprite>("Sprites/Icons/poison");
         GameObject particlePrefab = Resources.Load<GameObject>("Prefabs/Particles/Miasma Particle");
+        Vector2 position = Battleground.Instance.GetPositionFromTile(tile);
         _particle = GameObject.Instantiate(particlePrefab);
+        _particle.transform.position = position;
     }
 
     public override void EndStatusExecute()
