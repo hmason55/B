@@ -423,7 +423,6 @@ public class Battleground : Singleton<Battleground>
 
     public void SetTargetTile(bool tile)
     {
-        Debug.Log("setting target tile to " + tile);
         _targetTile = tile;
     }
 
@@ -494,7 +493,26 @@ public class Battleground : Singleton<Battleground>
 
     public void AddFieldEffect(int tile, BaseFieldEffect fieldEffect) 
     {
-        _fieldEffects[tile] = fieldEffect;
+        if (_fieldEffects[tile]== null)
+            _fieldEffects[tile] = fieldEffect;
+        else
+        {
+            if (_fieldEffects[tile].GetType().Equals(fieldEffect.GetType()))
+            {
+                _fieldEffects[tile].Update(fieldEffect);
+                fieldEffect.Clear();
+            }
+        }
+    }
+
+    public BaseFieldEffect GetFieldEffect(int tile)
+    {
+        if (tile<0 || tile>17)
+        {
+            Debug.Log("trying to retrieve effect from wrong tile:" + tile);
+            return null;
+        }
+        return _fieldEffects[tile];
     }
 
     public BaseUnit GetUnitOnTile( int tile)

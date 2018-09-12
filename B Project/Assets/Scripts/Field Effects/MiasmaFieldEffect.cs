@@ -20,8 +20,7 @@ public class MiasmaFieldEffect : BaseFieldEffect
 
     public override void EndStatusExecute()
     {
-        // Remove ground effect etc
-        GameObject.Destroy(_particle.gameObject);
+        Clear();
     }
 
     public override string GetDescription()
@@ -55,4 +54,10 @@ public class MiasmaFieldEffect : BaseFieldEffect
         // Update duration
         Duration = newStatus.Duration;
     }
+    
+    public override void Clear()
+    {
+        // Remove ground effect etc
+        GameObject.Destroy(_particle.gameObject);
+    }    
 }

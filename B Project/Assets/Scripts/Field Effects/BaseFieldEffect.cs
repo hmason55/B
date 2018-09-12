@@ -12,5 +12,7 @@ public abstract class BaseFieldEffect : BaseStatus
     {
         Position = position;
     }
-    
+
+    // Remove all visual and audio effects
+    public abstract void Clear();
 }
