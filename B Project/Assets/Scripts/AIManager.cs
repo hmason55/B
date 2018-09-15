@@ -55,6 +55,10 @@ public class AIManager : MonoBehaviour
         yield return  StartCoroutine(Battleground.Instance.UpdateNewTurnHazards(false));
 
         // Apply all effects/dots on each enemy
+        foreach (BaseUnit unit in _enemies)
+        {
+            unit.ExecuteStartTurnStatuses();
+        }
 
         // Check if they are all dead
         if (_enemies.Count < 1)
@@ -67,13 +71,27 @@ public class AIManager : MonoBehaviour
         List<BaseUnit> units = _partyManager.GetUnits();
         for (int i = 0; i < _enemies.Count; i++)
         {
+            // Check if stunned and pass if so
+            BaseStatus stun = _enemies[i].SearchStatusLike(typeof(StunStatus));
+            if (stun!=null)
+            {
+                Debug.Log(_enemies[i].UnitName + " is skipping turn for stun");
+               continue;
+            }
+
             // Pick a target for the card
 
             // TODO random for now, change later
             // BaseUnit[] target = { units[Random.Range(0, units.Count)] };
 
+            // Check if taunted, if not
             // Pick a target based on thread
-            BaseUnit[] target = { _partyManager.PickUnitWithThreat() };
+            BaseStatus taunt= _enemies[i].SearchStatusLike(typeof(TauntStatus));
+            BaseUnit[] target;
+            if (taunt != null)
+                target =new BaseUnit[] { taunt.Owner };
+            else
+                target = new BaseUnit[] { _partyManager.PickUnitWithThreat() };
 
             // play the card
             _enemies[i].GetNextCard().Play(target);
@@ -89,8 +107,8 @@ public class AIManager : MonoBehaviour
             }
         }
 
-		foreach(BaseUnit unit in _partyManager.GetUnits()) {
-        	unit.TickAllStatuses();
+		foreach(BaseUnit unit in _enemies) {
+        	unit.ExecuteEndTurnStatuses();
         }
 
         // end turn

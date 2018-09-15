@@ -207,16 +207,7 @@ public class BaseUnit : MonoBehaviour, Entity
         UpdateUI();
     }
 
-    public void TickAllStatuses() {
-		int numStatuses = _statuses.Count-1;
-		for(int i = numStatuses; i >= 0; i--) {
-			if(_statuses[i].Duration <= 1) {
-				_statuses.RemoveAt(i);
-			} else {
-				_statuses[i].Duration--;
-			}
-    	}
-    }
+ 
 
     // Remove block by means of damage.
 	public void DamageBlock(int damage)
@@ -409,11 +400,14 @@ public class BaseUnit : MonoBehaviour, Entity
 
     #region Status methods
 
-    BaseStatus SearchStatusLike(BaseStatus status)
+    public BaseStatus SearchStatusLike(Type status)
     {
+        //Debug.Log("search " + status + "   on " + UnitName+ "   with status n: "+_statuses.Count);
         for (int i = 0; i < _statuses.Count; i++)
         {
-            if (_statuses[i].GetType() ==  status.GetType())
+            //Debug.Log("status: " + _statuses[i]);
+            
+            if (status== _statuses[i].GetType())
                 return _statuses[i];
         }
         return null;
@@ -421,11 +415,12 @@ public class BaseUnit : MonoBehaviour, Entity
 
     public void AddStatus(BaseStatus newStatus)
     {
-        BaseStatus oldStatus = SearchStatusLike(newStatus);
+        BaseStatus oldStatus = SearchStatusLike(newStatus.GetType());
         if (oldStatus == null)
             _statuses.Add(newStatus);
         else
             oldStatus.Update(newStatus);
+        UpdateUI();
     }
 
     public void RemoveStatusOfType(Type type)
@@ -457,10 +452,33 @@ public class BaseUnit : MonoBehaviour, Entity
         for (int i = _statuses.Count-1; i >=0; i--)
         {
             if (_statuses[i].Duration < 1)
+            {
+                _statuses[i].EndStatusExecute();
                 _statuses.RemoveAt(i);
+            }
+        }
+        UpdateUI();
+    }
+    
+    public void ExecuteEndTurnStatuses()
+    {
+        // End turn update
+        for (int i = 0; i < _statuses.Count; i++)
+        {
+            _statuses[i].EndStatusExecute();
         }
 
-    }
+        // Remove those expired
+        for (int i = _statuses.Count - 1; i >= 0; i--)
+        {
+            if (_statuses[i].Duration < 1)
+            {
+                _statuses[i].EndStatusExecute();
+                _statuses.RemoveAt(i);
+            }
+        }
+        UpdateUI();
+    }    
 
     public void ClearAllStatuses()
     {

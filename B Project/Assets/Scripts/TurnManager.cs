@@ -45,7 +45,15 @@ public class TurnManager : MonoBehaviour
     {
         Debug.Log("Start Player Turn");
         _playerTurn = true;
-             
+
+        // Start turn status check
+        List<BaseUnit> units = _partyManager.GetUnits();
+        for (int i = units.Count-1; i >=0; i--)
+        {
+            BaseUnit unit = units[i];
+            unit.ExecuteStartTurnStatuses();
+        }
+
         // Turn hand UI and cards on
         _hand.gameObject.SetActive(true);
 
@@ -73,7 +81,7 @@ public class TurnManager : MonoBehaviour
 
         // Disable battleground targeting
         _battleground.SetTargetShape(TargetShape.None, TargetEntity.Enemy);
-
+              
         // Enable AI
         StartCoroutine(_aiManager.StartAITurn());
     }
@@ -94,8 +102,11 @@ public class TurnManager : MonoBehaviour
         if (!_playerTurn)
             return;
 
-        foreach(BaseUnit unit in _partyManager.GetUnits()) {
-        	unit.TickAllStatuses();
+        List<BaseUnit> units = _partyManager.GetUnits();
+        for (int i = units.Count - 1; i >= 0; i--)
+        {
+            BaseUnit unit = units[i];
+            unit.ExecuteEndTurnStatuses();
         }
 
         StartEnemyTurn();

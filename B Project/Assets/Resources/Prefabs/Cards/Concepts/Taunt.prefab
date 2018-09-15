@@ -346,6 +346,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8b78f5efa815e41984ea80db9aa8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  outline: {fileID: 0}
+  hand: {fileID: 0}
 --- !u!114 &114624774229315090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -465,14 +468,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Taunt
+  characterType: 0
   deckType: 1
+  category: 0
   resourceCost: 1
   description: (Taunt)
   omitFromDeck: 0
+  requireTarget: 1
+  targetType: 2
+  areaOfEffect: 0
+  targetArea: 000000000000000000
+  effects:
+  - targetType: 2
+    effectType: 8
+    effectValue: 0
+    duration: 1
+    condition: 0
   showObjectReferences: 0
+  effectFoldouts: 0101
   backgroundImage: {fileID: 114624774229315090}
   artworkImage: {fileID: 114978269724943622}
   titleText: {fileID: 114503326724861256}
+  ownerText: {fileID: 0}
+  categoryImage: {fileID: 0}
+  categoryText: {fileID: 0}
   descriptionImage: {fileID: 114035441114096958}
   descriptionText: {fileID: 114739585820583462}
   costImage: {fileID: 114330833223416128}
@@ -480,11 +499,25 @@ MonoBehaviour:
   showCardData: 0
   cardData:
     Title: Taunt
+    CharacterType: 0
     DeckType: 1
+    Category: 0
     ResourceCost: 1
     Description: (Taunt)
     OmitFromDeck: 0
+    RequireTarget: 1
+    AreaOfEffect: 0
+    TargetArea: 000000000000000000
+    TargetType: 0
+    Effects:
+    - targetType: 2
+      effectType: 8
+      effectValue: 0
+      duration: 1
+      condition: 0
+    Owner: {fileID: 0}
   cardDataFile: {fileID: 4900000, guid: f9b543e967fc11f48b13f2d562ada906, type: 3}
+  zIndex: 0
 --- !u!114 &114969594651803940
 MonoBehaviour:
   m_ObjectHideFlags: 1
