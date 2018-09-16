@@ -292,14 +292,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Boned
+  characterType: 0
   deckType: 2
+  category: 0
   resourceCost: 1
   description: (PUSH)                        Deal 3 damage
   omitFromDeck: 0
+  requireTarget: 1
+  targetType: 2
+  areaOfEffect: 0
+  targetArea: 000000000000000000
+  effects:
+  - targetType: 2
+    effectType: 0
+    effectValue: 3
+    duration: 0
+    condition: 0
+  - targetType: 2
+    effectType: 4
+    effectValue: 0
+    duration: 0
+    condition: 0
   showObjectReferences: 0
+  effectFoldouts: 01010101
   backgroundImage: {fileID: 114122888704643324}
   artworkImage: {fileID: 114298559955219112}
   titleText: {fileID: 114726820813662578}
+  ownerText: {fileID: 0}
+  categoryImage: {fileID: 0}
+  categoryText: {fileID: 0}
   descriptionImage: {fileID: 114896609896685832}
   descriptionText: {fileID: 114626263926483184}
   costImage: {fileID: 114625671760859604}
@@ -307,11 +328,30 @@ MonoBehaviour:
   showCardData: 0
   cardData:
     Title: Boned
+    CharacterType: 0
     DeckType: 2
+    Category: 0
     ResourceCost: 1
     Description: (PUSH)                        Deal 3 damage
     OmitFromDeck: 0
-  cardDataFile: {fileID: 4900000, guid: 7a900aa5085789546beb56f3c04c080e, type: 3}
+    RequireTarget: 0
+    AreaOfEffect: 0
+    TargetArea: 000000000000000000
+    TargetType: 0
+    Effects:
+    - targetType: 2
+      effectType: 0
+      effectValue: 3
+      duration: 0
+      condition: 0
+    - targetType: 2
+      effectType: 4
+      effectValue: 0
+      duration: 0
+      condition: 0
+    Owner: {fileID: 0}
+  cardDataFile: {fileID: 4900000, guid: 74ceb86c9ac2a9c49b7df8c6e874f638, type: 3}
+  zIndex: 0
 --- !u!114 &114298559955219112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -378,6 +418,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8b78f5efa815e41984ea80db9aa8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  outline: {fileID: 0}
+  hand: {fileID: 0}
 --- !u!114 &114625671760859604
 MonoBehaviour:
   m_ObjectHideFlags: 1

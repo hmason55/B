@@ -42,7 +42,12 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             entity = TargetEntity.Player;
         // TEMP only work for miasma
         if (card.targetType == Card.TargetType.Tile)
-            Battleground.Instance.SetTargetShape(TargetShape.Cross, entity);
+        {
+            if (card.cardData.Description=="Miasma")
+                Battleground.Instance.SetTargetShape(TargetShape.Cross, entity);
+            else
+                Battleground.Instance.SetTargetShape(TargetShape.Veritcal, entity);
+        }
         else
             Battleground.Instance.SetTargetShape(TargetShape.Single, entity);
     }
