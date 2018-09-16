@@ -56,7 +56,8 @@ public class Card : MonoBehaviour {
 		Push,
 		Resource,
 		DamageMultiplier,
-        Miasma
+        Miasma,
+        Taunt
 	}
 
 	// Variables used by CardData
@@ -380,49 +381,78 @@ public class Card : MonoBehaviour {
     }
 
 
-	void ApplyToTargets(BaseUnit[] targets, Effect effect) {
-		Debug.Log("Applying effects");
+    void ApplyToTargets(BaseUnit[] targets, Effect effect)
+    {
+        Debug.Log("Applying effects");
 
-		// Apply effects to specifically targeted units (dragged card onto or put AoE targeter on).
-		switch(effect.effectType) {
-			case EffectType.Damage:
-				foreach(BaseUnit target in targets) {
-				if(ParseTargetType(effect.targetType, target.IsPlayer())) {
-						float mult = 1.00f;
-                        for (int i = owner.Statuses.Count-1; i >=0; i--)
+        // Apply effects to specifically targeted units (dragged card onto or put AoE targeter on).
+        switch (effect.effectType)
+        {
+            case EffectType.Damage:
+                foreach (BaseUnit target in targets)
+                {
+                    if (ParseTargetType(effect.targetType, target.IsPlayer()))
+                    {
+                        float mult = 1.00f;
+                        for (int i = owner.Statuses.Count - 1; i >= 0; i--)
                         {
                             BaseStatus status = owner.Statuses[i];
-							if(status.GetType() == typeof(DamageMultiplierStatus)) {
-								mult += status.Multiplier;
+                            if (status.GetType() == typeof(DamageMultiplierStatus))
+                            {
+                                mult += status.Multiplier;
 
                                 // Remove multiplier status 
                                 // TODO change if the status can have more than 1 use
                                 owner.RemoveStatusOfType(status.GetType());
                                 owner.UpdateUI();
-							}
-						}
+                            }
+                        }
 
-						int damage = (int)Math.Round(effect.effectValue * mult);
-						target.DealDamage(damage);
+                        int damage = (int)Math.Round(effect.effectValue * mult);
+                        target.DealDamage(damage);
 
                         // Add threat to player units
                         if (owner.IsPlayer())
                         {
                             PartyManager.Instance.ChangeThreat(owner, damage * 0.01f);
                         }
-					}
-				}
-			break;
+                    }
+                }
+                break;
 
-			case EffectType.Block:
-				foreach(BaseUnit target in targets) {
-					if(ParseTargetType(effect.targetType, target.IsPlayer())) {
-						target.GrantBlock(effect.effectValue, effect.duration, owner);
-					}
-				}
-			break;
-		}
-	}
+            case EffectType.Block:
+                foreach (BaseUnit target in targets)
+                {
+                    if (ParseTargetType(effect.targetType, target.IsPlayer()))
+                    {
+                        target.GrantBlock(effect.effectValue, effect.duration, owner);
+                    }
+                }
+                break;
+
+            case EffectType.Taunt:
+                foreach (BaseUnit target in targets)
+                {
+                    if (ParseTargetType(effect.targetType, target.IsPlayer()))
+                    {
+                        TauntStatus taunt = new TauntStatus(effect.duration, owner, target);
+                        target.AddStatus(taunt);
+                    }
+                }
+                break;
+            case EffectType.Stun:
+                foreach (BaseUnit target in targets)
+                {
+                    if (ParseTargetType(effect.targetType, target.IsPlayer()))
+                    {
+                        StunStatus stun = new StunStatus(effect.duration, owner, target);
+                        target.AddStatus(stun);
+                    }
+                }
+                break;
+                break;
+        }
+    }
 
 	public void CheckOnPlayRemovalConditions(BaseUnit unit) {
 		if(unit.Statuses == null) {return;}

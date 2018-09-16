@@ -73,7 +73,7 @@ public class CharacterUI : MonoBehaviour
 
     public void SetStatusIcons(Sprite[] sprites, string[] descriptions)
     {
-        Debug.Log("adding " + sprites.Length + " sprite icons");
+        //Debug.Log("adding " + sprites.Length + " sprite icons");
         for (int i = 0; i < _statusIcons.Length; i++)
         {
             if (i<sprites.Length)

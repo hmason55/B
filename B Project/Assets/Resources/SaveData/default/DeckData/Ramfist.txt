@@ -1,2 +1,4 @@
 Shield Bash,
-Sword and Board
+Sword and Board,
+Taunt,
+Shield Bash
