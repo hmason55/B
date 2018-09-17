@@ -14,6 +14,8 @@ public class TurnManager : MonoBehaviour
     private PartyManager _partyManager;
     // Hand cache
     private Hand _hand;
+	// Resource manager cache
+    private ResourceManager _resourceManager;
 
     void Start()
     {
@@ -21,6 +23,7 @@ public class TurnManager : MonoBehaviour
         _battleground = FindObjectOfType<Battleground>();
         _partyManager = FindObjectOfType<PartyManager>();
         _hand = FindObjectOfType<Hand>();
+		_resourceManager = FindObjectOfType<ResourceManager>();
     }
 
     public void StartGame()
@@ -38,6 +41,7 @@ public class TurnManager : MonoBehaviour
         _hand.gameObject.SetActive(true);
         _hand.DeckList = _partyManager.PartyDeck;
         _hand.Deal();
+		_resourceManager.CalculateResources();
 		Debug.Log("Party deck size: "+_hand.DeckList.ReferenceDeck.Count);
     }
 
@@ -67,7 +71,7 @@ public class TurnManager : MonoBehaviour
         // Draw next AI cards and show them 
         _aiManager.DealAICards();
         
-
+        _resourceManager.CalculateResources();
     }
 
     public void StartEnemyTurn()

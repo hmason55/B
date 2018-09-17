@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.UI;
 
 public class PartyManager : Singleton<PartyManager>
 {
@@ -17,6 +18,10 @@ public class PartyManager : Singleton<PartyManager>
     private List<BaseUnit> _playerUnits;
 
     private Deck _deck;
+
+	public List<BaseUnit> PlayerUnits {
+    	get{return _playerUnits;}
+    }
 
     public Deck PartyDeck {
     	get{return _deck;}
