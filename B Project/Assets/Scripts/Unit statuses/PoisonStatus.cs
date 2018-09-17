@@ -28,7 +28,7 @@ public class PoisonStatus : BaseStatus
             return;
         }
         //apply damage
-        Target.DealDamage(Strength);
+        Target.DealDamage(Strength,Owner);
         // reduce duration
         Duration--;
         // Reduce strength and expire if 0

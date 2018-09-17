@@ -149,8 +149,29 @@ public class BaseUnit : MonoBehaviour, Entity
     {
         return _gridPosition;
     }
-    
-    public void DealDamage(int damage)
+
+    public void MoveToTile(int tile)
+    {        
+        StartCoroutine(Move(tile));
+    }
+
+    public IEnumerator Move(int tile)
+    {
+        Vector2 start = transform.position;
+        Vector2 end =  Battleground.Instance.GetPositionFromTile(tile); ;
+        
+        float duration = 1f;
+        while (duration > 0)
+        {
+            transform.position = Vector2.Lerp(end, start, duration);
+            duration -= Time.deltaTime;
+            yield return null;
+        }
+        transform.position = end;
+        Battleground.Instance.UpdateUnitposition(this, tile);
+    }
+
+    public void DealDamage(int damage,BaseUnit attacker)
     {
     	// Calculate the unit's block stacks.
     	int totalBlock = 0;
@@ -161,8 +182,14 @@ public class BaseUnit : MonoBehaviour, Entity
     		}
     	}
 
-    	// Damage calculation including block mitigation.
-		damageCalc:
+    // Damage calculation including block mitigation.
+    damageCalc:
+
+        // Add link damage if attacker has it
+        BaseStatus link = attacker.SearchStatusLike(typeof(LinkStatus));
+        if (link != null)
+            damage += link.Strength;
+        
 		int totalDamage = damage - totalBlock;
     	if(totalDamage < 0) {
     		totalDamage = 0;

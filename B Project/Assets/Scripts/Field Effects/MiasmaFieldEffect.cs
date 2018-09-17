@@ -43,7 +43,7 @@ public class MiasmaFieldEffect : BaseFieldEffect
         // Search if there is a unit on the tile and apply damage in case
         BaseUnit target= Battleground.Instance.GetUnitOnTile(Position);
         if (target)
-            target.DealDamage(Strength);
+            target.DealDamage(Strength,Owner);
 
         // reduce duration
         Duration--;

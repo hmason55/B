@@ -578,7 +578,17 @@ public class Battleground : Singleton<Battleground>
 
         unit.SetGridPosition(position);
         _units[position] = unit;
+    }
 
+    public void UpdateUnitposition(BaseUnit unit, int tile)
+    {
+        BaseUnit oldUnit = _units[unit.GetGridPosition()];
+        if (oldUnit != unit || _units[tile] != null)
+            Debug.Log("something is wrong old and new are different");
+        _units[unit.GetGridPosition()] = null;
+
+        _units[tile] = unit;
+        unit.SetGridPosition(tile);
     }
 
     public void ClearBattleground()

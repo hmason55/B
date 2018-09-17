@@ -69,7 +69,7 @@ public class Deck {
 
 		foreach(string cardName in cardNames) {
 			TextAsset textAsset = Resources.Load<TextAsset>(cardDataPath + cardName);
-			if(textAsset != null) {
+            if (textAsset != null) {
 				CardData cardData = JsonUtility.FromJson<CardData>(textAsset.text);
 				if(!cardData.OmitFromDeck) {
 					referenceDeck.Add(cardData);

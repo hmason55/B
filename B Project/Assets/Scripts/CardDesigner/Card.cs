@@ -57,7 +57,9 @@ public class Card : MonoBehaviour {
 		Resource,
 		DamageMultiplier,
         Miasma,
-        Taunt
+        Taunt2_single,
+        Taunt,
+        Link
 	}
 
 	// Variables used by CardData
@@ -348,6 +350,13 @@ public class Card : MonoBehaviour {
 				owner.GrantBlock(effect.effectValue, effect.duration, owner);
 				return true;
 			break;
+            case EffectType.Taunt:
+                PartyManager.Instance.ChangeThreat(owner, effect.effectValue*0.01f);
+                return true;
+            case EffectType.Link:
+                LinkStatus link = new LinkStatus(effect.effectValue, effect.duration, owner);
+                owner.AddStatus(link);
+                return true;
 		}
 
 		return false;
@@ -355,20 +364,19 @@ public class Card : MonoBehaviour {
 
     void ApplyToTile(int tile, Effect effect)
     {
-        Debug.Log("apply to tile");
         // Get list of valid tiles
         List<int> targetTiles;
         if (areaOfEffect)
             targetTiles = Battleground.Instance.GetTilesFromShape(targetArea, tile);
         else
-            targetTiles = new List<int> {tile };
+            targetTiles = new List<int> { tile };
 
         Debug.Log("tiles number: " + targetTiles.Count);
         switch (effect.effectType)
         {
             case EffectType.Miasma:
-               
-                
+
+
                 // Spawn miasma on tiles
                 foreach (int t in targetTiles)
                 {
@@ -377,6 +385,43 @@ public class Card : MonoBehaviour {
                 }
                 break;
 
+            case EffectType.Damage:
+                float mult = 1.00f;
+                for (int i = owner.Statuses.Count - 1; i >= 0; i--)
+                {
+                    BaseStatus status = owner.Statuses[i];
+                    if (status.GetType() == typeof(DamageMultiplierStatus))
+                    {
+                        mult += status.Multiplier;
+
+                        // Remove multiplier status 
+                        // TODO change if the status can have more than 1 use
+
+                    }
+                }
+                foreach (int t in targetTiles)
+                {
+                    BaseUnit target = Battleground.Instance.GetUnitOnTile(t);
+                    
+                    if (target == null)
+                        continue;
+                    if (ParseTargetType( TargetType.Enemy, target.IsPlayer()))
+                    {
+
+                        int damage = (int)Math.Round(effect.effectValue * mult);
+                        target.DealDamage(damage, owner);
+
+                        owner.RemoveStatusOfType(typeof(DamageMultiplierStatus));
+                        owner.UpdateUI();
+
+                        // Add threat to player units
+                        if (owner.IsPlayer())
+                        {
+                            PartyManager.Instance.ChangeThreat(owner, damage * 0.01f);
+                        }
+                    }
+                }
+                break;
         }
     }
 
@@ -409,7 +454,7 @@ public class Card : MonoBehaviour {
                         }
 
                         int damage = (int)Math.Round(effect.effectValue * mult);
-                        target.DealDamage(damage);
+                        target.DealDamage(damage,owner);
 
                         // Add threat to player units
                         if (owner.IsPlayer())
@@ -450,6 +495,37 @@ public class Card : MonoBehaviour {
                     }
                 }
                 break;
+            case EffectType.Push:
+                foreach (BaseUnit target in targets)
+                {
+                    if (ParseTargetType(effect.targetType, target.IsPlayer()))
+                    {
+                        // check if not on last col                        
+                        int pos = target.GetGridPosition();
+                        int col = pos % 3;
+                        int side = pos / 9;
+                        int row = (pos - side * 9) / 3;
+                        List<int> tiles = new List<int>();
+                        if (col != 0)
+                            tiles.Add(pos - 1);
+                        if (col != 2)
+                            tiles.Add(pos + 1);
+                        if (row != 0)
+                            tiles.Add(pos - 3);
+                        if (row != 2)
+                            tiles.Add(pos + 3);
+                        // check if tiles are empty
+                        for (int i = tiles.Count-1; i >=0; i--)
+                        {
+                            if (Battleground.Instance.GetUnitOnTile(tiles[i]) != null)
+                                tiles.RemoveAt(i);
+                        }
+                        if (tiles.Count < 1)
+                            return;
+                        int nextPos =tiles[ UnityEngine.Random.Range(0, tiles.Count)];
+                        target.MoveToTile(nextPos);
+                    }
+                }
                 break;
         }
     }
@@ -508,7 +584,6 @@ public class Card : MonoBehaviour {
 	}
 
 	bool ParseTargetType(TargetType type, bool isPlayer = false) {
-
 		if(type == TargetType.Self) {
 			return true;
 		} else if(cardData.Owner.IsPlayer() && isPlayer){

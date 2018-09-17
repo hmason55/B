@@ -198,6 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8b78f5efa815e41984ea80db9aa8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  outline: {fileID: 0}
+  hand: {fileID: 0}
 --- !u!114 &114264583818336532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -404,14 +407,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Zombies_63_33
+  characterType: 0
   deckType: 2
+  category: 0
   resourceCost: 2
-  description: (LINK), Deal 4 Damage.
+  description: <b>LINK</b>, Deal 4 Damage.
   omitFromDeck: 0
+  requireTarget: 0
+  targetType: 0
+  areaOfEffect: 0
+  targetArea: 000000000000000000
+  effects:
+  - targetType: 0
+    effectType: 10
+    effectValue: 4
+    duration: 1
+    condition: 0
   showObjectReferences: 0
+  effectFoldouts: 01
   backgroundImage: {fileID: 114392232231804596}
   artworkImage: {fileID: 114829926872987748}
   titleText: {fileID: 114991023477613782}
+  ownerText: {fileID: 0}
+  categoryImage: {fileID: 0}
+  categoryText: {fileID: 0}
   descriptionImage: {fileID: 114499549054065510}
   descriptionText: {fileID: 114007832498428108}
   costImage: {fileID: 114511828264399666}
@@ -419,11 +438,25 @@ MonoBehaviour:
   showCardData: 0
   cardData:
     Title: Zombies_63_33
+    CharacterType: 0
     DeckType: 2
+    Category: 0
     ResourceCost: 2
-    Description: (LINK), Deal 4 Damage.
+    Description: <b>LINK</b>, Deal 4 Damage.
     OmitFromDeck: 0
+    RequireTarget: 1
+    AreaOfEffect: 0
+    TargetArea: 000000000000000000
+    TargetType: 0
+    Effects:
+    - targetType: 0
+      effectType: 10
+      effectValue: 4
+      duration: 1
+      condition: 0
+    Owner: {fileID: 0}
   cardDataFile: {fileID: 4900000, guid: 7809c9ae3c2ca7542a652a8dae47b2a2, type: 3}
+  zIndex: 0
 --- !u!114 &114774739754026188
 MonoBehaviour:
   m_ObjectHideFlags: 1

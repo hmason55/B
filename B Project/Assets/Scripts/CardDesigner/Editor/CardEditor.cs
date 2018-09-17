@@ -123,7 +123,7 @@ public class CardEditor : Editor {
 			if(card.effects != null) {
 				for(int i = 0; i < card.effects.Count; i++) {
 					EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(256));
-					card.effectFoldouts[i] = EditorGUILayout.Foldout(card.effectFoldouts[i], card.effects[i].effectType.ToString());
+                    card.effectFoldouts[i] = EditorGUILayout.Foldout(card.effectFoldouts[i], card.effects[i].effectType.ToString());
 
 					// Delete button
 					if(GUILayout.Button("Delete")) {
