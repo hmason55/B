@@ -111,10 +111,15 @@ public class Card : MonoBehaviour {
 		get{return owner;}
 	}
 
+	// ResourceManager cache
+	ResourceManager _resourceManager;
+
 	void Awake() {
 		if(cardData == null) {
 			cardData = new CardData();
 		}
+
+		_resourceManager = GameObject.FindObjectOfType<ResourceManager>();
 	}
 
 	void Update() {
@@ -200,6 +205,8 @@ public class Card : MonoBehaviour {
     {
         // Version with a tile target
         // TODO probably refactor both methods into a more compact way
+
+
         if (cardData.RequireTarget)
         {
             // Check if valid tile
@@ -208,7 +215,7 @@ public class Card : MonoBehaviour {
                 Debug.Log("no targets, canceling drag.");
                 GetComponent<CardDragHandler>().CancelDrag();
             }
-            else
+            else if(_resourceManager.SpendResources(resourceCost, owner))
             {
                 Debug.Log("Playing: " + title + " to tile: " + tile);
 
@@ -262,7 +269,7 @@ public class Card : MonoBehaviour {
     {
         if (cardData.RequireTarget)
         {
-            if (targets.Length > 0)
+			if (targets.Length > 0 && (_resourceManager.SpendResources(resourceCost, owner)))
             {
                 Debug.Log("Playing: " + title + " to " + targets[0].UnitName);
 
@@ -309,7 +316,7 @@ public class Card : MonoBehaviour {
                 GetComponent<CardDragHandler>().CancelDrag();
             }
         }
-        else
+		else if(_resourceManager.SpendResources(cardData.ResourceCost, owner))
         {
 			//Play card since it doesn't need a target.
             Debug.Log("Playing card, no target required.");

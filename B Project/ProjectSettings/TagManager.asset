@@ -10,6 +10,7 @@ TagManager:
   - Board
   - TargetLine
   - PartyManager
+  - ResourceManager
   layers:
   - Default
   - TransparentFX
