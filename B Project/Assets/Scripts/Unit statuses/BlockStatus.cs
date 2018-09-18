@@ -8,12 +8,7 @@ public class BlockStatus : BaseStatus
     {
         Icon = Resources.Load<Sprite>("Sprites/Icons/shieldbreak");
     }
-
-    public override void EndStatusExecute()
-    {
-       
-    }
-
+    
     public override void StartTurnExecute()
     {
         if (Duration<1)
@@ -41,5 +36,17 @@ public class BlockStatus : BaseStatus
     {
         string msg = "Next turn blocks " + Strength + " damage";
         return msg;
+    }
+
+    public override void EndTurnExecute()
+    {
+    }
+
+    public override void DestroyStatusExecute()
+    {
+    }
+
+    public override void ExecuteLinkEffect()
+    {
     }
 }

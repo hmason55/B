@@ -43,7 +43,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         // TEMP only work for miasma
         if (card.targetType == Card.TargetType.Tile)
         {
-            if (card.cardData.Description=="Miasma")
+            if (card.cardData.Title=="Miasma")
                 Battleground.Instance.SetTargetShape(TargetShape.Cross, entity);
             else
                 Battleground.Instance.SetTargetShape(TargetShape.Veritcal, entity);

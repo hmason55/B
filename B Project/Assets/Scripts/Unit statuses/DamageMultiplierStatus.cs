@@ -10,9 +10,16 @@ public class DamageMultiplierStatus : BaseStatus
         Icon = Resources.Load<Sprite>("Sprites/Icons/burn");
     }
 
-    public override void EndStatusExecute()
+    public override void DestroyStatusExecute()
     {
-       
+    }
+
+    public override void EndTurnExecute()
+    {
+    }
+
+    public override void ExecuteLinkEffect()
+    {
     }
 
     public override string GetDescription()

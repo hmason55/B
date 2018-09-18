@@ -10,10 +10,19 @@ public class StunStatus : BaseStatus
         Icon = Resources.Load<Sprite>("Sprites/Icons/midthreat");
     }
 
-    public override void EndStatusExecute()
+    public override void DestroyStatusExecute()
+    {
+    }
+    
+
+    public override void EndTurnExecute()
     {
         // reduce duration
         Duration--;
+    }
+
+    public override void ExecuteLinkEffect()
+    {
     }
 
     public override string GetDescription()

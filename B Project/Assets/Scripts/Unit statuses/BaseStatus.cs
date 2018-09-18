@@ -16,6 +16,8 @@ public abstract class BaseStatus
     public BaseUnit Target;
     // Icon sprite
     public Sprite Icon;
+    // Link status
+    public bool HasLink;
 
     public Effect.RemovalCondition Condition;
 
@@ -43,10 +45,16 @@ public abstract class BaseStatus
     // Apply effect at start of turn, if any
     public abstract void StartTurnExecute();
 
+    // Apply effect at start of turn, if any
+    public abstract void EndTurnExecute();
+
     // Apply effect when status end, if any
-    public abstract void EndStatusExecute();
+    public abstract void DestroyStatusExecute();
 
     // Status description
     public abstract string GetDescription();
+
+    // Link event
+    public   abstract void ExecuteLinkEffect();
 
 }

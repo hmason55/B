@@ -1,17 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LinkStatus : BaseStatus
+public class LinkDamageStatus : BaseStatus
 {
-    public LinkStatus(int strength, int duration, BaseUnit owner) :base( strength,  duration,  owner,  null)
+    public LinkDamageStatus(int strength, int duration, BaseUnit owner) :base( strength,  duration,  owner,  null)
     {
         Icon = Resources.Load<Sprite>("Sprites/Icons/lowthreat");
     }
 
-    public override void EndStatusExecute()
+    public override void DestroyStatusExecute()
     {
-        
+    }
+
+    public override void EndTurnExecute()
+    {
+    }
+
+    public override void ExecuteLinkEffect()
+    {
     }
 
     public override string GetDescription()

@@ -9,8 +9,16 @@ public class PoisonStatus : BaseStatus
         Icon = Resources.Load<Sprite>("Sprites/Icons/poison");
     }
 
-    public override void EndStatusExecute()
-    {       
+    public override void DestroyStatusExecute()
+    {
+    }
+
+    public override void EndTurnExecute()
+    {
+    }
+
+    public override void ExecuteLinkEffect()
+    {
     }
 
     public override string GetDescription()

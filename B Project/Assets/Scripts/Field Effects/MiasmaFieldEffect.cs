@@ -17,12 +17,7 @@ public class MiasmaFieldEffect : BaseFieldEffect
         _particle = GameObject.Instantiate(particlePrefab);
         _particle.transform.position = position;
     }
-
-    public override void EndStatusExecute()
-    {
-        Clear();
-    }
-
+    
     public override string GetDescription()
     {
         string msg = "Deals " + Strength + " damage for "+Duration+" turn";
@@ -59,5 +54,18 @@ public class MiasmaFieldEffect : BaseFieldEffect
     {
         // Remove ground effect etc
         GameObject.Destroy(_particle.gameObject);
-    }    
+    }
+
+    public override void EndTurnExecute()
+    {
+    }
+
+    public override void DestroyStatusExecute()
+    {
+        Clear();
+    }
+
+    public override void ExecuteLinkEffect()
+    {
+    }
 }

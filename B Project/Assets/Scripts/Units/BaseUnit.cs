@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
+public delegate void LinkDelegate();
+
 public class BaseUnit : MonoBehaviour, Entity
 {
     // Base unit class
@@ -76,6 +78,10 @@ public class BaseUnit : MonoBehaviour, Entity
     // Unit deck list
     protected Deck _deck;
 
+    // Link delegates
+    private event LinkDelegate _linkEvent;
+
+
     public Deck DeckList {
     	get{return _deck;}
     	set{_deck = value;}
@@ -86,6 +92,7 @@ public class BaseUnit : MonoBehaviour, Entity
     }
 
     static float _screenWidth = 60f;
+
     
     protected virtual void Awake()
     {
@@ -186,10 +193,13 @@ public class BaseUnit : MonoBehaviour, Entity
     damageCalc:
 
         // Add link damage if attacker has it
-        BaseStatus link = attacker.SearchStatusLike(typeof(LinkStatus));
-        if (link != null)
-            damage += link.Strength;
-        
+        BaseStatus linkDamage = attacker.SearchStatusLike(typeof(LinkDamageStatus));
+        if (linkDamage != null)
+            damage += linkDamage.Strength;
+
+        // Execute Link event
+        attacker.ExecuteLinkEvent();
+
 		int totalDamage = damage - totalBlock;
     	if(totalDamage < 0) {
     		totalDamage = 0;
@@ -446,7 +456,10 @@ public class BaseUnit : MonoBehaviour, Entity
         if (oldStatus == null)
             _statuses.Add(newStatus);
         else
+        {
             oldStatus.Update(newStatus);
+            newStatus.DestroyStatusExecute();
+        }
         UpdateUI();
     }
 
@@ -480,7 +493,7 @@ public class BaseUnit : MonoBehaviour, Entity
         {
             if (_statuses[i].Duration < 1)
             {
-                _statuses[i].EndStatusExecute();
+                _statuses[i].DestroyStatusExecute();
                 _statuses.RemoveAt(i);
             }
         }
@@ -492,7 +505,7 @@ public class BaseUnit : MonoBehaviour, Entity
         // End turn update
         for (int i = 0; i < _statuses.Count; i++)
         {
-            _statuses[i].EndStatusExecute();
+            _statuses[i].EndTurnExecute();
         }
 
         // Remove those expired
@@ -500,7 +513,7 @@ public class BaseUnit : MonoBehaviour, Entity
         {
             if (_statuses[i].Duration < 1)
             {
-                _statuses[i].EndStatusExecute();
+                _statuses[i].DestroyStatusExecute();
                 _statuses.RemoveAt(i);
             }
         }
@@ -510,6 +523,22 @@ public class BaseUnit : MonoBehaviour, Entity
     public void ClearAllStatuses()
     {
         _statuses.Clear();
+    }
+
+    public void ExecuteLinkEvent()
+    {
+        if (_linkEvent!=null)
+            _linkEvent();
+    }
+
+    public void AddLinkEvent(LinkDelegate del)
+    {
+        _linkEvent += del;
+    }
+
+    public void RemoveLinkEvent(LinkDelegate del)
+    {
+        _linkEvent -= del;
     }
 
     #endregion

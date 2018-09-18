@@ -1,2 +1,5 @@
 Steal,
-Slice n Dice
+Slice n Dice,
+Cheat_33,
+Dice,
+Cheating_33

@@ -59,7 +59,9 @@ public class Card : MonoBehaviour {
         Miasma,
         Taunt2_single,
         Taunt,
-        Link
+        Link,
+        AddResourceCurrent,
+        AddResourceNext
 	}
 
 	// Variables used by CardData
@@ -361,8 +363,16 @@ public class Card : MonoBehaviour {
                 PartyManager.Instance.ChangeThreat(owner, effect.effectValue*0.01f);
                 return true;
             case EffectType.Link:
-                LinkStatus link = new LinkStatus(effect.effectValue, effect.duration, owner);
+                LinkDamageStatus link = new LinkDamageStatus(effect.effectValue, effect.duration, owner);
                 owner.AddStatus(link);
+                return true;
+            case EffectType.AddResourceCurrent:
+                ResourceManager.Instance.SpendResources(-effect.effectValue, owner);
+                
+                return true;
+            case EffectType.AddResourceNext:
+                CheatingStatus cheating = new CheatingStatus(effect.effectValue, effect.duration, owner);
+                owner.AddStatus(cheating);
                 return true;
 		}
 

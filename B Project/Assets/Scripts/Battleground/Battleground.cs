@@ -486,7 +486,8 @@ public class Battleground : Singleton<Battleground>
 
     void ClearTile(int tile)
     {
-        _fieldEffects[tile].EndStatusExecute();
+        if (_fieldEffects[tile]!=null)
+            _fieldEffects[tile].DestroyStatusExecute();
 
         _fieldEffects[tile] = null;
     }
