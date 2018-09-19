@@ -360,9 +360,17 @@ public class BaseUnit : MonoBehaviour, Entity
 		GameObject canvas = GameObject.FindGameObjectWithTag("Canvas");
 		if(canvas == null) {return;}
 
+        // Add small offset if there are more battle text nearby
+        GameObject lastUI = canvas.transform.GetChild(canvas.transform.childCount - 1).gameObject;
+        float offset = 0;
+        if (lastUI.name.Contains("Battle Text"))
+            offset = 2;
+
+        Debug.Log(lastUI.name + "   " + offset);
+
     	GameObject battleText = GameObject.Instantiate(Resources.Load("Prefabs/Battle Text")) as GameObject;
     	battleText.transform.SetParent(canvas.transform);
-		Vector3 screenPosition = Camera.main.WorldToViewportPoint(new Vector3(transform.position.x, transform.position.y + 10f, transform.position.z));
+		Vector3 screenPosition = Camera.main.WorldToViewportPoint(new Vector3(transform.position.x+offset, transform.position.y + 10f+offset, transform.position.z));
 		battleText.transform.position = new Vector3(screenPosition.x * Screen.width, screenPosition.y * Screen.height, 0f);
 		//Debug.Log(Camera.main.WorldToViewportPoint(transform.position));
     	battleText.GetComponent<Text>().text = text;

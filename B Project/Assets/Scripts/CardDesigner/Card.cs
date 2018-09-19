@@ -61,7 +61,8 @@ public class Card : MonoBehaviour {
         Taunt,
         Link,
         AddResourceCurrent,
-        AddResourceNext
+        AddResourceNext,
+        Protect
 	}
 
 	// Variables used by CardData
@@ -373,6 +374,13 @@ public class Card : MonoBehaviour {
             case EffectType.AddResourceNext:
                 CheatingStatus cheating = new CheatingStatus(effect.effectValue, effect.duration, owner);
                 owner.AddStatus(cheating);
+                return true;
+            case EffectType.Protect:
+                List<BaseUnit> units = PartyManager.Instance.GetUnits();
+                foreach(BaseUnit u in units)
+                {
+                    u.GrantBlock(effect.effectValue, effect.duration, owner);
+                }
                 return true;
 		}
 

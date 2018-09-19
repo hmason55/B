@@ -2,4 +2,5 @@ Steal,
 Slice n Dice,
 Cheat_33,
 Dice,
-Cheating_33
+Cheating_33,
+Dual Strike

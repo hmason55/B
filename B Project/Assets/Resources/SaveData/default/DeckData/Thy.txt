@@ -1,4 +1,5 @@
 Shield Bash,
 Sword and Board,
 Taunt,
+Protect,
 Shield Bash
