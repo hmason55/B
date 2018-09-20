@@ -302,6 +302,12 @@ public class BaseUnit : MonoBehaviour, Entity
 
 		SpawnBattleText("+" + block.ToString() + " Block");
 		UpdateUI();
+
+        // Update threat
+        if (IsPlayer())
+        {
+            PartyManager.Instance.ChangeThreat(owner, block * 0.005f);
+        }
     }
 
     public void GrantDamageMultiplier(float multiplier, int duration, BaseUnit owner, Effect.RemovalCondition condition = Effect.RemovalCondition.None) {

@@ -61,7 +61,7 @@ public class Card : MonoBehaviour {
         Taunt,
         Link,
         AddResourceCurrent,
-        AddResourceNext,
+        Cheating,
         Protect
 	}
 
@@ -369,22 +369,26 @@ public class Card : MonoBehaviour {
                 return true;
             case EffectType.AddResourceCurrent:
                 ResourceManager.Instance.SpendResources(-effect.effectValue, owner);
-                
+                PartyManager.Instance.ChangeThreat(owner, 0.02f);
                 return true;
-            case EffectType.AddResourceNext:
+            case EffectType.Cheating:
                 CheatingStatus cheating = new CheatingStatus(effect.effectValue, effect.duration, owner);
                 owner.AddStatus(cheating);
+                PartyManager.Instance.ChangeThreat(owner, 0.03f);
                 return true;
             case EffectType.Protect:
                 List<BaseUnit> units;
                 if (owner.IsPlayer())
-                    units = PartyManager.Instance.GetUnits();
+                {
+                    units = PartyManager.Instance.GetUnits();                    
+                }
                 else
                     units = AIManager.Instance.GetEnemies();
                 foreach(BaseUnit u in units)
                 {
                     u.GrantBlock(effect.effectValue, effect.duration, owner);
                 }
+                
                 return true;
 		}
 
@@ -553,6 +557,11 @@ public class Card : MonoBehaviour {
                             return;
                         int nextPos =tiles[ UnityEngine.Random.Range(0, tiles.Count)];
                         target.MoveToTile(nextPos);
+
+                        if (owner.IsPlayer())
+                        {
+                            PartyManager.Instance.ChangeThreat(owner, 0.05f);
+                        }
                     }
                 }
                 break;
