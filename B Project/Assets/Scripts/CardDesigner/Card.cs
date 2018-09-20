@@ -376,7 +376,11 @@ public class Card : MonoBehaviour {
                 owner.AddStatus(cheating);
                 return true;
             case EffectType.Protect:
-                List<BaseUnit> units = PartyManager.Instance.GetUnits();
+                List<BaseUnit> units;
+                if (owner.IsPlayer())
+                    units = PartyManager.Instance.GetUnits();
+                else
+                    units = AIManager.Instance.GetEnemies();
                 foreach(BaseUnit u in units)
                 {
                     u.GrantBlock(effect.effectValue, effect.duration, owner);

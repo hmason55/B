@@ -601,11 +601,13 @@ public class Battleground : Singleton<Battleground>
         }
     }
 
-    void RemoveUnitFromBattleGround(int position)
+    public void RemoveUnitFromBattleGround(int position)
     {
-        BaseUnit unit = _units[position];
+        //BaseUnit unit = _units[position];
+
         // TODO decide what to do with removed unit, place them in some graveyard or something
-        unit.gameObject.SetActive(false);
+        //unit.gameObject.SetActive(false);
+
         _units[position] = null;
     }
 

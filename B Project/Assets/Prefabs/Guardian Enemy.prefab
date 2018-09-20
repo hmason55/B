@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114072601629191190}
   - component: {fileID: 82127199395552818}
   m_Layer: 0
-  m_Name: Enemy Unit Test
+  m_Name: Guardian Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.6224322, y: 0.16294046}
+    pivot: {x: 0.5941786, y: 0.22052851}
     oldSize: {x: 10.234375, y: 9.484375}
     newSize: {x: 0.6481481, y: 0.6481481}
     adaptiveTilingThreshold: 0.5
@@ -204,13 +204,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a09db8eac731a24c8537020bdebc9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitName: Lizardman
-  MaxHP: 70
+  UnitName: Lizardman Guardian
+  MaxHP: 45
   _baseHP: 0
   _unitID: 0
   _deckClass: 0
   Threat: 0
-  Deck: {fileID: 4900000, guid: 70f4399ddab302146bbbd0a2a17cb37d, type: 3}
+  Deck: {fileID: 4900000, guid: f02c0492d3f5dca49b864b08b5f546c4, type: 3}
 --- !u!212 &212405061170724614
 SpriteRenderer:
   m_ObjectHideFlags: 1

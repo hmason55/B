@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIManager : MonoBehaviour
+public class AIManager : Singleton<AIManager>
 {
     // TEMP Enemy Prefab
-    public GameObject EnemyPrefab;
+    public int EnemyNumber;
+    public GameObject[] EnemyPrefabs;
     public GameObject EnemyUIPrefab;
 
     // Enemy units
-    private List<EnemyUnit> _enemies;
+    private List<BaseUnit> _enemies;
     // Party Manager cache
     private PartyManager _partyManager;
     // Turn Manager cache
@@ -18,7 +19,7 @@ public class AIManager : MonoBehaviour
 
     void Start()
     {
-        _enemies = new List<EnemyUnit>();
+        _enemies = new List<BaseUnit>();
 
         _partyManager = FindObjectOfType<PartyManager>();
         _turnManager = FindObjectOfType<TurnManager>();
@@ -28,15 +29,20 @@ public class AIManager : MonoBehaviour
     public void CreateRandomEnemies()
     {
         // TEMP create a few enemies
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < EnemyNumber; i++)
         {
-            GameObject go = Instantiate(EnemyPrefab);
+            GameObject go = Instantiate(EnemyPrefabs[Random.Range(0, EnemyPrefabs.Length - 1)]);
             EnemyUnit enemy = go.GetComponent<EnemyUnit>();
             enemy.name += " (" + i + ")";
             _enemies.Add(enemy);
 
+            int pos= Random.Range(9, 18);
+            while (Battleground.Instance.GetUnitOnTile(pos)!=null)
+            {
+                pos = Random.Range(9, 18);
+            }
             Battleground bg = FindObjectOfType<Battleground>();
-            bg.PlaceUnitAt(enemy, i + 9);
+            bg.PlaceUnitAt(enemy, pos);
 
             //create UI
             CharacterUI UI = Instantiate(EnemyUIPrefab).GetComponent<CharacterUI>();
@@ -71,11 +77,12 @@ public class AIManager : MonoBehaviour
         List<BaseUnit> units = _partyManager.GetUnits();
         for (int i = 0; i < _enemies.Count; i++)
         {
+            EnemyUnit enemy = _enemies[i] as EnemyUnit;
             // Check if stunned and pass if so
-            BaseStatus stun = _enemies[i].SearchStatusLike(typeof(StunStatus));
+            BaseStatus stun = enemy.SearchStatusLike(typeof(StunStatus));
             if (stun!=null)
             {
-                Debug.Log(_enemies[i].UnitName + " is skipping turn for stun");
+                Debug.Log(enemy.UnitName + " is skipping turn for stun");
                continue;
             }
 
@@ -86,7 +93,7 @@ public class AIManager : MonoBehaviour
 
             // Check if taunted, if not
             // Pick a target based on thread
-            BaseStatus taunt= _enemies[i].SearchStatusLike(typeof(TauntStatus));
+            BaseStatus taunt= enemy.SearchStatusLike(typeof(TauntStatus));
             BaseUnit[] target;
             if (taunt != null)
                 target =new BaseUnit[] { taunt.Owner };
@@ -94,7 +101,7 @@ public class AIManager : MonoBehaviour
                 target = new BaseUnit[] { _partyManager.PickUnitWithThreat() };
 
             // play the card
-            _enemies[i].GetNextCard().Play(target);
+            enemy.GetNextCard().Play(target);
 
             yield return new WaitForSeconds(1);
             // TODO check animations and all effects for appropriate delay or add an event
@@ -120,11 +127,24 @@ public class AIManager : MonoBehaviour
         // Deal cards
         for (int i = 0; i < _enemies.Count; i++)
         {
-            EnemyUnit enemy = _enemies[i];
+            EnemyUnit enemy = _enemies[i] as EnemyUnit;
             enemy.DealAnotherCard();
         }
     }
 
-    
+    public List<BaseUnit> GetEnemies()
+    {
+        return _enemies;
+    }
 
+    public void RemoveEnemy(BaseUnit unit)
+    {
+        Battleground.Instance.RemoveUnitFromBattleGround(unit.GetGridPosition());
+        _enemies.Remove(unit);
+        if (_enemies.Count<1)
+        {
+            Debug.Log("VICTORY!!!");
+            Debug.Break();
+        }
+    }
 }

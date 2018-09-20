@@ -137,13 +137,19 @@ public class BaseUnit : MonoBehaviour, Entity
     public void OnDeath()
     {
         // Remove from screen
+        transform.position = Vector2.one * -555;
 
         // Remove cards in case maybe ?
 
         // Check if there are more alive or is game over
-
-
-        throw new NotImplementedException();
+        if (IsPlayer())
+        {
+            PartyManager.Instance.RemoveUnit(this);
+        }   
+        else
+        {
+            AIManager.Instance.RemoveEnemy(this);
+        }
     }
 
     public void SetGridPosition(int position)

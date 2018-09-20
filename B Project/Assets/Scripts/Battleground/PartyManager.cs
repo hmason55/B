@@ -39,6 +39,17 @@ public class PartyManager : Singleton<PartyManager>
         return _playerUnits;
     }
 
+    public void RemoveUnit(BaseUnit unit)
+    {
+        Battleground.Instance.RemoveUnitFromBattleGround(unit.GetGridPosition());
+        _playerUnits.Remove(unit);
+        if (_playerUnits.Count<1)
+        {
+            Debug.Log("DEFEAT!!!");
+            Debug.Break();
+        }
+    }
+
     public void CreateRandomUnits()
     {
         // TEMP create a few player units
