@@ -352,14 +352,13 @@ public class Card : MonoBehaviour {
 	bool ApplySelfEffect(Effect effect) {
 		switch(effect.effectType) {
 			case EffectType.DamageMultiplier:
-				owner.GrantDamageMultiplier((float)effect.effectValue, effect.duration, owner, effect.condition);
-				return true;
-			break;
-
+                DamageMultiplierStatus multStatus = new DamageMultiplierStatus(effect.effectValue / 100f, effect.duration, owner, owner);
+                owner.AddStatus(multStatus);                
+                return true;
 			case EffectType.Block:
-				owner.GrantBlock(effect.effectValue, effect.duration, owner);
+                BlockStatus blockStatus = new BlockStatus(effect.effectValue, effect.duration, owner, owner);
+                owner.AddStatus(blockStatus);
 				return true;
-			break;
             case EffectType.Taunt:
                 PartyManager.Instance.ChangeThreat(owner, effect.effectValue*0.01f);
                 return true;
@@ -386,7 +385,8 @@ public class Card : MonoBehaviour {
                     units = AIManager.Instance.GetEnemies();
                 foreach(BaseUnit u in units)
                 {
-                    u.GrantBlock(effect.effectValue, effect.duration, owner);
+                    BlockStatus block = new BlockStatus(effect.effectValue, effect.duration, owner, owner);
+                    u.AddStatus(block);
                 }
                 
                 return true;
@@ -503,7 +503,8 @@ public class Card : MonoBehaviour {
                 {
                     if (ParseTargetType(effect.targetType, target.IsPlayer()))
                     {
-                        target.GrantBlock(effect.effectValue, effect.duration, owner);
+                        BlockStatus blockStatus = new BlockStatus(effect.effectValue, effect.duration, owner, owner);
+                        target.AddStatus(blockStatus);
                     }
                 }
                 break;

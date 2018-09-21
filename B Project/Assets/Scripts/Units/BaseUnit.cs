@@ -267,58 +267,7 @@ public class BaseUnit : MonoBehaviour, Entity
 			}
 		}
     }
-
-    // Adding block to unit.
-	public void GrantBlock(int block, int duration, BaseUnit owner)
-    {
-    	if(block <= 0) {
-    		return;
-    	}
-
-		Debug.Log(UnitName + " gained "  + block + " Block.");
-
- 		// Add the block status to the unit.
- 		bool blockExists = false;
-		int numStatuses = _statuses.Count-1;
-		for(int i = numStatuses; i >= 0; i--) {
-			if(_statuses[i].GetType() == typeof(BlockStatus)) {
-				_statuses[i].Strength += block;
-
-				if(_statuses[i].Strength > 0) {
-					_statuses[i].Duration = 2;
-				} else {
-					_statuses.RemoveAt(i);
-				}
-
-				blockExists = true;
-				goto done;
-			}
-		}
-
-		done:
- 		if(!blockExists) {
-			_statuses.Add(new BlockStatus(block, duration, owner, this));
- 		}
-
-		SpawnBattleText("+" + block.ToString() + " Block");
-		UpdateUI();
-
-        // Update threat
-        if (IsPlayer())
-        {
-            PartyManager.Instance.ChangeThreat(owner, block * 0.005f);
-        }
-    }
-
-    public void GrantDamageMultiplier(float multiplier, int duration, BaseUnit owner, Effect.RemovalCondition condition = Effect.RemovalCondition.None) {
-		DamageMultiplierStatus status = new DamageMultiplierStatus(multiplier/100f, duration, owner, this);
-		status.Condition = condition;
-    	_statuses.Add(status);
-
-		SpawnBattleText("+" + multiplier.ToString() + "% DMG");
-		UpdateUI();
-    }
-
+        
     public void AssignUI(CharacterUI charUI)
     {
         charUI.transform.SetParent(transform);

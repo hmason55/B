@@ -7,6 +7,14 @@ public class BlockStatus : BaseStatus
 	public BlockStatus(int strength, int duration, BaseUnit owner, BaseUnit target) :base( strength,  duration,  owner,  target)
     {
         Icon = Resources.Load<Sprite>("Sprites/Icons/shieldbreak");
+
+        owner.SpawnBattleText("+" + strength.ToString() + " Block");
+
+        // Update threat
+        if (owner.IsPlayer())
+        {
+            PartyManager.Instance.ChangeThreat(owner, strength * 0.005f);
+        }
     }
     
     public override void StartTurnExecute()
@@ -20,16 +28,12 @@ public class BlockStatus : BaseStatus
 
         // reduce duration
         Duration--;
-        // Reduce strength and expire if 0
-        if (--Strength < 1)
-            Duration = 0;
     }
 
     public override void Update(BaseStatus newStatus)
     {
-        // Sum duration and strength
         Strength += newStatus.Strength;
-        Duration += newStatus.Strength;
+        Duration = newStatus.Duration;
     }
 
     public override string GetDescription()

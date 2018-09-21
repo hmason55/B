@@ -8,6 +8,8 @@ public class DamageMultiplierStatus : BaseStatus
     {
         //Icon=  UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
         Icon = Resources.Load<Sprite>("Sprites/Icons/burn");
+
+        owner.SpawnBattleText("+" + multiplier.ToString() + "% DMG");
     }
 
     public override void DestroyStatusExecute()
@@ -43,7 +45,6 @@ public class DamageMultiplierStatus : BaseStatus
 
     public override void Update(BaseStatus newStatus)
     {
-        // Sum duration and strength
         Multiplier += newStatus.Multiplier;
     }
 }
