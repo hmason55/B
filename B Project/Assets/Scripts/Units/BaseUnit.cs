@@ -322,12 +322,16 @@ public class BaseUnit : MonoBehaviour, Entity
 		if(canvas == null) {return;}
 
         // Add small offset if there are more battle text nearby
-        GameObject lastUI = canvas.transform.GetChild(canvas.transform.childCount - 1).gameObject;
+        
         float offset = 0;
-        if (lastUI.name.Contains("Battle Text"))
-            offset = 2;
+        for (int i = 0; i < canvas.transform.childCount; i++)
+        {
+            Transform ui = canvas.transform.GetChild(i);
+            if (ui.name.Contains("Battle Text"))
+                offset += 1.5f;
+        }
 
-        Debug.Log(lastUI.name + "   " + offset);
+        Debug.Log("offset: " + offset);
 
     	GameObject battleText = GameObject.Instantiate(Resources.Load("Prefabs/Battle Text")) as GameObject;
     	battleText.transform.SetParent(canvas.transform);

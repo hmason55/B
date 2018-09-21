@@ -15,9 +15,7 @@ public class CheatingStatus : BaseStatus
     
     public override string GetDescription()
     {
-        string msg = "Unit is taunted by " + Owner.UnitName + " for " + Duration + " turn";
-        if (Duration > 1)
-            msg += "s";
+        string msg = "Gain " + Strength + " resource in the next turn for each attack made";        
         return msg;
     }
 
@@ -28,8 +26,9 @@ public class CheatingStatus : BaseStatus
 
     public override void Update(BaseStatus newStatus)
     {
-        // Update duration
+        // Update duration and strength
         Duration = newStatus.Duration;
+        Strength += newStatus.Strength;
     }
 
     public BaseUnit GetTauntTarget()
