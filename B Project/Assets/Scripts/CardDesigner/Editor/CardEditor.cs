@@ -27,6 +27,7 @@ public class CardEditor : Editor {
 	SerializedProperty pOwnerTextObj;
 	SerializedProperty pDescriptionImageObj;
 	SerializedProperty pDescriptionTextObj;
+	SerializedProperty pResourceParticleObj;
 	SerializedProperty pCostImageObj;
 	SerializedProperty pCostTextObj;
 
@@ -260,6 +261,7 @@ public class CardEditor : Editor {
 			card.descriptionText = EditorGUILayout.ObjectField(new GUIContent("Description Text Asset"), card.descriptionText, typeof(Text), true, null) as Text;
 			card.categoryImage = EditorGUILayout.ObjectField(new GUIContent("Category Image Asset"), card.categoryImage, typeof(Image), true, null) as Image;
 			card.categoryText = EditorGUILayout.ObjectField(new GUIContent("Category Text Asset"), card.categoryText, typeof(Text), true, null) as Text;
+			card.resourceParticleSystem = EditorGUILayout.ObjectField(new GUIContent("Resource Particle Asset"), card.resourceParticleSystem, typeof(ParticleSystem), true, null) as ParticleSystem;
 			card.costImage = EditorGUILayout.ObjectField(new GUIContent("Cost Image Asset"), card.costImage, typeof(Image), true, null) as Image;
 			card.costText = EditorGUILayout.ObjectField(new GUIContent("Cost Text Asset"), card.costText, typeof(Text), true, null) as Text;
         }

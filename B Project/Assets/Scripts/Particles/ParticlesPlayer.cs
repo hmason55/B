@@ -34,11 +34,13 @@ public class ParticlesPlayer : MonoBehaviour {
 	}
 
 	void Update() {
-		float currentTime = Time.realtimeSinceStartup;
-		if(currentTime > endTime && currentTime < destroyTime) {
-			particleSystem.Stop();
-		} else if(currentTime > destroyTime) {
-			Destroy(gameObject);
+		if(destroyOnComplete) {
+			float currentTime = Time.realtimeSinceStartup;
+			if(currentTime > endTime && currentTime < destroyTime) {
+				particleSystem.Stop();
+			} else if(currentTime > destroyTime) {
+				Destroy(gameObject);
+			}
 		}
 	}
 }

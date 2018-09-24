@@ -91,6 +91,7 @@ public class Card : MonoBehaviour {
 	public Text categoryText;
 	public Image descriptionImage;
 	public Text descriptionText;
+	public ParticleSystem resourceParticleSystem;
 	public Image costImage;
 	public Text costText;
 
@@ -203,6 +204,24 @@ public class Card : MonoBehaviour {
 		}
 	}
 
+	public void UpdateResourceCost() {
+
+		if(_resourceManager) {
+			if(resourceCost <= _resourceManager.CurrentResources) {
+				if(resourceParticleSystem) {
+					resourceParticleSystem.Play();
+				}
+
+				costText.color = Color.white;
+			} else {
+				if(resourceParticleSystem) {
+					resourceParticleSystem.Stop();
+				}
+
+				costText.color = Color.red;
+			}
+		}
+	}
 
     public void Play(int tile)
     {

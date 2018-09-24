@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ResourceManager : Singleton<ResourceManager> {
 
 	public PartyManager partyManager;
+	public Hand hand;
 
 	// Current turn's resource counter.
 	public Image resourceCurrentImage;
@@ -69,5 +70,6 @@ public class ResourceManager : Singleton<ResourceManager> {
 	public void UpdateResourceUI() {
 		resourceCurrentText.text = resourceCurrent.ToString();
 		resourceNextText.text = resourceNext.ToString();
+		hand.UpdateResourceAvailability();
 	}
 }

@@ -1855,6 +1855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partyManager: {fileID: 637278858}
+  hand: {fileID: 396978023}
   resourceCurrentImage: {fileID: 1374752252}
   resourceCurrentText: {fileID: 492059278}
   resourceNextImage: {fileID: 100265080}
