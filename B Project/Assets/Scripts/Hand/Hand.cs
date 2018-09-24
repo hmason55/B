@@ -84,7 +84,18 @@ public class Hand : MonoBehaviour {
 		int childCount = transform.childCount;
 		for(int i = childCount-1; i >= 0; i--) {
 			if(GameObject.ReferenceEquals(card.gameObject, transform.GetChild(i).gameObject)) {
+				
+
+
 				GameObject flagged = transform.GetChild(i).gameObject;
+
+
+				// Spawn Particles
+				GameObject particles = Instantiate(Resources.Load("Prefabs/Particles/Cards/Warrior Card Dissolve"), flagged.transform.position, Quaternion.identity) as GameObject;
+				particles.transform.SetParent(transform.parent);
+				Debug.Log("Destroy");
+
+
 				flagged.transform.SetParent(null);
 				Destroy(flagged);
 			}
