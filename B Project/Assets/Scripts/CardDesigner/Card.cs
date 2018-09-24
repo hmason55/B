@@ -485,6 +485,7 @@ public class Card : MonoBehaviour {
                                 owner.UpdateUI();
                             }
                         }
+                        Debug.Log(" mult: " + mult + "   status: " + owner.Statuses.Count);
 
                         int damage = (int)Math.Round(effect.effectValue * mult);
                         target.DealDamage(damage,owner);

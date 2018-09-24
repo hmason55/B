@@ -197,6 +197,7 @@ public class BaseUnit : MonoBehaviour, Entity
 
     // Damage calculation including block mitigation.
     damageCalc:
+        
 
         // Add link damage if attacker has it
         BaseStatus linkDamage = attacker.SearchStatusLike(typeof(LinkDamageStatus));
@@ -330,9 +331,7 @@ public class BaseUnit : MonoBehaviour, Entity
             if (ui.name.Contains("Battle Text"))
                 offset += 1.5f;
         }
-
-        Debug.Log("offset: " + offset);
-
+        
     	GameObject battleText = GameObject.Instantiate(Resources.Load("Prefabs/Battle Text")) as GameObject;
     	battleText.transform.SetParent(canvas.transform);
 		Vector3 screenPosition = Camera.main.WorldToViewportPoint(new Vector3(transform.position.x+offset, transform.position.y + 10f+offset, transform.position.z));

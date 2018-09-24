@@ -17,6 +17,8 @@ public class PartyManager : Singleton<PartyManager>
     // Units placed on battleground
     private List<BaseUnit> _playerUnits;
 
+    private List<BaseGlobalStatus> _globalStatuses;
+
     private Deck _deck;
 
 	public List<BaseUnit> PlayerUnits {
@@ -115,6 +117,26 @@ public class PartyManager : Singleton<PartyManager>
         }
         return _playerUnits[_playerUnits.Count - 1];
     }
+
+    #region Global Effects
+
+    public void UpdateStartTurnGlobalEffects()
+    {
+
+    }
+
+    public void UpdateEndTurnGlobalEffects()
+    {
+
+    }
+
+    public int ModifyDamage(int baseDamage, Effect effect)
+    {
+
+        return 0;
+    }
+
+    #endregion
 
     #region Save/Load methods
     public void LoadDefaultParty() {

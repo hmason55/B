@@ -50,6 +50,9 @@ public class TurnManager : MonoBehaviour
         Debug.Log("Start Player Turn");
         _playerTurn = true;
 
+        // Party global effects
+        _partyManager.UpdateStartTurnGlobalEffects();
+
         // Start turn status check
         List<BaseUnit> units = _partyManager.GetUnits();
         for (int i = units.Count-1; i >=0; i--)
@@ -106,12 +109,16 @@ public class TurnManager : MonoBehaviour
         if (!_playerTurn)
             return;
 
+        // Update chars effects
         List<BaseUnit> units = _partyManager.GetUnits();
         for (int i = units.Count - 1; i >= 0; i--)
         {
             BaseUnit unit = units[i];
             unit.ExecuteEndTurnStatuses();
         }
+
+        // Update global effects
+        _partyManager.UpdateEndTurnGlobalEffects();
 
         StartEnemyTurn();
     }
