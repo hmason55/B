@@ -1,0 +1,4 @@
+Heavy Slash,
+,
+Battlecry,
+Heavy Slash 1,

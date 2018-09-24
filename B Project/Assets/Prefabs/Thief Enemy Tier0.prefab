@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114072601629191190}
   - component: {fileID: 82127199395552818}
   m_Layer: 0
-  m_Name: Warrior Enemy
+  m_Name: Thief Enemy Tier0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,13 +204,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a09db8eac731a24c8537020bdebc9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitName: Lizardman Warrior
-  MaxHP: 40
+  UnitName: Lizardman thief
+  MaxHP: 35
   _baseHP: 0
   _unitID: 0
   _deckClass: 0
   Threat: 0
-  Deck: {fileID: 4900000, guid: 390de58d6d92cd441a43324a46c58e7f, type: 3}
+  Deck: {fileID: 4900000, guid: 405a715ad5be83940ad27d4afef0aa1b, type: 3}
 --- !u!212 &212405061170724614
 SpriteRenderer:
   m_ObjectHideFlags: 1

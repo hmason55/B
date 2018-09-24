@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114072601629191190}
   - component: {fileID: 82127199395552818}
   m_Layer: 0
-  m_Name: Guardian Enemy
+  m_Name: Guardian Enemy Tier0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

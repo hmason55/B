@@ -51,7 +51,7 @@ public class EnemyUnit : BaseUnit
                 cards.Add(cardName + ",");
             }
         }
-
+        
         /*
         int i = 0;        
         foreach (Deck d in _deck)
@@ -61,10 +61,10 @@ public class EnemyUnit : BaseUnit
             foreach (CardData card in d.DeckList)
             {
                 Debug.Log("card: " + j + "   " + card.Title);
+                j++;
             }
         }
         */
-
         ShuffleDeck();
     }
 
@@ -103,14 +103,6 @@ public class EnemyUnit : BaseUnit
 
     void UpdateNextCardUI()
     {
-        /*
-        _nextCardUI.transform.position = transform.position + Vector3.up * 3f;
-        _nextCardUI.text = _nextCard.title;
-        _nextCardUI.fontSize = 24;
-        _nextCardUI.characterSize = 0.1f;
-        _nextCardUI.anchor = TextAnchor.MiddleCenter;
-        _nextCardUI.color = Color.red;
-        */
         _characterUI.SetNextCard(_nextCard);
     }
 

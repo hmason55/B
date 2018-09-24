@@ -16,6 +16,8 @@ public class AIManager : Singleton<AIManager>
     // Turn Manager cache
     private TurnManager _turnManager;
 
+    // Difficulty
+    private float _difficulty;
 
     void Start()
     {
@@ -25,13 +27,31 @@ public class AIManager : Singleton<AIManager>
         _turnManager = FindObjectOfType<TurnManager>();
 
     }
+    
+    public void TestDiff()
+    {
+        int[] n = new int[3];
+        int total = 0;
+        for (int i = 0; i < 3; i++)
+        {
+
+            float min = Mathf.Max(Mathf.Lerp(0, EnemyPrefabs.Length - 3, _difficulty * 0.01f), 0);
+            float max = Mathf.Min(Mathf.Lerp(3, EnemyPrefabs.Length , _difficulty * 0.01f), EnemyPrefabs.Length );
+            n[i] = (int)Random.Range(min, max);
+            total += n[i];
+            Debug.Log("picked: " + n[i]);
+        }
+        Debug.Log("total: " + total);
+    }
 
     public void CreateRandomEnemies()
     {
         // TEMP create a few enemies
         for (int i = 0; i < EnemyNumber; i++)
         {
-            GameObject go = Instantiate(EnemyPrefabs[Random.Range(0, EnemyPrefabs.Length - 1)]);
+            float min = Mathf.Max(Mathf.Lerp(0, EnemyPrefabs.Length - 3, _difficulty * 0.01f), 0);
+            float max =Mathf.Min( Mathf.Lerp(3, EnemyPrefabs.Length , _difficulty * 0.01f),EnemyPrefabs.Length);
+            GameObject go = Instantiate(EnemyPrefabs[(int)Random.Range(min, max)]);
             EnemyUnit enemy = go.GetComponent<EnemyUnit>();
             enemy.name += " (" + i + ")";
             _enemies.Add(enemy);
@@ -146,5 +166,10 @@ public class AIManager : Singleton<AIManager>
             Debug.Log("VICTORY!!!");
             Debug.Break();
         }
+    }
+
+    public void SetDifficulty(float diff)
+    {
+        _difficulty = diff;
     }
 }
