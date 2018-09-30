@@ -186,6 +186,20 @@ public class BaseUnit : MonoBehaviour, Entity
 
     public void DealDamage(int damage,BaseUnit attacker)
     {
+        // Check if switching target if linked
+        HealthLinkStatus healthLink = SearchStatusLike(typeof(HealthLinkStatus)) as HealthLinkStatus;
+        if (healthLink != null)
+        {
+            int newdamage =(int) healthLink.Multiplier * damage;
+            healthLink.Target.DealDamage(newdamage, attacker);
+
+            // If health link is less than 100% continue with the remaining damage
+            if (newdamage < damage)
+                damage -= newdamage;
+            else
+                return;
+        }
+
     	// Calculate the unit's block stacks.
     	int totalBlock = 0;
     	foreach(BaseStatus status in _statuses) {

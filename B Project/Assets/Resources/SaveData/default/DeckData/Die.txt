@@ -1,3 +1,4 @@
 Miasma,
 Zombies_63_33,
-Boned
+Boned,
+Voodoo

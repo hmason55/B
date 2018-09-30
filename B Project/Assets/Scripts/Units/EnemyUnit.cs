@@ -23,6 +23,8 @@ public class EnemyUnit : BaseUnit
         _player = false;
         _deck = new List<Deck>();
 
+        if (Deck == null)
+            return;
 
         // Loads cards to the deck parsing multiple subdecks 
         string formattedText = Deck.text.Replace(System.Environment.NewLine, String.Empty);

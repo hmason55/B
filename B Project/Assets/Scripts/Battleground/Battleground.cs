@@ -561,6 +561,29 @@ public class Battleground : Singleton<Battleground>
         return position;
     }
 
+    public List<int> FindEmptyTileNear(int pos)
+    {
+        List<int> tiles = new List<int>();
+        int col = pos % 3;
+        int side = pos / 9;
+        int row = (pos - side * 9) / 3;
+        if (col != 0)
+            tiles.Add(pos - 1);
+        if (col != 2)
+            tiles.Add(pos + 1);
+        if (row != 0)
+            tiles.Add(pos - 3);
+        if (row != 2)
+            tiles.Add(pos + 3);
+        // check if tiles are empty
+        for (int i = tiles.Count - 1; i >= 0; i--)
+        {
+            if (GetUnitOnTile(tiles[i]) != null)
+                tiles.RemoveAt(i);
+        }
+        return tiles;
+    }
+
     #endregion
 
     #region Unit methods

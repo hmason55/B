@@ -62,7 +62,8 @@ public class Card : MonoBehaviour {
         Link,
         AddResourceCurrent,
         Cheating,
-        Protect
+        Protect,
+        SummonVoodoo
 	}
 
 	// Variables used by CardData
@@ -474,6 +475,7 @@ public class Card : MonoBehaviour {
                     }
                 }
                 break;
+           
         }
     }
 
@@ -553,35 +555,36 @@ public class Card : MonoBehaviour {
                 {
                     if (ParseTargetType(effect.targetType, target.IsPlayer()))
                     {
-                        // check if not on last col                        
-                        int pos = target.GetGridPosition();
-                        int col = pos % 3;
-                        int side = pos / 9;
-                        int row = (pos - side * 9) / 3;
-                        List<int> tiles = new List<int>();
-                        if (col != 0)
-                            tiles.Add(pos - 1);
-                        if (col != 2)
-                            tiles.Add(pos + 1);
-                        if (row != 0)
-                            tiles.Add(pos - 3);
-                        if (row != 2)
-                            tiles.Add(pos + 3);
-                        // check if tiles are empty
-                        for (int i = tiles.Count-1; i >=0; i--)
-                        {
-                            if (Battleground.Instance.GetUnitOnTile(tiles[i]) != null)
-                                tiles.RemoveAt(i);
-                        }
-                        if (tiles.Count < 1)
+                        // check if not on last col  
+                        List<int> pushTiles = Battleground.Instance.FindEmptyTileNear(target.GetGridPosition());
+                        if (pushTiles.Count < 1)
                             return;
-                        int nextPos =tiles[ UnityEngine.Random.Range(0, tiles.Count)];
+                        int nextPos =pushTiles[ UnityEngine.Random.Range(0, pushTiles.Count)];
                         target.MoveToTile(nextPos);
 
                         if (owner.IsPlayer())
                         {
                             PartyManager.Instance.ChangeThreat(owner, 0.05f);
                         }
+                    }
+                }
+                break;
+            case EffectType.SummonVoodoo:
+                foreach (BaseUnit target in targets)
+                {
+                    if (ParseTargetType(effect.targetType, target.IsPlayer()))
+                    {
+                        // Create voodoo unit
+                        GameObject voodooPrefab = Resources.Load<GameObject>("Prefabs/Units/Voodoo");
+                        Debug.Log(voodooPrefab);
+                        BaseUnit voodoo = Instantiate(voodooPrefab).GetComponent<BaseUnit>();
+                        List<int> voodooTiles = Battleground.Instance.FindEmptyTileNear(target.GetGridPosition());
+                        int voodooPos = voodooTiles[UnityEngine.Random.Range(0, voodooTiles.Count)];
+                        Battleground.Instance.PlaceUnitAt(voodoo, voodooPos);
+
+                        // Add status to transfer damage
+                        HealthLinkStatus healthLinkstatus = new HealthLinkStatus(1.0f, owner, target);
+                        voodoo.AddStatus(healthLinkstatus);
                     }
                 }
                 break;
