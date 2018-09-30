@@ -1698,7 +1698,7 @@ MonoBehaviour:
   PlayerUIPrefab: {fileID: 1663739365911010, guid: 22cc6c29b44705d48a1772ff344ff244,
     type: 2}
   OverrideDeck: 1
-  DebugDeck: {fileID: 4900000, guid: 389c9749111b33548aa8515304bca947, type: 3}
+  DebugDeck: {fileID: 4900000, guid: 5ba712a3f4ef04e47b85037a2b4d4b65, type: 3}
 --- !u!1 &877762323
 GameObject:
   m_ObjectHideFlags: 0

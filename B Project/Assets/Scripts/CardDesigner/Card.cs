@@ -63,7 +63,9 @@ public class Card : MonoBehaviour {
         AddResourceCurrent,
         Cheating,
         Protect,
-        SummonVoodoo
+        SummonVoodoo,
+        Vulnerable,
+        Weakness
 	}
 
 	// Variables used by CardData
@@ -508,7 +510,7 @@ public class Card : MonoBehaviour {
                         }
 
                         int damage = (int)Math.Round(effect.effectValue * mult);
-                        target.DealDamage(damage,owner);
+                        target.DealDamage(damage, owner);
 
                         // Add threat to player units
                         if (owner.IsPlayer())
@@ -559,7 +561,7 @@ public class Card : MonoBehaviour {
                         List<int> pushTiles = Battleground.Instance.FindEmptyTileNear(target.GetGridPosition());
                         if (pushTiles.Count < 1)
                             return;
-                        int nextPos =pushTiles[ UnityEngine.Random.Range(0, pushTiles.Count)];
+                        int nextPos = pushTiles[UnityEngine.Random.Range(0, pushTiles.Count)];
                         target.MoveToTile(nextPos);
 
                         if (owner.IsPlayer())
@@ -585,6 +587,16 @@ public class Card : MonoBehaviour {
                         // Add status to transfer damage
                         HealthLinkStatus healthLinkstatus = new HealthLinkStatus(1.0f, owner, target);
                         voodoo.AddStatus(healthLinkstatus);
+                    }
+                }
+                break;
+            case EffectType.Weakness:
+                foreach (BaseUnit target in targets)
+                {
+                    if (ParseTargetType(effect.targetType, target.IsPlayer()))
+                    {
+                        WeaknessStatus weaknessStatus = new WeaknessStatus(0.01f * effect.effectValue, effect.duration, owner, target);
+                        target.AddStatus(weaknessStatus);
                     }
                 }
                 break;

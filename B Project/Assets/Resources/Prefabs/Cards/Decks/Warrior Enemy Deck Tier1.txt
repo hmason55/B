@@ -1,6 +1,6 @@
 Slash,
 ,
-Battlecry,
+Vulnerable Strike,
 Heavy Slash,
 ,
 Battlecry,

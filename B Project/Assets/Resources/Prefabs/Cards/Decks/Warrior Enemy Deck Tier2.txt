@@ -1,3 +1,4 @@
+Vulnerable Strike,
 Heavy Slash,
 ,
 Battlecry,

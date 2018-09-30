@@ -186,12 +186,18 @@ public class BaseUnit : MonoBehaviour, Entity
 
     public void DealDamage(int damage,BaseUnit attacker)
     {
+        // Check attacker multiplicative debuff malus
+        WeaknessStatus weaknessStatus = attacker.SearchStatusLike(typeof(WeaknessStatus)) as WeaknessStatus;
+        if (weaknessStatus != null)
+            damage = (int)((1.0f - weaknessStatus.Multiplier) * damage);
+
+
         // Check if switching target if linked
         HealthLinkStatus healthLink = SearchStatusLike(typeof(HealthLinkStatus)) as HealthLinkStatus;
         if (healthLink != null)
         {
             int newdamage =(int) healthLink.Multiplier * damage;
-            healthLink.Target.DealDamage(newdamage, attacker);
+            healthLink.Target.DealDamage(newdamage, healthLink.Owner);
 
             // If health link is less than 100% continue with the remaining damage
             if (newdamage < damage)
@@ -199,6 +205,11 @@ public class BaseUnit : MonoBehaviour, Entity
             else
                 return;
         }
+
+        // Calculate multiplicative debuffs bonus
+        VulnerableStatus vulnerableStatus = SearchStatusLike(typeof(VulnerableStatus)) as VulnerableStatus;
+        if (vulnerableStatus != null)
+            damage = (int)((1.0f+vulnerableStatus.Multiplier)*damage);
 
     	// Calculate the unit's block stacks.
     	int totalBlock = 0;
