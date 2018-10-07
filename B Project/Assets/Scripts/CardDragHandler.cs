@@ -94,14 +94,16 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     }
 
 	public void OnEndDrag(PointerEventData eventData) {
-               
+        if(hand == null) {return;}
+        
         targets = Battleground.Instance.GetTargetUnits().ToArray();
-        Debug.Log("Drop " + gameObject.name+ " on "+targets.Length +" targets");
-		if(hand == null) {return;}
-        
-        
+    
 		if(targets != null) {
-			if(EvaluateTargets()) {
+            if(targets.Length == 0 && Input.mousePosition.y < hand.GetComponent<Hand>().verticalThreshold) {
+                Debug.Log("Invalid target");
+                CancelDrag();
+            } else if(EvaluateTargets()) {
+                Debug.Log("Drop " + gameObject.name+ " on "+targets.Length +" targets");
 				Play();
 			} else {
 				Debug.Log("Invalid target");
