@@ -206,6 +206,10 @@ public class BaseUnit : MonoBehaviour, Entity
                 return;
         }
 
+        // Apply global damage modifiers
+        if (attacker.IsPlayer())
+            damage= GlobalsManager.Instance.ApplyDamageModifiers(damage, this, attacker);
+
         // Calculate multiplicative debuffs bonus
         VulnerableStatus vulnerableStatus = SearchStatusLike(typeof(VulnerableStatus)) as VulnerableStatus;
         if (vulnerableStatus != null)
