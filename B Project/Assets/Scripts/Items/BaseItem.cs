@@ -10,7 +10,9 @@ public abstract class BaseItem : MonoBehaviour
     public Sprite Icon;
     // Character owning the item, if any
     public BaseUnit Owner;
-    
+    // Deck specific items
+    public Card.DeckClass DeckType;
+
 
 
     public abstract void Activate();

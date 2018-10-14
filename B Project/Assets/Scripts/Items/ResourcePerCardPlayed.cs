@@ -24,18 +24,18 @@ public class ResourcePerCardPlayed : BaseItem
 
     public override string GetDescription()
     {
-        string msg = "For every "+CardNumber+ " played add "+BonusResource+" resource";
+        string msg = "For every "+CardNumber+ " played by "+DeckType.ToString()+" add "+BonusResource+" resource";
         return msg;
     }
 
-    void CardPlayed()
+    void CardPlayed(CardData cardData)
     {
-        Debug.Log("counter " + _counter);
+        if (cardData.DeckType != DeckType && DeckType!= Card.DeckClass.Neutral)
+            return;
         if (++_counter>= CardNumber)
         {
             _counter = 0;
             ResourceManager.Instance.SpendResources(-BonusResource, null);
         }
-        Debug.Log(" final counter " + _counter);
     }
 }

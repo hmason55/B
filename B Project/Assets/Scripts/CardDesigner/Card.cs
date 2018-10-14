@@ -245,7 +245,7 @@ public class Card : MonoBehaviour {
                 Debug.Log("Playing: " + title + " to tile: " + tile);
 
                 // Send event to global
-                GlobalsManager.Instance.ApplyCardPlayed(owner.IsPlayer());
+                GlobalsManager.Instance.ApplyCardPlayed(owner.IsPlayer(),cardData);
 
                 foreach (Effect effect in effects)
                 {
@@ -303,7 +303,7 @@ public class Card : MonoBehaviour {
 
 
                 // Send event to global
-                GlobalsManager.Instance.ApplyCardPlayed(owner.IsPlayer());
+                GlobalsManager.Instance.ApplyCardPlayed(owner.IsPlayer(),cardData);
 
                 foreach (Effect effect in effects)
                 {
@@ -354,7 +354,7 @@ public class Card : MonoBehaviour {
             Debug.Log("Playing card, no target required.");
 
             // Send event to global
-            GlobalsManager.Instance.ApplyCardPlayed(owner.IsPlayer());
+            GlobalsManager.Instance.ApplyCardPlayed(owner.IsPlayer(),cardData);
 
 			foreach (Effect effect in effects)
             {

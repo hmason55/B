@@ -10,9 +10,12 @@ public class DamageEventArgs : EventArgs
     public float Bonus { get; set; }
 }
 
-public delegate void AddictiveDamageModifier(DamageEventArgs damage, BaseUnit attacker, BaseUnit defender);
-public delegate void MultiplicativeDamageModifier(DamageEventArgs damage, BaseUnit attacker, BaseUnit defender);
-public delegate void CardPlayed();
+public delegate void DamageBonusAdditiveModifier(DamageEventArgs damage, BaseUnit attacker, BaseUnit defender);
+public delegate void DamageBonusMultiplicativeModifier(DamageEventArgs damage, BaseUnit attacker, BaseUnit defender);
+public delegate void CardPlayed(CardData cardData);
+public delegate void DamageReductionAdditiveModifier(DamageEventArgs damage, BaseUnit attacker, BaseUnit defender);
+public delegate void DamageReductionMultiplicativeModifier(DamageEventArgs damage, BaseUnit attacker, BaseUnit defender);
+public delegate void EndTurn(bool player);
 
 public class GlobalsManager : Singleton<GlobalsManager>
 {
@@ -27,9 +30,12 @@ public class GlobalsManager : Singleton<GlobalsManager>
     // UI script
     private ItemDisplayUI _itemDisplayUI;
 
-    private event AddictiveDamageModifier _addictiveDamageEvent;
-    private event MultiplicativeDamageModifier _multiplicativeDamageEvent;
+    private event DamageBonusAdditiveModifier _addictiveDamageEvent;
+    private event DamageBonusMultiplicativeModifier _multiplicativeDamageEvent;
     private event CardPlayed _cardPlayedEvent;
+    private event DamageReductionAdditiveModifier _subtractiveDamageRedEvent;
+    private event DamageReductionMultiplicativeModifier _multiplicativeDamageRedEvent;
+    private event EndTurn _endTurnEvent;
 
     void Start()
     {
@@ -46,6 +52,13 @@ public class GlobalsManager : Singleton<GlobalsManager>
 
         }
 
+        _itemDisplayUI = Instantiate(ItemUIPrefab).GetComponent<ItemDisplayUI>();
+
+
+    }
+
+    public void SetupItems()
+    {
         // Activate all items
         foreach (BaseItem item in _activeItems)
         {
@@ -53,51 +66,98 @@ public class GlobalsManager : Singleton<GlobalsManager>
         }
 
         // Create UI
-        _itemDisplayUI = Instantiate(ItemUIPrefab).GetComponent<ItemDisplayUI>();
+        //_itemDisplayUI = Instantiate(ItemUIPrefab).GetComponent<ItemDisplayUI>();
         _itemDisplayUI.UpdateItems(_activeItems);
-
     }
 
+    #region Subscribe/unsubscribe events
 
-    public void SubscribeAddictiveDamage(AddictiveDamageModifier newDelegate)
+    public void SubscribeAddictiveDamage(DamageBonusAdditiveModifier del)
     {
-        _addictiveDamageEvent += newDelegate;
+        _addictiveDamageEvent += del;
     }
 
-    public void UnsubscribeAddictiveDamage(AddictiveDamageModifier newDelegate)
+    public void UnsubscribeAddictiveDamage(DamageBonusAdditiveModifier del)
     {
-        _addictiveDamageEvent -= newDelegate;
+        _addictiveDamageEvent -= del;
     }
 
-    public void SubscribeMultiplicativeDamage(MultiplicativeDamageModifier newDelegate)
+    public void SubscribeMultiplicativeDamage(DamageBonusMultiplicativeModifier del)
     {
-        _multiplicativeDamageEvent += newDelegate;
+        _multiplicativeDamageEvent += del;
     }
 
-    public void UnsubscribeMultiplicativeDamage(MultiplicativeDamageModifier newDelegate)
+    public void UnsubscribeMultiplicativeDamage(DamageBonusMultiplicativeModifier del)
     {
-        _multiplicativeDamageEvent -= newDelegate;
+        _multiplicativeDamageEvent -= del;
     }
 
-    public void SubscribeCardPlayed(CardPlayed newDelegate)
+    public void SubscribeCardPlayed(CardPlayed del)
     {
-        _cardPlayedEvent += newDelegate;
+        _cardPlayedEvent += del;
     }
 
-    public void UnsubscribeCardPlayed(CardPlayed newDelegate)
+    public void UnsubscribeCardPlayed(CardPlayed del)
     {
-        _cardPlayedEvent -= newDelegate;
+        _cardPlayedEvent -= del;
     }
+
+    public void SubscribeDamageReductionAdditive(DamageReductionAdditiveModifier del)
+    {
+        _subtractiveDamageRedEvent += del;
+    }
+
+    public void UnsubscribeDamageReductionAdditive(DamageReductionAdditiveModifier del)
+    {
+        _subtractiveDamageRedEvent -= del;
+    }
+
+    public void SubscribeDamageReductionMultiplicative(DamageReductionMultiplicativeModifier del)
+    {
+        _multiplicativeDamageRedEvent += del;
+    }
+
+    public void UnsubscribeDamageReductionMultiplicative(DamageReductionMultiplicativeModifier del)
+    {
+        _multiplicativeDamageRedEvent -= del;
+    }
+
+    public void SubscribeEndTurn(EndTurn del)
+    {
+        _endTurnEvent += del;
+    }
+
+    public void UnsubscribeEndTurn(EndTurn del)
+    {
+        _endTurnEvent -= del;
+    }
+
+    #endregion
 
     public int ApplyDamageModifiers(int damage,BaseUnit attacker, BaseUnit defender)
     {
         DamageEventArgs damageArg = new DamageEventArgs();
         damageArg.Value = damage;
         damageArg.Bonus = 0;
-        if (_multiplicativeDamageEvent!=null)
-            _multiplicativeDamageEvent(damageArg, attacker, defender);
-        if (_addictiveDamageEvent!=null)
-            _addictiveDamageEvent(damageArg, attacker, defender);
+        
+
+        // Apply bonus for attacker damage
+        if (!defender.IsPlayer())
+        {
+            if (_multiplicativeDamageEvent != null)
+                _multiplicativeDamageEvent(damageArg, attacker, defender);
+            if (_addictiveDamageEvent != null)
+                _addictiveDamageEvent(damageArg, attacker, defender);
+        }
+        else
+        {
+            // Apply damage reduction for defender
+            if (_multiplicativeDamageRedEvent != null)
+                _multiplicativeDamageRedEvent(damageArg, attacker, defender);
+            if (_subtractiveDamageRedEvent != null)
+                _subtractiveDamageRedEvent(damageArg, attacker, defender);
+        }
+
         Debug.Log("starting damage " + damage+"   bonus "+damageArg.Bonus);
         return damageArg.Value+Mathf.RoundToInt( damageArg.Bonus);
     }
@@ -108,15 +168,16 @@ public class GlobalsManager : Singleton<GlobalsManager>
         return block;
     }
 
-    public void ApplyCardPlayed(bool player)
+    public void ApplyCardPlayed(bool player,CardData cardData)
     {
         if (player && _cardPlayedEvent!=null)
-            _cardPlayedEvent();
+            _cardPlayedEvent(cardData);
     }
 
     public void ApplyEndTurn(bool player)
     {
-
+        if (_endTurnEvent!=null)
+            _endTurnEvent(player);
     }
     
 

@@ -134,6 +134,11 @@ public class BaseUnit : MonoBehaviour, Entity
     	return true;
     }
 
+    public Card.DeckClass GetDeckClass()
+    {
+        return _deckClass;
+    }
+
     public void OnDeath()
     {
         // Remove from screen
@@ -187,10 +192,12 @@ public class BaseUnit : MonoBehaviour, Entity
     public void DealDamage(int damage,BaseUnit attacker)
     {
         // Check attacker multiplicative debuff malus
-        WeaknessStatus weaknessStatus = attacker.SearchStatusLike(typeof(WeaknessStatus)) as WeaknessStatus;
-        if (weaknessStatus != null)
-            damage = (int)((1.0f - weaknessStatus.Multiplier) * damage);
-
+        if (attacker)
+        {
+            WeaknessStatus weaknessStatus = attacker.SearchStatusLike(typeof(WeaknessStatus)) as WeaknessStatus;
+            if (weaknessStatus != null)
+                damage = (int)((1.0f - weaknessStatus.Multiplier) * damage);
+        }
 
         // Check if switching target if linked
         HealthLinkStatus healthLink = SearchStatusLike(typeof(HealthLinkStatus)) as HealthLinkStatus;
@@ -207,8 +214,7 @@ public class BaseUnit : MonoBehaviour, Entity
         }
 
         // Apply global damage modifiers
-        if (attacker.IsPlayer())
-            damage= GlobalsManager.Instance.ApplyDamageModifiers(damage, this, attacker);
+        damage = GlobalsManager.Instance.ApplyDamageModifiers(damage, attacker, this);
 
         // Calculate multiplicative debuffs bonus
         VulnerableStatus vulnerableStatus = SearchStatusLike(typeof(VulnerableStatus)) as VulnerableStatus;
@@ -226,15 +232,18 @@ public class BaseUnit : MonoBehaviour, Entity
 
     // Damage calculation including block mitigation.
     damageCalc:
-        
+
 
         // Add link damage if attacker has it
-        BaseStatus linkDamage = attacker.SearchStatusLike(typeof(LinkDamageStatus));
-        if (linkDamage != null)
-            damage += linkDamage.Strength;
+        if (attacker)
+        {
+            BaseStatus linkDamage = attacker.SearchStatusLike(typeof(LinkDamageStatus));
+            if (linkDamage != null)
+                damage += linkDamage.Strength;
 
-        // Execute Link event
-        attacker.ExecuteLinkEvent();
+            // Execute Link event
+            attacker.ExecuteLinkEvent();
+        }
 
 		int totalDamage = damage - totalBlock;
     	if(totalDamage < 0) {

@@ -54,5 +54,6 @@ MonoBehaviour:
   ItemName: Resource Per Card Played
   Icon: {fileID: 0}
   Owner: {fileID: 0}
+  DeckType: 1
   CardNumber: 3
-  BonusResource: 1
+  BonusResource: 2

@@ -51,8 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2eb1482a4bbeb4781f0016f6fa904a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemName: Add 1 damage always
+  ItemName: Add 1 damage
   Icon: {fileID: 0}
   Owner: {fileID: 0}
+  DeckType: 0
   DamageAdd: 1
   DamageMult: 0
