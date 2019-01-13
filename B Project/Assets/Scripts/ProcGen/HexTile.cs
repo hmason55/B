@@ -44,7 +44,7 @@ namespace ProcGen
         {
             if (data.agent.debug)
             {
-                Handles.Label(transform.position, "(" + data.pos.x + "," + data.pos.y + ")");
+                //Handles.Label(transform.position, "(" + data.pos.x + "," + data.pos.y + ")");
             }
         }
 

@@ -65,7 +65,8 @@ public class Card : MonoBehaviour {
         Protect,
         SummonVoodoo,
         Vulnerable,
-        Weakness
+        Weakness,
+        Draw
 	}
 
 	// Variables used by CardData
@@ -421,6 +422,9 @@ public class Card : MonoBehaviour {
                     u.AddStatus(block);
                 }
                 
+                return true;
+            case EffectType.Draw:
+                _resourceManager.hand.Draw(effect.effectValue);
                 return true;
 		}
 

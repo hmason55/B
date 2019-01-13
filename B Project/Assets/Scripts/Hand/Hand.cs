@@ -38,6 +38,12 @@ public class Hand : MonoBehaviour {
 		}
 	}
 
+	public void Draw(int numCards) {
+		if(deal == null) {
+			deal = StartCoroutine(IEDraw(numCards));
+		}
+	}
+
 	public IEnumerator IEDeal() {
 		Clear();
 
@@ -63,6 +69,30 @@ public class Hand : MonoBehaviour {
 
 		deal = null;
 	}
+
+	public IEnumerator IEDraw(int numCards) {
+		foreach(Transform t in transform) {
+			t.GetComponent<Card>().DisableRaycast();
+		}
+
+		if(deck.ReferenceDeck.Count < numCards) {
+			for(int i = 0; i < deck.ReferenceDeck.Count; i++) {
+				Draw(deck.DrawRandomCard(handList));
+				yield return new WaitForSeconds(drawDelay);
+			}
+		} else {
+			for(int i = 0; i < numCards; i++) {
+				Draw(deck.DrawRandomCard(handList));
+				yield return new WaitForSeconds(drawDelay);
+			}
+		}
+
+		foreach(Transform t in transform) {
+			t.GetComponent<Card>().ResumeRaycastState();
+		}
+		deal = null;
+	}
+
 
 	public void Draw(CardData cardData) {
 		GameObject obj = GameObject.Instantiate(Resources.Load("Prefabs/Cards/CardDesigner")) as GameObject;
