@@ -43,6 +43,9 @@ public class TurnManager : MonoBehaviour
         _hand.Deal();
 		_resourceManager.CalculateResources();
 		Debug.Log("Party deck size: "+_hand.DeckList.ReferenceDeck.Count);
+
+        // Setup Items
+        GlobalsManager.Instance.SetupItems();
     }
 
     public void StartPlayerTurn()
@@ -51,7 +54,7 @@ public class TurnManager : MonoBehaviour
         _playerTurn = true;
 
         // Party global effects
-        _partyManager.UpdateStartTurnGlobalEffects();
+        //_partyManager.UpdateStartTurnGlobalEffects();
 
         // Start turn status check
         List<BaseUnit> units = _partyManager.GetUnits();
@@ -118,7 +121,7 @@ public class TurnManager : MonoBehaviour
         }
 
         // Update global effects
-        _partyManager.UpdateEndTurnGlobalEffects();
+        GlobalsManager.Instance.ApplyEndTurn(true);
 
         StartEnemyTurn();
     }

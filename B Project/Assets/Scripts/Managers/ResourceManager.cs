@@ -29,7 +29,7 @@ public class ResourceManager : Singleton<ResourceManager> {
     
 	public bool SpendResources(int count, BaseUnit spender) {
         Debug.Log("spending " + count + " from " + spender);
-		if(!spender.IsPlayer()) {return true;}
+		if(spender!=null && !spender.IsPlayer()) {return true;}
 
 		if(resourceCurrent - count >= 0) {
 			resourceCurrent -= count;
@@ -44,7 +44,7 @@ public class ResourceManager : Singleton<ResourceManager> {
     public bool AddNextTurnResource(int value, BaseUnit spender)
     {
         Debug.Log("adding " + value + " resource");
-        if (!spender.IsPlayer()) { return true; }
+        if (spender!=null && !spender.IsPlayer()) { return true; }
 
         if (resourceNext + value >= 0)
         {

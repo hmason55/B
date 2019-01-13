@@ -472,6 +472,64 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 100265078}
+--- !u!1 &164981472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 164981473}
+  - component: {fileID: 164981474}
+  m_Layer: 0
+  m_Name: Globals Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &164981473
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 164981472}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 523932032}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &164981474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 164981472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3f8fb7e4d92f148b2e0dc80877f464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemUIPrefab: {fileID: 1912035760720430, guid: daef5ce7de12003469126f3f1e9afb05,
+    type: 2}
+  ItemPrefabs:
+  - {fileID: 1795024521190626, guid: fe91716b43009d94682882ad66cb63e3, type: 2}
+  - {fileID: 1567972319924414, guid: 8e20de2823b445d4481525dadbbb3cd6, type: 2}
+  - {fileID: 1697920105676724, guid: 0e6811733bac20e4ca38d26ac3eccc43, type: 2}
+  - {fileID: 1597291374615298, guid: 520467ba4479d17459066b3086b76291, type: 2}
+  - {fileID: 1033188102374918, guid: b412f1cca6c401d4a89baa88627807df, type: 2}
+  - {fileID: 1235324833291584, guid: 07056c023a7f06c4498f6e4344f3faf6, type: 2}
+  - {fileID: 1925132360437106, guid: 10e135b663867374b8a374a6fd311621, type: 2}
+  - {fileID: 1697920105676724, guid: 1c187cc2bcdbdb140b2fa79554eb96a0, type: 2}
+  - {fileID: 1697920105676724, guid: 03605f2c039e7994a83e2167ede5c587, type: 2}
+  - {fileID: 1697920105676724, guid: 1937b4b106f7a454b8263f4b488d38be, type: 2}
+  - {fileID: 1005989378409656, guid: 732ae1625f085404ab3eb3446377bc1c, type: 2}
+  - {fileID: 1005989378409656, guid: d424036e34920834197235d64efed47b, type: 2}
+  - {fileID: 1795024521190626, guid: 15f627df866a5c24db8c1b2969a38dbe, type: 2}
+  - {fileID: 1795024521190626, guid: e68313da9da94d449b9bb3081605ba54, type: 2}
+  StartingItems: 1
 --- !u!1 &187356130
 GameObject:
   m_ObjectHideFlags: 0

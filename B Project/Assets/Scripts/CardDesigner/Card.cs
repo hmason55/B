@@ -244,6 +244,9 @@ public class Card : MonoBehaviour {
             {
                 Debug.Log("Playing: " + title + " to tile: " + tile);
 
+                // Send event to global
+                GlobalsManager.Instance.ApplyCardPlayed(owner.IsPlayer(),cardData);
+
                 foreach (Effect effect in effects)
                 {
                     bool applied = false;
@@ -298,6 +301,10 @@ public class Card : MonoBehaviour {
             {
                 Debug.Log("Playing: " + title + " to " + targets[0].UnitName);
 
+
+                // Send event to global
+                GlobalsManager.Instance.ApplyCardPlayed(owner.IsPlayer(),cardData);
+
                 foreach (Effect effect in effects)
                 {
                 	bool applied = false;
@@ -345,6 +352,9 @@ public class Card : MonoBehaviour {
         {
 			//Play card since it doesn't need a target.
             Debug.Log("Playing card, no target required.");
+
+            // Send event to global
+            GlobalsManager.Instance.ApplyCardPlayed(owner.IsPlayer(),cardData);
 
 			foreach (Effect effect in effects)
             {

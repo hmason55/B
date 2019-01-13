@@ -138,7 +138,12 @@ public class AIManager : Singleton<AIManager>
         	unit.ExecuteEndTurnStatuses();
         }
 
-        // end turn
+        // Execute end turn globals
+        yield return new WaitForSeconds(1);
+        GlobalsManager.Instance.ApplyEndTurn(false);
+        yield return new WaitForSeconds(1);
+
+        // End turn
         _turnManager.StartPlayerTurn();
     }
 
